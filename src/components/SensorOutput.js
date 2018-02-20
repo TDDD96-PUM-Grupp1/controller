@@ -5,36 +5,45 @@ class SensorOutput extends Component {
     super(props);
     this.state = {
       beta: 0,
-      gamma: 0
+      gamma: 0,
+      betaBase: 0,
+      gammaBase: 0
     };
+
+    // Make event-based callbacks bind correctly
+    this.handleCalibrationClick = this.handleCalibrationClick.bind(this);
+    this.handleDeviceOrientation = this.handleDeviceOrientation.bind(this);
   }
 
   componentDidMount() {
-    // this.sensorTimer = setInterval(() => this.tick(), 1000);
-    window.addEventListener('deviceorientation', (event) => {
-      this.setState({
-        beta: event.beta || 'N/A',
-        gamma: event.gamma || 'N/A'
-      });
+    // Event listener for device orientation
+    window.addEventListener('deviceorientation', this.handleDeviceOrientation);
+  }
+
+  // Sets state to device orientation
+  handleDeviceOrientation(event) {
+    this.setState({
+      beta: event.beta - this.state.betaBase || 'N/A',
+      gamma: event.gamma - this.state.gammaBase || 'N/A'
     });
   }
 
-  componentWillUnmount() {
-    clearInterval(this.sensorTimer);
-  }
-
-  tick(event) {
+  // Sets a new baseline for sensors
+  handleCalibrationClick() {
     this.setState({
-      beta: event.beta,
-      gamma: event.gamma
+      betaBase: this.state.beta + this.state.betaBase,
+      gammaBase: this.state.gamma + this.state.gammaBase
     });
   }
 
   render() {
     return (
       <div>
-        <div>Beta: {this.state.beta}</div>
-        <div>Gamma: {this.state.gamma}</div>
+        <div>Beta: {Math.round(this.state.beta)}</div>
+        <div>Gamma: {Math.round(this.state.gamma)}</div>
+        <div>BetaBase: {Math.round(this.state.betaBase)}</div>
+        <div>GammaBase: {Math.round(this.state.gammaBase)}</div>
+        <button onClick={this.handleCalibrationClick}>Calibrate</button>
       </div>
     );
   }
