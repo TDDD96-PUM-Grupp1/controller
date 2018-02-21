@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-
+import Communication from './Communication';
 class SensorOutput extends Component {
   constructor(props) {
     super(props);
+
+    this.com = new Communication();
+
     this.state = {
       beta: 0,
       gamma: 0,
@@ -26,6 +29,7 @@ class SensorOutput extends Component {
       beta: event.beta - this.state.betaBase || 'N/A',
       gamma: event.gamma - this.state.gammaBase || 'N/A'
     });
+    this.com.sendSensorData(this.state.beta, this.state.gamme);
   }
 
   // Sets a new baseline for sensors

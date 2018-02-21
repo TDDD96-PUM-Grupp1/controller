@@ -2,7 +2,6 @@ import React from 'react';
 import logo from './logo.svg';
 import './App.css';
 import SensorOutput from './components/SensorOutput';
-
 const App = () => (
   <div className="App">
     <header className="App-header">
