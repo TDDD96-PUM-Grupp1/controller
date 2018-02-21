@@ -1,44 +1,65 @@
 import React from 'react';
 import Session from './Session';
+import UsernameInput from './UsernameInput';
+import PropTypes from 'prop-types';
 
 class SessionList extends React.Component {
   constructor(props) {
     super(props);
-    this.list = [];
-
-    var ses1 = Session.constructor();
-
-    ses1.foo();
+    console.log('*********TEST**********');
+    console.log(props.activeSessions);
+    this.displayList = props.activeSessions;
   }
 
+  //TODO Add this function
   updateList() {
-    //Check how many active session exists
-    //For every session which is not in the list add in the list
-    //For every session in the list not found in update, remove from list
+    //Get new sessions deepstream socket
+    //Change displayList
   }
 
   //TODO  fix this
-  addSession(session) {}
+
+  print() {
+    console.log(this.props.activeSessions);
+  }
 
   render() {
     return (
       <div>
-        <ol>
-          <li>{this.list}</li>
-          <li>Tea</li>
-          <li>Milk</li>
-        </ol>
+        {this.displayList.map(session => {
+          return (
+            <div key={session.code}>
+              <Session sessionObj={session} />
+              <br />
+            </div>
+          );
+        })}
       </div>
     );
   }
 }
 
+/*
+        <ol>
+          <Session sessionObj={this.props.activeSessions[2]} />
+          <li>{this.list}</li>
+          <li>Tea</li>
+          <li>Milk</li>
+        </ol>
+
+ */
+SessionList.propTypes = {
+  activeSessions: PropTypes.array.isRequired
+};
+
+/*
 SessionList.defaultProps = {
     activeSessions = [{
         currentlyPlaying = 1;
 
     },{}]
 }
+*/
 
 export default SessionList;
 

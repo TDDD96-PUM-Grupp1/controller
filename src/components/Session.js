@@ -1,12 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class Session extends React.Component {
   constructor(props) {
     super(props);
-    //TODO add validation
-    this.IP = props.IP;
-    this.currentlyPlaying = props.currentlyPlaying;
-    this.code = props.code;
     // This binding is necessary to make `this` work in the callback
     this.handleClick = this.handleClick.bind(this);
     /*
@@ -18,10 +15,6 @@ class Session extends React.Component {
          */
   }
 
-  foo() {
-    console.log('Foo');
-  }
-
   handleClick() {
     //TODO this click should put you in the correct session
     console.log('Clicked!');
@@ -29,15 +22,26 @@ class Session extends React.Component {
 
   render() {
     return (
-      <div>
-        <ol>
-          <li>ACTIVE SESSION</li>
-          <li>{this.currentlyPlaying} active players</li>
-          <li>{this.code}</li>
-        </ol>
+      <div className="Session" onClick={this.handleClick}>
+        <div>ACTIVE SESSION</div>
+        <div>{this.props.sessionObj.currentlyPlaying} active players</div>
+        <div>{this.props.sessionObj.code}</div>
+        <div>{this.props.sessionObj.IP}</div>
       </div>
     );
   }
 }
+
+Session.propTypes = {
+  IP: PropTypes.string.isRequired
+};
+
+Session.propTypes = {
+  code: PropTypes.string.isRequired
+};
+
+Session.propTypes = {
+  currentlyPlaying: PropTypes.string.isRequired
+};
 
 export default Session;

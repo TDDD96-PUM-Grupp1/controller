@@ -12,6 +12,8 @@
   },
     "rules": {
     "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
-    "prettier/prettier": ["error", { "singleQuote": true, "arrowParens": "always" }]
+    "comma-dangle": ["error", "never"],
+    "no-confusing-arrow": "error",
+    "no-console": "off"
   }
 }
