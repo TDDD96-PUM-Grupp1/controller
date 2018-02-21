@@ -3,7 +3,7 @@ import createDeepstream from 'deepstream.io-client-js';
 class Communication {
   constructor() {
     this.client = createDeepstream('10.90.128.65:60020').login();
-
+    this.getPlayerId = this.getPlayerId.bind(this);
     this.client.rpc.make('data/abc/addPlayer', {}, this.getPlayerId);
   }
 

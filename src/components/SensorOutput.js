@@ -29,7 +29,7 @@ class SensorOutput extends Component {
       beta: event.beta - this.state.betaBase || 'N/A',
       gamma: event.gamma - this.state.gammaBase || 'N/A'
     });
-    this.com.sendSensorData(this.state.beta, this.state.gamme);
+    this.com.sendSensorData(this.state.beta, this.state.gamma);
   }
 
   // Sets a new baseline for sensors
