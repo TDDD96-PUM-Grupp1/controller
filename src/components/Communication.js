@@ -1,7 +1,6 @@
 import createDeepstream from 'deepstream.io-client-js';
 
 class Communication {
-
   /*
    * Constructor for Communication.
    * This initialized the network communication to the deepstream server.
@@ -11,17 +10,11 @@ class Communication {
   constructor() {
     this.instance = 'abc';
     this.dataBuffer = {};
-    this.id = this.client.getUid();
     // Creates and logs in a user to the server.
-    this.client = createDeepstream('10.90.128.65:60020').login({username: this.id});
-    this.getPlayerId = this.getPlayerId.bind(this);
+    this.ds = createDeepstream('10.90.128.65:60020');
+    this.id = this.ds.getUid();
+    this.client = this.ds.login({ username: this.id }, this.onLoggedIn.bind(this));
     this.name = 'something';
-
-    this.client.rpc.make(
-      `dataBuffer/${this.instance}/addPlayer`,
-      { id: this.id, name: this.name, sensor: { beta: 0, gamma: 0 } },
-      this.getPlayerId
-    );
   }
 
   /*
@@ -29,6 +22,16 @@ class Communication {
   */
   getPlayerId(err, result) {
     this.id = result;
+  }
+
+  onLoggedIn(success, data) {
+    if (success) {
+      this.client.rpc.make(
+        `data/${this.instance}/addPlayer`,
+        { id: this.id, name: this.name, sensor: { beta: 0, gamma: 0 } },
+        this.getPlayerId.bind(this)
+      );
+    }
   }
 
   /*
@@ -45,11 +48,10 @@ class Communication {
    *
   */
   flushData() {
+    this.dataBuffer.id = this.id;
     this.client.event.emit(`data/${this.instance}/${this.id}`, this.dataBuffer);
-    this.dataBuffer = { id: this.id };
+    this.dataBuffer = {};
   }
-
-
 }
 
 export default Communication;
