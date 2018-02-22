@@ -15,6 +15,7 @@ class Communication {
     this.id = this.ds.getUid();
     this.client = this.ds.login({ username: this.id }, this.onLoggedIn.bind(this));
     this.name = name || 'something';
+    this.updateSensorData = this.updateSensorData.bind(this);
     setInterval(this.flushData.bind(this), 1000 / 128.0);
   }
 
@@ -30,7 +31,7 @@ class Communication {
       this.client.rpc.make(
         `data/${this.instance}/addPlayer`,
         { id: this.id, name: this.name, sensor: { beta: 0, gamma: 0 } },
-        this.getPlayerId.bind(this)
+        this.getPlayerId.bind(this),
       );
     }
   }
@@ -40,7 +41,7 @@ class Communication {
    * flushData is called.
    */
   updateSensorData(beta, gamma) {
-    this.dataBuffer.sensor = { beta: beta, gamma: gamma };
+    this.dataBuffer.sensor = { beta, gamma };
   }
 
   /*

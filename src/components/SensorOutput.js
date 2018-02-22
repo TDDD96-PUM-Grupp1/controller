@@ -1,18 +1,15 @@
 import React, { Component } from 'react';
 import PropType from 'prop-types';
-import Communication from './Communication';
 
 class SensorOutput extends Component {
   constructor(props) {
     super(props);
 
-    this.com = new Communication();
-
     this.state = {
       beta: 0,
       gamma: 0,
       betaBase: 0,
-      gammaBase: 0
+      gammaBase: 0,
     };
 
     // Make event-based callbacks bind correctly
@@ -25,21 +22,25 @@ class SensorOutput extends Component {
     window.addEventListener('deviceorientation', this.handleDeviceOrientation);
   }
 
+  componentWillUnmount() {
+    // Make sure to unbind the event listener when component unmounts
+    window.removeEventListener('deviceorientation', this.handleDeviceOrientation);
+  }
+
   // Sets state to device orientation
   handleDeviceOrientation(event) {
     this.setState({
       beta: event.beta - this.state.betaBase || 'N/A',
-      gamma: event.gamma - this.state.gammaBase || 'N/A'
+      gamma: event.gamma - this.state.gammaBase || 'N/A',
     });
     this.props.onSensorChange(this.state.beta, this.state.gamma);
   }
 
   // Sets a new baseline for sensors
   handleCalibrationClick() {
-    this.com.flushData();
     this.setState({
       betaBase: this.state.beta + this.state.betaBase,
-      gammaBase: this.state.gamma + this.state.gammaBase
+      gammaBase: this.state.gamma + this.state.gammaBase,
     });
   }
 
@@ -57,11 +58,11 @@ class SensorOutput extends Component {
 }
 
 SensorOutput.defaultProps = {
-  onSensorChange: () => {}
+  onSensorChange: () => {},
 };
 
 SensorOutput.propTypes = {
-  onSensorChange: PropType.func
+  onSensorChange: PropType.func,
 };
 
 export default SensorOutput;

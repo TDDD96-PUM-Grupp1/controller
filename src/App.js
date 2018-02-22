@@ -17,10 +17,10 @@ class App extends Component {
   }
 
   createCom(name) {
-    this.setState = {
-      connectionActive: true,
-    };
     this.com = new Communication(name);
+    this.setState({
+      connectionActive: true,
+    });
   }
 
   render() {
@@ -33,11 +33,15 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <UsernameInput onInputSubmit={this.createCom} />
         {this.state.connectionActive ? (
-          <SensorOutput onSensorChange={this.com.updateSensorData} />
+          <div>
+            <SensorOutput onSensorChange={this.com.updateSensorData} />
+          </div>
         ) : (
-          <SensorOutput />
+          <div>
+            <UsernameInput onInputSubmit={this.createCom} />
+            <SensorOutput />
+          </div>
         )}
       </div>
     );
