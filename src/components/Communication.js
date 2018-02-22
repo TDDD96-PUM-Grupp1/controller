@@ -15,6 +15,7 @@ class Communication {
     this.id = this.ds.getUid();
     this.client = this.ds.login({ username: this.id }, this.onLoggedIn.bind(this));
     this.name = 'something';
+    setInterval(this.flushData.bind(this), 1000 / 128.0);
   }
 
   /*
@@ -48,9 +49,11 @@ class Communication {
    *
   */
   flushData() {
-    this.dataBuffer.id = this.id;
-    this.client.event.emit(`data/${this.instance}/${this.id}`, this.dataBuffer);
-    this.dataBuffer = {};
+    if (this.dataBuffer !== {}) {
+      this.dataBuffer.id = this.id;
+      this.client.event.emit(`data/${this.instance}/${this.id}`, this.dataBuffer);
+      this.dataBuffer = {};
+    }
   }
 }
 
