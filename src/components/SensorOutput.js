@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import PropType from 'prop-types';
 import Communication from './Communication';
+
 class SensorOutput extends Component {
   constructor(props) {
     super(props);
@@ -29,12 +31,12 @@ class SensorOutput extends Component {
       beta: event.beta - this.state.betaBase || 'N/A',
       gamma: event.gamma - this.state.gammaBase || 'N/A',
     });
-    this.com.updateSensorData(this.state.beta, this.state.gamma);
+
+    this.props.onSensorChange(this.state.beta, this.state.gamma);
   }
 
   // Sets a new baseline for sensors
   handleCalibrationClick() {
-    this.com.flushData();
     this.setState({
       betaBase: this.state.beta + this.state.betaBase,
       gammaBase: this.state.gamma + this.state.gammaBase,
@@ -53,5 +55,13 @@ class SensorOutput extends Component {
     );
   }
 }
+
+SensorOutput.defaultProps = {
+  onSensorChange: () => {},
+};
+
+SensorOutput.propTypes = {
+  onSensorChange: PropType.func,
+};
 
 export default SensorOutput;
