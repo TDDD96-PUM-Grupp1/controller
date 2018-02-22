@@ -10,4 +10,10 @@
     width: 99%;
     border: 3px #FF6F00 solid;
     padding: 10px;
+
+    #btnLeft:active {
+        width: 11%;
+}
+
+
 }
