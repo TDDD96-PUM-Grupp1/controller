@@ -1,22 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * A session of an active game, saves:
+ * 1 : Amount of players
+ * 2 : Code needed to enter the game
+ * 3 : IP, not sure if it should be displayed
+ *
+ * TODO dont display IP and display the ping instead
+ */
 class Session extends React.Component {
   constructor(props) {
     super(props);
     // This binding is necessary to make `this` work in the callback
     this.handleClick = this.handleClick.bind(this);
-    /*
-        En session behöver
-        IP
-        Antal spelare
-        Host name?
-        Ping?
-         */
   }
 
+  //TODO this click should ask you for your username and put you in the correct session
   handleClick() {
-    //TODO this click should put you in the correct session
     console.log('Clicked!');
   }
 

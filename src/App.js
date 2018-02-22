@@ -1,10 +1,9 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import './components/css/App.css';
 import SensorOutput from './components/SensorOutput';
 import SessionList from './components/SessionList';
 import UsernameInput from './components/UsernameInput';
-import Session from './components/Session';
+import WelcomeScreen from './components/WelcomeScreen';
 
 const testSessions = [
   {
@@ -66,16 +65,10 @@ const testSessions = [
 
 const App = () => (
   <div className="App">
-    <header className="App-header">
-      <img src={logo} className="App-logo" alt="logo" />
-      <h1 className="App-title">Welcome to React</h1>
-    </header>
-    <p className="App-intro">
-      To get started, edit <code>src/App.js</code> and save to reload.
-    </p>
-    <SensorOutput />
+    <WelcomeScreen />
     <UsernameInput />
     <SessionList activeSessions={testSessions} />
+    <SensorOutput />
   </div>
 );
 export default App;

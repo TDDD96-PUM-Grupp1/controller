@@ -1,0 +1,22 @@
+.WelcomeScreen {
+}
+
+.GameName{
+  font-size: 500%;
+    color: #FF6F00;
+    font-family: "Robo";
+}
+
+.UserName{
+    font-family: "Robo";
+    text-align: right;
+    color: #FF6F00;
+  font-size: xx-large;
+}
+
+.Logo{
+    display: block;
+    margin-left: auto;
+    max-width: 150px;
+    max-height: 150px;
+}

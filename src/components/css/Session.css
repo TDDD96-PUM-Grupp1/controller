@@ -1,0 +1,13 @@
+.Session {
+    text-align: center;
+    font-size: large;
+    box-sizing: border-box;
+    user-select: none;
+    color: #C6FF00;
+    background-color: #FFA726 ;
+    font-family: "Robo";
+    margin: auto;
+    width: 99%;
+    border: 3px #FF6F00 solid;
+    padding: 10px;
+}
