@@ -1,4 +1,11 @@
-.App {
+@import "Session.css";
+@import "SessionList.css";
+@import "WelcomeScreen.css";
+
+.App{
+    background-color: #FFB74D;
+}
+/*.App {
   text-align: center;
 }
 
@@ -14,6 +21,8 @@
   color: white;
 }
 
+
+
 .App-title {
   font-size: 1.5em;
 }
@@ -26,3 +35,4 @@
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+*/
