@@ -16,8 +16,8 @@ class App extends Component {
     this.createCom = this.createCom.bind(this);
   }
 
-  createCom(name) {
-    this.com = new Communication(name);
+  createCom(state) {
+    this.com = new Communication(state.username);
     this.setState({
       connectionActive: true,
     });
