@@ -12,9 +12,8 @@
     "es6": true,
     "node": true
   },
-    "rules": {
+  "rules": {
     "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
-    "no-confusing-arrow": "error",
-    "no-console": "off"
-  }
+    "prettier/prettier": ["error", { "singleQuote": true }]
+    }
 }
