@@ -12,10 +12,10 @@ class SessionList extends React.Component {
     this.displayList = props.activeSessions;
   }
 
-  //TODO This is where we read the deepstream socket to find game sessions
+  // TODO This is where we read the deepstream socket to find game sessions
   updateList() {
-    //Step 1: Get new sessions deepstream socket
-    //Step 2_ Change displayList
+    // Step 1: Get new sessions deepstream socket
+    // Step 2_ Change displayList
   }
 
   render() {
@@ -24,7 +24,7 @@ class SessionList extends React.Component {
         {this.displayList.map(session => {
           return (
             <div key={session.code}>
-              <Session sessionObj={session} />
+              <Session sessionObj={session} enterSessionWindow={this.props.enterSessionWindow} />
             </div>
           );
         })}
@@ -33,7 +33,8 @@ class SessionList extends React.Component {
   }
 }
 SessionList.propTypes = {
-  activeSessions: PropTypes.arrayOf(PropTypes.object).isRequired
+  activeSessions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  enterSessionWindow: PropTypes.func.isRequired
 };
 
 export default SessionList;

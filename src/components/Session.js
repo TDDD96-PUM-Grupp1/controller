@@ -16,9 +16,11 @@ class Session extends React.Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  //TODO this click should ask you for your username and put you in the correct session
+  /**
+   * Clicking on a session will transfer you to a new window
+   */
   handleClick() {
-    console.log('Clicked!');
+    this.props.enterSessionWindow();
   }
 
   render() {
@@ -34,7 +36,7 @@ class Session extends React.Component {
 }
 
 Session.propTypes = {
-  IP: PropTypes.string.isRequired
+  sessionObj: PropTypes.string.isRequired
 };
 
 Session.propTypes = {
@@ -42,7 +44,8 @@ Session.propTypes = {
 };
 
 Session.propTypes = {
-  currentlyPlaying: PropTypes.string.isRequired
+  sessionObj: PropTypes.object.isRequired,
+  enterSessionWindow: PropTypes.func.isRequired
 };
 
 export default Session;

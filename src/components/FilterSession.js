@@ -2,10 +2,9 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 /**
- * The class responsible to handle the username input through a text field
- * and a button to send it to the server.
+ * The button and text field used to get userinput to sort the sessionslist
  */
-class UsernameInput extends Component {
+class FilterSession extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,15 +16,16 @@ class UsernameInput extends Component {
   }
 
   /**
-   * Handles a submit request by printing current username and then calls the
-   * onInputSubmit function passed as a component prop.
+   * The function called when the filter button is pressed.
    */
   handleSubmit() {
-    console.log(`Input is currently: "${this.state.username}"`);
     this.props.onInputSubmit();
   }
 
-  // Set new state on input change.
+  /**
+   * This function is called everytime an input is given
+   * (IE key pressed by the user) in the filter text field
+   */
   handleInputChange(event) {
     this.setState({
       username: event.target.value
@@ -36,27 +36,31 @@ class UsernameInput extends Component {
     return (
       <div>
         <input
-          className="usernameInputText"
+          className="FilterText"
           value={this.state.username}
           onChange={this.handleInputChange}
           type="text"
         />
-        <button className="usernameSubmitButton" onClick={this.handleSubmit}>
-          Submit
+        <button className="FilterButton" onClick={this.handleSubmit}>
+          Filter
         </button>
       </div>
     );
   }
 }
 
-UsernameInput.defaultProps = {
+/**
+ * Default behavior of the button onClick function,
+ * currently used for debugging.
+ */
+FilterSession.defaultProps = {
   onInputSubmit: () => {
     console.log('Username button clicked!');
   }
 };
 
-UsernameInput.propTypes = {
+FilterSession.propTypes = {
   onInputSubmit: PropTypes.func
 };
 
-export default UsernameInput;
+export default FilterSession;

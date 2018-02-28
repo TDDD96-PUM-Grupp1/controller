@@ -3,17 +3,10 @@
     font-size: large;
     box-sizing: border-box;
     user-select: none;
-    color: #C6FF00;
-    background-color: #FFA726 ;
-    font-family: "Robo";
+    font-family: "Roboto", "sans-serif";
     margin: auto;
-    width: 99%;
-    border: 3px #FF6F00 solid;
-    padding: 10px;
-
-    #btnLeft:active {
-        width: 11%;
-}
-
-
+    width: 100%;
+    border-bottom: 1px solid;
+    border-top: 1px solid;
+    padding: 4px;
 }
