@@ -31,7 +31,7 @@ class Communication {
       this.client.rpc.make(
         `data/${this.instance}/addPlayer`,
         { id: this.id, name: this.name, sensor: { beta: 0, gamma: 0 } },
-        this.getPlayerId.bind(this),
+        this.getPlayerId.bind(this)
       );
     }
   }

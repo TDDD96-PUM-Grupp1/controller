@@ -6,6 +6,7 @@ import WelcomeScreen from './components/WelcomeScreen';
 import FilterSession from './components/FilterSession';
 import UsernameInput from './components/UsernameInput';
 import WelcomeButton from './components/WelcomeButton';
+import Communication from './components/Communication';
 
 /**
  * This is just some random data to have something to display
@@ -71,9 +72,11 @@ const testSessions = [
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { windowState: 'default' };
+    this.state = { windowState: 'default', connectionActive: false };
     this.enterSessionWindow = this.enterSessionWindow.bind(this);
     this.enterMainWindow = this.enterMainWindow.bind(this);
+
+    this.createCom = this.createCom.bind(this);
   }
 
   /**
@@ -92,6 +95,13 @@ class App extends React.Component {
   enterMainWindow() {
     this.setState({ windowState: 'sessionList' });
     console.log('Toggling Window to main');
+  }
+
+  createCom(state) {
+    this.com = new Communication(state.username);
+    this.setState({
+      connectionActive: true
+    });
   }
 
   render() {
@@ -118,9 +128,18 @@ class App extends React.Component {
       return (
         <div className="App">
           <WelcomeScreen />
-          <UsernameInput />
+          <UsernameInput onInputSubmit={this.createCom} />
           <button className="Random">Random</button>
           <button className="Join">Join</button>
+          {this.state.connectionActive ? (
+            <div>
+              <SensorOutput onSensorChange={this.com.updateSensorData} />
+            </div>
+          ) : (
+            <div>
+              <SensorOutput />
+            </div>
+          )}
         </div>
       );
     } else {
