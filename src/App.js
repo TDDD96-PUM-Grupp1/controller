@@ -100,7 +100,7 @@ class App extends React.Component {
   createCom(state) {
     this.com = new Communication(state.username);
     this.setState({
-      connectionActive: true
+      connectionActive: true,
     });
   }
 
