@@ -6,6 +6,7 @@ import logo from '../logo.svg';
  * logo, username and the name of the game.
  * This class is reused heavily in multiple screens
  */
+/* eslint-disable react/prefer-stateless-function */
 class WelcomeScreen extends React.Component {
   render() {
     return (

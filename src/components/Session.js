@@ -25,7 +25,7 @@ class Session extends React.Component {
 
   render() {
     return (
-      <div className="Session" onClick={this.handleClick}>
+      <div className="Session" role="button" tabIndex={0} onClick={this.handleClick}>
         <div>ACTIVE SESSION</div>
         <div>{this.props.sessionObj.currentlyPlaying} active players</div>
         <div>{this.props.sessionObj.code}</div>
@@ -35,17 +35,12 @@ class Session extends React.Component {
   }
 }
 
-Session.propTypes = {
-  sessionObj: PropTypes.string.isRequired
-};
-
-Session.propTypes = {
-  code: PropTypes.string.isRequired
-};
-
+/* eslint-disable react/forbid-prop-types */
 Session.propTypes = {
   sessionObj: PropTypes.object.isRequired,
-  enterSessionWindow: PropTypes.func.isRequired
+  enterSessionWindow: PropTypes.func.isRequired,
+  code: PropTypes.string.isRequired,
 };
+/* eslint-enable react/forbid-prop-types */
 
 export default Session;

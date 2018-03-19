@@ -13,28 +13,28 @@ class SessionList extends React.Component {
   }
 
   // TODO This is where we read the deepstream socket to find game sessions
+  /* eslint-disable */
   updateList() {
     // Step 1: Get new sessions deepstream socket
     // Step 2_ Change displayList
   }
+  /* eslint-enable */
 
   render() {
     return (
       <div className="SessionList">
-        {this.displayList.map(session => {
-          return (
-            <div key={session.code}>
-              <Session sessionObj={session} enterSessionWindow={this.props.enterSessionWindow} />
-            </div>
-          );
-        })}
+        {this.displayList.map(session => (
+          <div key={session.code}>
+            <Session sessionObj={session} enterSessionWindow={this.props.enterSessionWindow} />
+          </div>
+        ))}
       </div>
     );
   }
 }
 SessionList.propTypes = {
   activeSessions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  enterSessionWindow: PropTypes.func.isRequired
+  enterSessionWindow: PropTypes.func.isRequired,
 };
 
 export default SessionList;

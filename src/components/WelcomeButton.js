@@ -27,7 +27,7 @@ class WelcomeButton extends Component {
 }
 
 WelcomeButton.propTypes = {
-  enterMainWindow: PropTypes.func.isRequired
+  enterMainWindow: PropTypes.func.isRequired,
 };
 
 export default WelcomeButton;
