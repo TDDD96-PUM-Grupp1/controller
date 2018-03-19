@@ -15,58 +15,58 @@ const testSessions = [
   {
     IP: '192.168.0.1',
     code: 'ABCD',
-    currentlyPlaying: '5',
+    currentlyPlaying: '5'
   },
   {
     IP: '58.123.5.1',
     code: 'ASDF',
-    currentlyPlaying: '17',
+    currentlyPlaying: '17'
   },
   {
     IP: '192.168.1.1',
     code: 'QWER',
-    currentlyPlaying: '0',
+    currentlyPlaying: '0'
   },
   {
     IP: '192.168.44.2',
     code: 'ZXCV',
-    currentlyPlaying: '8',
+    currentlyPlaying: '8'
   },
   {
     IP: '192.168.44.2',
     code: 'ZXCV',
-    currentlyPlaying: '8',
+    currentlyPlaying: '8'
   },
   {
     IP: '192.168.44.2',
     code: 'ZXCV',
-    currentlyPlaying: '8',
+    currentlyPlaying: '8'
   },
   {
     IP: '192.168.44.2',
     code: 'ZXCV',
-    currentlyPlaying: '8',
+    currentlyPlaying: '8'
   },
   {
     IP: '192.168.44.2',
     code: 'ZXCV',
-    currentlyPlaying: '8',
+    currentlyPlaying: '8'
   },
   {
     IP: '192.168.44.2',
     code: 'ZXCV',
-    currentlyPlaying: '8',
+    currentlyPlaying: '8'
   },
   {
     IP: '192.168.44.2',
     code: 'ZXCV',
-    currentlyPlaying: '8',
+    currentlyPlaying: '8'
   },
   {
     IP: '192.168.44.2',
     code: 'ZXCV',
-    currentlyPlaying: '8',
-  },
+    currentlyPlaying: '8'
+  }
 ];
 
 class App extends React.Component {
@@ -74,6 +74,7 @@ class App extends React.Component {
     super(props);
     this.state = { windowState: 'default', connectionActive: false };
     this.enterSessionWindow = this.enterSessionWindow.bind(this);
+    this.enterGameWindow = this.enterGameWindow.bind(this);
     this.enterMainWindow = this.enterMainWindow.bind(this);
 
     this.createCom = this.createCom.bind(this);
@@ -97,10 +98,19 @@ class App extends React.Component {
     console.log('Toggling Window to main');
   }
 
+  /**
+   * Used to switch to the game window where all sessions
+   * are being displayed
+   */
+  enterGameWindow() {
+    this.setState({ windowState: 'game' });
+    console.log('Toggling Window to game');
+  }
+
   createCom(state) {
     this.com = new Communication(state.username);
     this.setState({
-      connectionActive: true,
+      connectionActive: true
     });
   }
 
@@ -130,7 +140,10 @@ class App extends React.Component {
           <WelcomeScreen />
           <UsernameInput onInputSubmit={this.createCom} />
           <button className="Random">Random</button>
-          <button className="Join">Join</button>
+          <button className="Join" onClick={this.enterGameWindow}>
+            {' '}
+            Join
+          </button>
           {this.state.connectionActive ? (
             <div>
               <SensorOutput onSensorChange={this.com.updateSensorData} />
@@ -142,6 +155,8 @@ class App extends React.Component {
           )}
         </div>
       );
+    } else if (this.state.windowState === 'game') {
+      return <div className="App" />;
     }
     return <div className="App">no state is selected to show!</div>;
   }
