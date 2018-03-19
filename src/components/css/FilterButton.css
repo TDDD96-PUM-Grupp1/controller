@@ -1,0 +1,15 @@
+.FilterText{
+    font-size: large;
+    font-family: "Roboto", "sans-serif";
+    width : 70%;
+    height: 20px;
+}
+
+
+.FilterButton{
+    /*  What else would the width be? 30%? of course not*/
+    width: 28.96%;
+    height: 26px;
+    font-family: "Roboto", "sans-serif";
+    font-size: large;
+}

@@ -26,7 +26,9 @@ class Communication {
     this.id = result;
   }
 
+  /* eslint-disable no-unused-vars */
   onLoggedIn(success, data) {
+    /* eslint-enable no-unused-vars */
     if (success) {
       this.client.rpc.make(
         `data/${this.instance}/addPlayer`,
