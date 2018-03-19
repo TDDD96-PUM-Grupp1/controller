@@ -7,6 +7,7 @@ import FilterSession from './components/FilterSession';
 import UsernameInput from './components/UsernameInput';
 import WelcomeButton from './components/WelcomeButton';
 import Communication from './components/Communication';
+import GameScreen from './components/GameScreen';
 
 /**
  * This is just some random data to have something to display
@@ -156,7 +157,21 @@ class App extends React.Component {
         </div>
       );
     } else if (this.state.windowState === 'game') {
-      return <div className="App" />;
+      console.log('hej');
+      return (
+        <div className="App">
+          {this.state.connectionActive ? (
+            <div>
+              <SensorOutput onSensorChange={this.com.updateSensorData} />
+            </div>
+          ) : (
+            <div>
+              <SensorOutput />
+            </div>
+          )}
+          <GameScreen numberOfButtons={2} enterMainWindow={this.enterMainWindow} />
+        </div>
+      );
     }
     return <div className="App">no state is selected to show!</div>;
   }

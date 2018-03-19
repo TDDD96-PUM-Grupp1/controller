@@ -4,6 +4,8 @@
 @import 'FilterButton.css';
 @import 'UserNameInput.css';
 @import 'WelcomeButton.css';
+@import 'GameScreen.css';
+
 .App{
     /*
     The max width lets the app keep its mobile appearance even on larger screen,
