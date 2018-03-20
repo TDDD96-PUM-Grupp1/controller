@@ -7,32 +7,51 @@ class Communication {
    * It will also send an rpc-call to the UI to connect to it.
    *
   */
-  constructor(name) {
-    this.instance = 'abc';
+  constructor(options) {
+    this.instance = '';
     this.dataBuffer = {};
     // Creates and logs in a user to the server.
-    this.ds = createDeepstream('10.90.128.65:60020');
+    this.ds = createDeepstream(options.host_ip);
     this.id = this.ds.getUid();
     this.client = this.ds.login({ username: this.id }, this.onLoggedIn.bind(this));
-    this.name = name || 'something';
-    setInterval(this.flushData.bind(this), 1000 / 128.0);
+    this.name = '';
+    this.updateSensorData = this.updateSensorData.bind(this);
+    this.requestInstances = this.requestInstances.bind(this);
+    this.joinInstance = this.joinInstance.bind(this);
   }
 
   /*
    * Callback for the rpc-call when connection to a UI
   */
-  getPlayerId(err, result) {
+  onJoined(err, result) {
     this.id = result;
+    setInterval(this.flushData.bind(this), 1000 / 128.0);
   }
 
-  onLoggedIn(success, data) {
-    if (success) {
-      this.client.rpc.make(
-        `data/${this.instance}/addPlayer`,
-        { id: this.id, name: this.name, sensor: { beta: 0, gamma: 0 } },
-        this.getPlayerId.bind(this)
-      );
-    }
+  /*
+   * Called when the user has tried to login to deepstream.
+   * Will be used later for exception handling
+   * eslint-disable no-unused-vars
+   * eslint-disable class-methods-use-this
+  */
+  onLoggedIn(success, data) {}
+
+  requestInstances(callback) {
+    this.client.rpc.make('services/getInstances', {}, callback);
+  }
+
+  joinInstance(instanceName, callback) {
+    this.instance = instanceName;
+    this.client.rpc.make(
+      `data/${this.instance}/addPlayer`,
+      { id: this.id, name: this.name, sensor: { beta: 0, gamma: 0 } },
+      (err, result) => {
+        if (!err) {
+          this.onJoined.bind(this);
+        }
+        callback(err, result);
+      },
+    );
   }
 
   /*
@@ -40,7 +59,7 @@ class Communication {
    * flushData is called.
    */
   updateSensorData(beta, gamma) {
-    this.dataBuffer.sensor = { beta: beta, gamma: gamma };
+    this.dataBuffer.sensor = { beta, gamma };
   }
 
   /*
