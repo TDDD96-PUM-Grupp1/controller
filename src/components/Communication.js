@@ -8,13 +8,14 @@ class Communication {
    *
   */
   constructor(options) {
-    this.instance = 'abc';
+    this.instance = options.instanceName;
+    console.log(this.instance);
     this.dataBuffer = {};
     // Creates and logs in a user to the server.
     this.ds = createDeepstream(options.host_ip);
     this.id = this.ds.getUid();
     this.client = this.ds.login({ username: this.id }, this.onLoggedIn.bind(this));
-    this.name = options.name || 'something';
+    this.name = options.username || 'something';
     setInterval(this.flushData.bind(this), 1000 / 128.0);
   }
 
