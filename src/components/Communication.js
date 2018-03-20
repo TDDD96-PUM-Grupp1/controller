@@ -7,14 +7,14 @@ class Communication {
    * It will also send an rpc-call to the UI to connect to it.
    *
   */
-  constructor(name) {
+  constructor(options) {
     this.instance = 'abc';
     this.dataBuffer = {};
     // Creates and logs in a user to the server.
-    this.ds = createDeepstream('10.90.128.65:60020');
+    this.ds = createDeepstream(options.host_ip);
     this.id = this.ds.getUid();
     this.client = this.ds.login({ username: this.id }, this.onLoggedIn.bind(this));
-    this.name = name || 'something';
+    this.name = options.name || 'something';
     setInterval(this.flushData.bind(this), 1000 / 128.0);
   }
 
@@ -24,13 +24,15 @@ class Communication {
   getPlayerId(err, result) {
     this.id = result;
   }
-
+  /*
+   * Called when the user has tried to login to deepstream.
+  */
   onLoggedIn(success, data) {
     if (success) {
       this.client.rpc.make(
         `data/${this.instance}/addPlayer`,
         { id: this.id, name: this.name, sensor: { beta: 0, gamma: 0 } },
-        this.getPlayerId.bind(this)
+        this.getPlayerId.bind(this),
       );
     }
   }
@@ -40,7 +42,7 @@ class Communication {
    * flushData is called.
    */
   updateSensorData(beta, gamma) {
-    this.dataBuffer.sensor = { beta: beta, gamma: gamma };
+    this.dataBuffer.sensor = { beta, gamma };
   }
 
   /*

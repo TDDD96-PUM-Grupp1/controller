@@ -16,11 +16,11 @@ class App extends Component {
     this.createCom = this.createCom.bind(this);
   }
 
-  createCom(name) {
+  createCom() {
     this.setState = {
       connectionActive: true,
     };
-    this.com = new Communication(name);
+    this.com = new Communication({ host_ip: '0.0.0.0:60020' });
   }
 
   render() {
