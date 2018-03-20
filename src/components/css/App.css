@@ -1,0 +1,13 @@
+@import "Session.css";
+@import "SessionList.css";
+@import "WelcomeScreen.css";
+@import 'FilterButton.css';
+@import 'UserNameInput.css';
+@import 'WelcomeButton.css';
+.App{
+    /*
+    The max width lets the app keep its mobile appearance even on larger screen,
+    its mainly a short fix since we dont have a PC version of the screens yet.
+     */
+    max-width: 400px;
+}

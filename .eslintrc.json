@@ -1,20 +1,26 @@
 {
   "extends": [
-      "airbnb",
-      "prettier/react"
-    ],
-    "plugins": [
-      "prettier"
-    ],
+    "airbnb",
+    "prettier/react"
+  ],
+  "plugins": [
+    "prettier"
+  ],
   "env": {
     "browser": true,
     "jasmine": true,
     "es6": true,
     "node": true
   },
-    "rules": {
+  "rules": {
     "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
     "no-confusing-arrow": "error",
-    "no-console": "off"
+    "no-console": "off",
+    "comma-dangle": ["error", "never"],
+    "prettier/prettier": ["error", {
+      "singleQuote": true,
+      "trailingComma": "off"
+    }],
+    "jsx-a11y/click-events-have-key-events": "off"
   }
 }

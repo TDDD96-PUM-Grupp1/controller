@@ -1,17 +1,20 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
+/**
+ * The class responsible to handle the username input through a text field
+ * and a button to send it to the server.
+ */
 class UsernameInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
       username: '',
-      instanceName: '',
+      instanceName: ''
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleInstanceChange = this.handleInstanceChange.bind(this);
   }
 
   /**
@@ -20,30 +23,28 @@ class UsernameInput extends Component {
    */
   handleSubmit() {
     console.log(`Input is currently: "${this.state.username}"`);
-    this.props.onInputSubmit(this.state);
+    this.props.onInputSubmit(this.props.instanceName, (err, result) => {});
   }
 
   // Set new state on input change.
   handleInputChange(event) {
     this.setState({
-      username: event.target.value,
-    });
-  }
-
-  handleInstanceChange(event) {
-    this.setState({
-      instanceName: event.target.value,
+      username: event.target.value
     });
   }
 
   render() {
     return (
       <div>
-        <h1>Username</h1>
-        <input value={this.state.username} onChange={this.handleInputChange} type="text" />
-        <h1>Instance Name</h1>
-        <input value={this.state.instanceName} onChange={this.handleInstanceChange} type="text" />
-        <button onClick={this.handleSubmit}>Submit</button>
+        <input
+          className="usernameInputText"
+          value={this.state.username}
+          onChange={this.handleInputChange}
+          type="text"
+        />
+        <button className="usernameSubmitButton" onClick={this.handleSubmit}>
+          Submit
+        </button>
       </div>
     );
   }
@@ -52,11 +53,12 @@ class UsernameInput extends Component {
 UsernameInput.defaultProps = {
   onInputSubmit: () => {
     console.log('Username button clicked!');
-  },
+  }
 };
 
 UsernameInput.propTypes = {
   onInputSubmit: PropTypes.func,
+  instanceName: PropTypes.string.isRequired
 };
 
 export default UsernameInput;
