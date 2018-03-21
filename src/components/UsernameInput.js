@@ -9,8 +9,7 @@ class UsernameInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
-      instanceName: ''
+      username: ''
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -23,6 +22,8 @@ class UsernameInput extends Component {
    */
   handleSubmit() {
     console.log(`Input is currently: "${this.state.username}"`);
+    // Need to use these parameters for the callback.
+    // eslint-disable no-unused-vars
     this.props.onInputSubmit(this.props.instanceName, (err, result) => {});
   }
 

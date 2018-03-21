@@ -36,10 +36,16 @@ class Communication {
   */
   onLoggedIn(success, data) {}
 
+  /*
+   * Request the instances that are currently running.
+   */
   requestInstances(callback) {
     this.client.rpc.make('services/getInstances', {}, callback);
   }
 
+  /*
+   * Join a certain instance with the given name.
+   */
   joinInstance(instanceName, callback) {
     this.instance = instanceName;
     this.client.rpc.make(
