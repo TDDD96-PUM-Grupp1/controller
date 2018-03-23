@@ -8,7 +8,7 @@ class FilterSession extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
+      username: ''
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -28,7 +28,7 @@ class FilterSession extends Component {
    */
   handleInputChange(event) {
     this.setState({
-      username: event.target.value,
+      username: event.target.value
     });
   }
 
@@ -56,11 +56,11 @@ class FilterSession extends Component {
 FilterSession.defaultProps = {
   onInputSubmit: () => {
     console.log('Username button clicked!');
-  },
+  }
 };
 
 FilterSession.propTypes = {
-  onInputSubmit: PropTypes.func,
+  onInputSubmit: PropTypes.func
 };
 
 export default FilterSession;

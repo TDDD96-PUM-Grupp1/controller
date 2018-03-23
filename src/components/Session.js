@@ -14,13 +14,14 @@ class Session extends React.Component {
     super(props);
     // This binding is necessary to make `this` work in the callback
     this.handleClick = this.handleClick.bind(this);
+    this.props.sessionObj.currentlyPlaying = 1;
   }
 
   /**
    * Clicking on a session will transfer you to a new window
    */
   handleClick() {
-    this.props.enterSessionWindow();
+    this.props.enterSessionWindow(this.props.sessionObj.name);
   }
 
   render() {
@@ -28,8 +29,7 @@ class Session extends React.Component {
       <div className="Session" role="button" tabIndex={0} onClick={this.handleClick}>
         <div>ACTIVE SESSION</div>
         <div>{this.props.sessionObj.currentlyPlaying} active players</div>
-        <div>{this.props.sessionObj.code}</div>
-        <div>{this.props.sessionObj.IP}</div>
+        <div>{this.props.sessionObj.name}</div>
       </div>
     );
   }
@@ -38,8 +38,7 @@ class Session extends React.Component {
 /* eslint-disable react/forbid-prop-types */
 Session.propTypes = {
   sessionObj: PropTypes.object.isRequired,
-  enterSessionWindow: PropTypes.func.isRequired,
-  code: PropTypes.string.isRequired,
+  enterSessionWindow: PropTypes.func.isRequired
 };
 /* eslint-enable react/forbid-prop-types */
 

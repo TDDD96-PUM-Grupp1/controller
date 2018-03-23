@@ -12,7 +12,16 @@ class WelcomeButton extends Component {
    * onInputSubmit function passed as a component prop.
    */
   handleClick() {
-    this.props.enterMainWindow();
+    this.props.requestInstances((err, result) => {
+      console.log(err);
+      console.log(result);
+      if (!err) {
+        console.log(result);
+        this.props.enterMainWindow(result);
+      } else {
+        // TODO: handle error
+      }
+    });
   }
 
   render() {
@@ -28,6 +37,7 @@ class WelcomeButton extends Component {
 
 WelcomeButton.propTypes = {
   enterMainWindow: PropTypes.func.isRequired,
+  requestInstances: PropTypes.func.isRequired
 };
 
 export default WelcomeButton;

@@ -9,7 +9,7 @@ class UsernameInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
+      username: ''
     };
 
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -22,13 +22,15 @@ class UsernameInput extends Component {
    */
   handleSubmit() {
     console.log(`Input is currently: "${this.state.username}"`);
-    this.props.onInputSubmit(this.state);
+    // Need to use these parameters for the callback.
+    // eslint-disable no-unused-vars
+    this.props.onInputSubmit(this.props.instanceName, (err, result) => {});
   }
 
   // Set new state on input change.
   handleInputChange(event) {
     this.setState({
-      username: event.target.value,
+      username: event.target.value
     });
   }
 
@@ -52,11 +54,12 @@ class UsernameInput extends Component {
 UsernameInput.defaultProps = {
   onInputSubmit: () => {
     console.log('Username button clicked!');
-  },
+  }
 };
 
 UsernameInput.propTypes = {
   onInputSubmit: PropTypes.func,
+  instanceName: PropTypes.string.isRequired
 };
 
 export default UsernameInput;

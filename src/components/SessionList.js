@@ -24,7 +24,7 @@ class SessionList extends React.Component {
     return (
       <div className="SessionList">
         {this.displayList.map(session => (
-          <div key={session.code}>
+          <div key={session.name}>
             <Session sessionObj={session} enterSessionWindow={this.props.enterSessionWindow} />
           </div>
         ))}
@@ -34,7 +34,7 @@ class SessionList extends React.Component {
 }
 SessionList.propTypes = {
   activeSessions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  enterSessionWindow: PropTypes.func.isRequired,
+  enterSessionWindow: PropTypes.func.isRequired
 };
 
 export default SessionList;

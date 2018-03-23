@@ -8,82 +8,22 @@ import UsernameInput from './components/UsernameInput';
 import WelcomeButton from './components/WelcomeButton';
 import Communication from './components/Communication';
 
-/**
- * This is just some random data to have something to display
- */
-const testSessions = [
-  {
-    IP: '192.168.0.1',
-    code: 'ABCD',
-    currentlyPlaying: '5',
-  },
-  {
-    IP: '58.123.5.1',
-    code: 'ASDF',
-    currentlyPlaying: '17',
-  },
-  {
-    IP: '192.168.1.1',
-    code: 'QWER',
-    currentlyPlaying: '0',
-  },
-  {
-    IP: '192.168.44.2',
-    code: 'ZXCV',
-    currentlyPlaying: '8',
-  },
-  {
-    IP: '192.168.44.2',
-    code: 'ZXCV',
-    currentlyPlaying: '8',
-  },
-  {
-    IP: '192.168.44.2',
-    code: 'ZXCV',
-    currentlyPlaying: '8',
-  },
-  {
-    IP: '192.168.44.2',
-    code: 'ZXCV',
-    currentlyPlaying: '8',
-  },
-  {
-    IP: '192.168.44.2',
-    code: 'ZXCV',
-    currentlyPlaying: '8',
-  },
-  {
-    IP: '192.168.44.2',
-    code: 'ZXCV',
-    currentlyPlaying: '8',
-  },
-  {
-    IP: '192.168.44.2',
-    code: 'ZXCV',
-    currentlyPlaying: '8',
-  },
-  {
-    IP: '192.168.44.2',
-    code: 'ZXCV',
-    currentlyPlaying: '8',
-  },
-];
-
 class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { windowState: 'default', connectionActive: false };
     this.enterSessionWindow = this.enterSessionWindow.bind(this);
     this.enterMainWindow = this.enterMainWindow.bind(this);
-
-    this.createCom = this.createCom.bind(this);
+    this.instances = {};
+    this.com = new Communication({ host_ip: '0.0.0.0:60020' });
   }
 
   /**
    * Used to switch to the window where detailed information
    * regarding a session is displayed
    */
-  enterSessionWindow() {
+  enterSessionWindow(instanceName) {
+    this.instanceName = instanceName;
     this.setState({ windowState: 'session' });
     console.log('Toggling Window');
   }
@@ -92,16 +32,11 @@ class App extends React.Component {
    * Used to switch to the main window where all sessions
    * are being displayed
    */
-  enterMainWindow() {
+  enterMainWindow(instances) {
+    this.instances = instances;
     this.setState({ windowState: 'sessionList' });
+    console.log(instances);
     console.log('Toggling Window to main');
-  }
-
-  createCom(state) {
-    this.com = new Communication(state.username);
-    this.setState({
-      connectionActive: true,
-    });
   }
 
   render() {
@@ -110,7 +45,11 @@ class App extends React.Component {
       return (
         <div className="App">
           <WelcomeScreen />
-          <WelcomeButton className="WelcomeButton" enterMainWindow={this.enterMainWindow} />
+          <WelcomeButton
+            className="WelcomeButton"
+            requestInstances={this.com.requestInstances}
+            enterMainWindow={this.enterMainWindow}
+          />
         </div>
       );
       // The screen showing all possible sessions to join
@@ -119,7 +58,10 @@ class App extends React.Component {
         <div className="App">
           <WelcomeScreen />
           <FilterSession />
-          <SessionList activeSessions={testSessions} enterSessionWindow={this.enterSessionWindow} />
+          <SessionList
+            activeSessions={this.instances}
+            enterSessionWindow={this.enterSessionWindow}
+          />
           <SensorOutput />
         </div>
       );
@@ -128,7 +70,7 @@ class App extends React.Component {
       return (
         <div className="App">
           <WelcomeScreen />
-          <UsernameInput onInputSubmit={this.createCom} />
+          <UsernameInput instanceName={this.instanceName} onInputSubmit={this.com.joinInstance} />
           <button className="Random">Random</button>
           <button className="Join">Join</button>
           {this.state.connectionActive ? (
