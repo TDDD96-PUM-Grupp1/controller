@@ -23,8 +23,9 @@ class UsernameInput extends Component {
   handleSubmit() {
     console.log(`Input is currently: "${this.state.username}"`);
     // Need to use these parameters for the callback.
-    // eslint-disable no-unused-vars
-    this.props.onInputSubmit(this.props.instanceName, (err, result) => {});
+    /* eslint-disable no-unused-vars */
+    this.props.onInputSubmit(this.props.instanceName, this.state.username, (err, result) => {});
+    /* eslint-enable no-unused-vars */
   }
 
   // Set new state on input change.
