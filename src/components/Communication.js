@@ -61,7 +61,7 @@ import createDeepstream from 'deepstream.io-client-js'; class Communication { /*
       { id: this.id, name: this.name, sensor: { beta: 0, gamma: 0 } },
       (err, result) => {
         if (!err) {
-          this.onJoined.bind(this);
+          this.onJoined(err, result);
         }
         callback(err, result);
       }

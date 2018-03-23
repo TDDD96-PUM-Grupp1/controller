@@ -68,15 +68,7 @@ class App extends React.Component {
         <UsernameInput instanceName={this.instanceName} onInputSubmit={this.com.joinInstance} />
         <button className="Random">Random</button>
         <button className="Join">Join</button>
-        {this.state.connectionActive ? (
-          <div>
-            <SensorOutput onSensorChange={this.com.updateSensorData} />
-          </div>
-        ) : (
-          <div>
-            <SensorOutput />
-          </div>
-        )}
+        <SensorOutput onSensorChange={this.com.updateSensorData} />
       </div>
     );
   }
