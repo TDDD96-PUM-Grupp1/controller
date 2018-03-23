@@ -7,6 +7,7 @@ import FilterSession from './components/FilterSession';
 import UsernameInput from './components/UsernameInput';
 import WelcomeButton from './components/WelcomeButton';
 import Communication from './components/Communication';
+import settings from './config';
 
 class App extends React.Component {
   constructor(props) {
@@ -15,7 +16,7 @@ class App extends React.Component {
     this.enterSessionWindow = this.enterSessionWindow.bind(this);
     this.enterMainWindow = this.enterMainWindow.bind(this);
     this.instances = {};
-    this.com = new Communication({ host_ip: '0.0.0.0:60020' });
+    this.com = new Communication(settings.communication);
   }
 
   /**
