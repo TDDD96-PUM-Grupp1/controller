@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropType from 'prop-types';
+import { Button, DataTable, TableHeader } from 'react-mdl';
 
 class SensorOutput extends Component {
   constructor(props) {
@@ -47,11 +48,26 @@ class SensorOutput extends Component {
   render() {
     return (
       <div>
-        <div>Beta: {Math.round(this.state.beta)}</div>
-        <div>Gamma: {Math.round(this.state.gamma)}</div>
-        <div>BetaBase: {Math.round(this.state.betaBase)}</div>
-        <div>GammaBase: {Math.round(this.state.gammaBase)}</div>
-        <button onClick={this.handleCalibrationClick}>Calibrate</button>
+        <DataTable
+          shadow={0}
+          rows={[
+            { material: 'Beta', angle: Math.round(this.state.beta) },
+            { material: 'Gamma', angle: Math.round(this.state.gamma) },
+            { material: 'BetaBase', angle: Math.round(this.state.betaBase) },
+            { material: 'GammaBase', angle: Math.round(this.state.gammaBase) }
+          ]}
+        >
+          <TableHeader name="material" tooltip="The amazing type name">
+            Angle
+          </TableHeader>
+          <TableHeader numeric name="angle" tooltip="Its actual value">
+            Value
+          </TableHeader>
+        </DataTable>
+
+        <Button raised ripple colored onClick={this.handleCalibrationClick}>
+          Calibrate
+        </Button>
       </div>
     );
   }

@@ -1,7 +1,6 @@
 .usernameInputText{
     margin-top: 5%;
     font-size: large;
-    font-family: "Roboto", "sans-serif";
     width : 100%;
     height: 20px;
 }
@@ -10,7 +9,6 @@
 .usernameSubmitButton{
     width: 103%;
     height: 26px;
-    font-family: "Roboto", "sans-serif";
     font-size: large;
 }
 
@@ -19,12 +17,10 @@
     margin-top: 50%;
     width: 50%;
     height: 26px;
-    font-family: "Roboto", "sans-serif";
     font-size: lar
 }
 .Random{
     width: 103%;
     height: 26px;
-    font-family: "Roboto", "sans-serif";
     font-size: large;
 }
