@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'react-mdl';
 import './components/css/App.css';
 import SensorOutput from './components/SensorOutput';
 import SessionList from './components/SessionList';
@@ -42,9 +43,9 @@ class App extends React.Component {
       <div>
         <WelcomeScreen />
         <div>
-          <button className="WelcomeButton" onClick={this.enterMainWindow}>
+          <Button raised ripple colored className="WelcomeButton" onClick={this.enterMainWindow}>
             Start!
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -67,8 +68,12 @@ class App extends React.Component {
     return (
       <div>
         <UsernameInput instanceName={this.instanceName} onInputSubmit={this.com.joinInstance} />
-        <button className="Random">Random</button>
-        <button className="Join">Join</button>
+        <Button raised ripple colored className="Random">
+          Random
+        </Button>
+        <Button raised ripple colored className="Join">
+          Join
+        </Button>
         {this.state.connectionActive ? (
           <div>
             <SensorOutput onSensorChange={this.com.updateSensorData} />

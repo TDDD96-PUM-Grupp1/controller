@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Textfield, Button } from 'react-mdl';
 
 /**
  * The button and text field used to get userinput to sort the sessionslist
@@ -35,15 +36,18 @@ class FilterSession extends Component {
   render() {
     return (
       <div>
-        <input
+        <Textfield
           className="FilterText"
           value={this.state.username}
           onChange={this.handleInputChange}
-          type="text"
+          label="Filter room..."
+          pattern="[A-z0-9]*"
+          error="Only letter or numbers!"
+          floatingLabel
         />
-        <button className="FilterButton" onClick={this.handleSubmit}>
+        <Button raised ripple colored className="FilterButton" onClick={this.handleSubmit}>
           Filter
-        </button>
+        </Button>
       </div>
     );
   }

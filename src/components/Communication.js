@@ -31,10 +31,10 @@ class Communication {
   /*
    * Called when the user has tried to login to deepstream.
    * Will be used later for exception handling
-   * eslint-disable no-unused-vars
-   * eslint-disable class-methods-use-this
   */
+  /* eslint-disable no-unused-vars, class-methods-use-this */
   onLoggedIn(success, data) {}
+  /* eslint-enable no-unused-vars, class-methods-use-this */
 
   /*
    * Request the instances that are currently running.

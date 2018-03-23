@@ -3,12 +3,10 @@
 
 .GameName{
   font-size: 500%;
-    font-family: "Roboto", "sans-serif";
 }
 
 .UserName{
-    font-family: "Roboto", "sans-serif";
-    text-align: right;
+  text-align: right;
   font-size: xx-large;
 }
 
