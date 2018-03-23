@@ -1,6 +1,11 @@
-import createDeepstream from 'deepstream.io-client-js'; class Communication { /* * Constructor for Communication.  * This initialized the network communication to the deepstream server.  * It will also send an rpc-call to the UI to connect to it.
+import createDeepstream from 'deepstream.io-client-js';
+class Communication {
+  /*
+   * Constructor for Communication.  
+   * This initialized the network communication to the deepstream server. 
+   * It will also send an rpc-call to the UI to connect to it.
    *
-  */
+   */
   constructor(options) {
     this.instance = '';
     this.dataBuffer = {};
@@ -29,17 +34,17 @@ import createDeepstream from 'deepstream.io-client-js'; class Communication { /*
   */
   /* eslint-disable */
   onLoggedIn(success, data) {}
-
   /* eslint-enable */
+
   /*
    * Request the instances that are currently running.
    */
   requestInstances(onInstancesReceived, onPlayerAdded, onInstanceCreated) {
     this.client.rpc.make('services/getInstances', {}, onInstancesReceived);
-    this.client.event.subscribe('services/playerAdded', (data) => {
+    this.client.event.subscribe('services/playerAdded', data => {
       onPlayerAdded(data.playerName, data.instanceName);
     });
-    this.client.event.subscribe('services/instanceCreated', (data) => {
+    this.client.event.subscribe('services/instanceCreated', data => {
       onInstanceCreated(data.name);
     });
   }
