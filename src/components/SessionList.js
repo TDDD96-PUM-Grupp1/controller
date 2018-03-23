@@ -3,27 +3,36 @@ import PropTypes from 'prop-types';
 import Session from './Session';
 
 /**
- * The list the sessions live within, responsible for updating the list
  * eg finding new sessions and removing old
+ * The list the sessions live within, responsible for updating the list
  */
 class SessionList extends React.Component {
   constructor(props) {
     super(props);
-    this.displayList = props.activeSessions;
+    this.state = { instances: [] };
   }
 
-  // TODO This is where we read the deepstream socket to find game sessions
-  /* eslint-disable */
-  updateList() {
-    // Step 1: Get new sessions deepstream socket
-    // Step 2_ Change displayList
+  componentDidMount() {
+    this.updateList();
   }
-  /* eslint-enable */
+
+  /**
+   * Update the list of active instances
+   */
+  updateList() {
+    this.props.requestInstances((err, result) => {
+      if (!err) {
+        this.setState({ instances: result });
+      } else {
+        // TODO: handle error
+      }
+    });
+  }
 
   render() {
     return (
       <div className="SessionList">
-        {this.displayList.map(session => (
+        {this.state.instances.map(session => (
           <div key={session.name}>
             <Session sessionObj={session} enterSessionWindow={this.props.enterSessionWindow} />
           </div>
@@ -33,7 +42,7 @@ class SessionList extends React.Component {
   }
 }
 SessionList.propTypes = {
-  activeSessions: PropTypes.arrayOf(PropTypes.object).isRequired,
+  requestInstances: PropTypes.func.isRequired,
   enterSessionWindow: PropTypes.func.isRequired
 };
 
