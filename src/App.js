@@ -5,7 +5,6 @@ import SessionList from './components/SessionList';
 import WelcomeScreen from './components/WelcomeScreen';
 import FilterSession from './components/FilterSession';
 import UsernameInput from './components/UsernameInput';
-import WelcomeButton from './components/WelcomeButton';
 import Communication from './components/Communication';
 import settings from './config';
 
@@ -15,7 +14,7 @@ class App extends React.Component {
     this.state = { windowState: 'default', connectionActive: false };
     this.enterSessionWindow = this.enterSessionWindow.bind(this);
     this.enterMainWindow = this.enterMainWindow.bind(this);
-    this.instances = {};
+
     this.com = new Communication(settings.communication);
   }
 
@@ -33,20 +32,21 @@ class App extends React.Component {
    * Used to switch to the main window where all sessions
    * are being displayed
    */
-  enterMainWindow(instances) {
-    this.instances = instances;
+  enterMainWindow() {
     this.setState({ windowState: 'sessionList' });
-    console.log(instances);
     console.log('Toggling Window to main');
   }
 
   renderDefault() {
     return (
-      <WelcomeButton
-        className="WelcomeButton"
-        requestInstances={this.com.requestInstances}
-        enterMainWindow={this.enterMainWindow}
-      />
+      <div>
+        <WelcomeScreen />
+        <div>
+          <button className="WelcomeButton" onClick={this.enterMainWindow}>
+            Start!
+          </button>
+        </div>
+      </div>
     );
   }
 
@@ -54,7 +54,10 @@ class App extends React.Component {
     return (
       <div>
         <FilterSession />
-        <SessionList activeSessions={this.instances} enterSessionWindow={this.enterSessionWindow} />
+        <SessionList
+          requestInstances={this.com.requestInstances}
+          enterSessionWindow={this.enterSessionWindow}
+        />
         <SensorOutput />
       </div>
     );
@@ -84,12 +87,7 @@ class App extends React.Component {
       return <div className="App">no state is selected to show!</div>;
     }
 
-    return (
-      <div className="App">
-        <WelcomeScreen />
-        {stateRender}
-      </div>
-    );
+    return <div className="App">{stateRender}</div>;
   }
 }
 
