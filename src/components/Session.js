@@ -20,7 +20,8 @@ class Session extends React.Component {
    * Clicking on a session will transfer you to a new window
    */
   handleClick() {
-    this.props.enterSessionWindow();
+    //TODO this should not be hardcoded...
+    this.props.enterSessionWindow(3);
   }
 
   render() {
@@ -38,8 +39,7 @@ class Session extends React.Component {
 /* eslint-disable react/forbid-prop-types */
 Session.propTypes = {
   sessionObj: PropTypes.object.isRequired,
-  enterSessionWindow: PropTypes.func.isRequired,
-  code: PropTypes.string.isRequired,
+  enterSessionWindow: PropTypes.func.isRequired
 };
 /* eslint-enable react/forbid-prop-types */
 

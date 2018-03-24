@@ -27,7 +27,7 @@ class GameScreenButtons extends Component {
   }
 }
 
-Session.propTypes = {
+GameScreenButtons.propTypes = {
     enterMainWindow: PropTypes.func.isRequired
 };
 

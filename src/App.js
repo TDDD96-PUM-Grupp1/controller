@@ -30,42 +30,42 @@ const testSessions = [
   },
   {
     IP: '192.168.44.2',
-    code: 'ZXCV',
+    code: 'ZXCY',
     currentlyPlaying: '8'
   },
   {
     IP: '192.168.44.2',
-    code: 'ZXCV',
+    code: 'ZKCV',
     currentlyPlaying: '8'
   },
   {
     IP: '192.168.44.2',
-    code: 'ZXCV',
+    code: 'ZACV',
     currentlyPlaying: '8'
   },
   {
     IP: '192.168.44.2',
-    code: 'ZXCV',
+    code: 'BXCV',
     currentlyPlaying: '8'
   },
   {
     IP: '192.168.44.2',
-    code: 'ZXCV',
+    code: 'ZXPV',
     currentlyPlaying: '8'
   },
   {
     IP: '192.168.44.2',
-    code: 'ZXCV',
+    code: 'ZTCV',
     currentlyPlaying: '8'
   },
   {
     IP: '192.168.44.2',
-    code: 'ZXCV',
+    code: 'ZXRV',
     currentlyPlaying: '8'
   },
   {
     IP: '192.168.44.2',
-    code: 'ZXCV',
+    code: 'ZXCG',
     currentlyPlaying: '8'
   }
 ];
@@ -73,7 +73,7 @@ const testSessions = [
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { windowState: 'default', connectionActive: false };
+    this.state = { windowState: 'default', connectionActive: false, numberOfGameButtons: 0 };
     this.enterSessionWindow = this.enterSessionWindow.bind(this);
     this.enterGameWindow = this.enterGameWindow.bind(this);
     this.enterMainWindow = this.enterMainWindow.bind(this);
@@ -85,7 +85,10 @@ class App extends React.Component {
    * Used to switch to the window where detailed information
    * regarding a session is displayed
    */
-  enterSessionWindow() {
+  enterSessionWindow(nrButtons) {
+    if (!isNaN(nrButtons) && parseInt(Number(nrButtons), 10) === nrButtons) {
+      this.setState({ numberOfGameButtons: nrButtons });
+    }
     this.setState({ windowState: 'session' });
     console.log('Toggling Window');
   }
@@ -106,6 +109,7 @@ class App extends React.Component {
   enterGameWindow() {
     this.setState({ windowState: 'game' });
     console.log('Toggling Window to game');
+    console.log(this);
   }
 
   createCom(state) {
@@ -116,6 +120,8 @@ class App extends React.Component {
   }
 
   render() {
+    console.log(this.state.numberOfGameButtons);
+
     // The greeting screen
     if (this.state.windowState === 'default') {
       return (
@@ -156,20 +162,14 @@ class App extends React.Component {
           )}
         </div>
       );
+      //The game screen
     } else if (this.state.windowState === 'game') {
-      console.log('hej');
       return (
         <div className="App">
-          {this.state.connectionActive ? (
-            <div>
-              <SensorOutput onSensorChange={this.com.updateSensorData} />
-            </div>
-          ) : (
-            <div>
-              <SensorOutput />
-            </div>
-          )}
-          <GameScreen numberOfButtons={2} enterMainWindow={this.enterMainWindow} />
+          <GameScreen
+            numberOfButtons={this.state.numberOfGameButtons}
+            enterMainWindow={this.enterMainWindow}
+          />
         </div>
       );
     }
