@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Session from "./Session";
 
-class GameScreenButtons extends Component {
+class GameScreenButton extends Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
@@ -13,22 +12,23 @@ class GameScreenButtons extends Component {
    * onInputSubmit function passed as a component prop.
    */
   handleClick() {
-    this.props.enterMainWindow();
+    this.props.gameButtonPressed(this.props.buttonName);
   }
 
   render() {
     return (
       <div>
-        <button className="WelcomeButton" onClick={this.handleClick}>
-          GameScreenButton
+        <button className="GameButton" onClick={this.handleClick}>
+          {'Button '.concat(this.props.buttonName)}
         </button>
       </div>
     );
   }
 }
 
-GameScreenButtons.propTypes = {
-    enterMainWindow: PropTypes.func.isRequired
+GameScreenButton.propTypes = {
+  buttonName: PropTypes.string.isRequired,
+  gameButtonPressed: PropTypes.func.isRequired
 };
 
-export default GameScreenButtons;
+export default GameScreenButton;

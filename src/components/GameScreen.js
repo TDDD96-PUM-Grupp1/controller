@@ -1,8 +1,7 @@
 /* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import GameScreenButtons from './GameScreenButtons';
-import Session from './Session';
+import GameScreenButtons from './GameScreenButton';
 
 class GameScreen extends Component {
   constructor(props) {
@@ -16,17 +15,13 @@ class GameScreen extends Component {
   render() {
     return (
       <div className="GameScreen">
-        <div>{this.props.numberOfButtons}</div>
-        <GameScreenButtons
-          className="GameScreenButtons"
-          enterMainWindow={this.props.enterMainWindow}
-        />
-
         <div className="GameButtonContainer">
           {this.buttonList.map(button => (
             <div key={button}>
-              <div>{button}</div>
-              <GameScreenButtons enterMainWindow={this.props.enterMainWindow} />
+              <GameScreenButtons
+                gameButtonPressed={this.props.gameButtonPressed}
+                buttonName={''.concat(button)}
+              />
             </div>
           ))}
         </div>
@@ -38,7 +33,7 @@ class GameScreen extends Component {
 /* eslint-disable react/forbid-prop-types */
 GameScreen.propTypes = {
   numberOfButtons: PropTypes.number.isRequired,
-  enterMainWindow: PropTypes.func.isRequired
+  gameButtonPressed: PropTypes.func.isRequired
 };
 /* eslint-enable react/forbid-prop-types */
 

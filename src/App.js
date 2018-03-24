@@ -16,57 +16,68 @@ const testSessions = [
   {
     IP: '192.168.0.1',
     code: 'ABCD',
-    currentlyPlaying: '5'
+    currentlyPlaying: '5',
+    buttonAmount: '5'
   },
   {
     IP: '58.123.5.1',
     code: 'ASDF',
-    currentlyPlaying: '17'
+    currentlyPlaying: '17',
+    buttonAmount: '2'
   },
   {
     IP: '192.168.1.1',
     code: 'QWER',
-    currentlyPlaying: '0'
+    currentlyPlaying: '0',
+    buttonAmount: '8'
   },
   {
     IP: '192.168.44.2',
     code: 'ZXCY',
-    currentlyPlaying: '8'
+    currentlyPlaying: '8',
+    buttonAmount: '2'
   },
   {
     IP: '192.168.44.2',
     code: 'ZKCV',
-    currentlyPlaying: '8'
+    currentlyPlaying: '8',
+    buttonAmount: '22'
   },
   {
     IP: '192.168.44.2',
     code: 'ZACV',
-    currentlyPlaying: '8'
+    currentlyPlaying: '8',
+    buttonAmount: '11'
   },
   {
     IP: '192.168.44.2',
     code: 'BXCV',
-    currentlyPlaying: '8'
+    currentlyPlaying: '8',
+    buttonAmount: '0'
   },
   {
     IP: '192.168.44.2',
     code: 'ZXPV',
-    currentlyPlaying: '8'
+    currentlyPlaying: '8',
+    buttonAmount: '6'
   },
   {
     IP: '192.168.44.2',
     code: 'ZTCV',
-    currentlyPlaying: '8'
+    currentlyPlaying: '8',
+    buttonAmount: '7'
   },
   {
     IP: '192.168.44.2',
     code: 'ZXRV',
-    currentlyPlaying: '8'
+    currentlyPlaying: '8',
+    buttonAmount: '13'
   },
   {
     IP: '192.168.44.2',
     code: 'ZXCG',
-    currentlyPlaying: '8'
+    currentlyPlaying: '8',
+    buttonAmount: '2'
   }
 ];
 
@@ -77,20 +88,20 @@ class App extends React.Component {
     this.enterSessionWindow = this.enterSessionWindow.bind(this);
     this.enterGameWindow = this.enterGameWindow.bind(this);
     this.enterMainWindow = this.enterMainWindow.bind(this);
-
+    this.gameButtonPressed = this.gameButtonPressed.bind(this);
     this.createCom = this.createCom.bind(this);
   }
 
   /**
    * Used to switch to the window where detailed information
-   * regarding a session is displayed
+   * regarding a session is displayed AND to update the state of
+   * numberOfGameButtons
    */
   enterSessionWindow(nrButtons) {
     if (!isNaN(nrButtons) && parseInt(Number(nrButtons), 10) === nrButtons) {
       this.setState({ numberOfGameButtons: nrButtons });
     }
     this.setState({ windowState: 'session' });
-    console.log('Toggling Window');
   }
 
   /**
@@ -99,7 +110,6 @@ class App extends React.Component {
    */
   enterMainWindow() {
     this.setState({ windowState: 'sessionList' });
-    console.log('Toggling Window to main');
   }
 
   /**
@@ -108,8 +118,11 @@ class App extends React.Component {
    */
   enterGameWindow() {
     this.setState({ windowState: 'game' });
-    console.log('Toggling Window to game');
-    console.log(this);
+  }
+
+  gameButtonPressed(buttonNumber) {
+    console.log('Game button '.concat(buttonNumber).concat(' pressed'));
+    this.enterMainWindow();
   }
 
   createCom(state) {
@@ -120,8 +133,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log(this.state.numberOfGameButtons);
-
     // The greeting screen
     if (this.state.windowState === 'default') {
       return (
@@ -162,13 +173,13 @@ class App extends React.Component {
           )}
         </div>
       );
-      //The game screen
+      // The game screen
     } else if (this.state.windowState === 'game') {
       return (
         <div className="App">
           <GameScreen
             numberOfButtons={this.state.numberOfGameButtons}
-            enterMainWindow={this.enterMainWindow}
+            gameButtonPressed={this.gameButtonPressed}
           />
         </div>
       );

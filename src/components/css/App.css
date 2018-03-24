@@ -5,6 +5,7 @@
 @import 'UserNameInput.css';
 @import 'WelcomeButton.css';
 @import 'GameScreen.css';
+@import 'GameButton.css';
 
 .App{
     /*
