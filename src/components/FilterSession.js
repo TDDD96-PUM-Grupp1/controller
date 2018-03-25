@@ -54,9 +54,7 @@ class FilterSession extends Component {
  * currently used for debugging.
  */
 FilterSession.defaultProps = {
-  onInputSubmit: () => {
-    console.log('Username button clicked!');
-  }
+  onInputSubmit: () => {}
 };
 
 FilterSession.propTypes = {

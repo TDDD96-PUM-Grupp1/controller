@@ -10,6 +10,7 @@ class SessionList extends React.Component {
   constructor(props) {
     super(props);
     this.state = { instances: [] };
+    //this.state = { instances: this.props.testSessions};
   }
 
   componentDidMount() {
@@ -42,6 +43,7 @@ class SessionList extends React.Component {
   }
 }
 SessionList.propTypes = {
+  testSessions: PropTypes.arrayOf(PropTypes.object),
   requestInstances: PropTypes.func.isRequired,
   enterSessionWindow: PropTypes.func.isRequired
 };
