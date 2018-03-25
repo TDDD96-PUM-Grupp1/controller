@@ -9,8 +9,8 @@ import Session from './Session';
 class SessionList extends React.Component {
   constructor(props) {
     super(props);
-    //this.state = { instances: [] };
-    this.state = { instances: this.props.testSessions};
+    this.state = { instances: [] };
+    //this.state = { instances: this.props.testSessions};
   }
 
   componentDidMount() {

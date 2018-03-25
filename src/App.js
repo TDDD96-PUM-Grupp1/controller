@@ -14,67 +14,56 @@ import GameScreen from './components/GameScreen';
  */
 const testSessions = [
   {
-    IP: '192.168.0.1',
     name: 'ABCD',
     currentlyPlaying: '5',
     buttonAmount: '5'
   },
   {
-    IP: '58.123.5.1',
     name: 'ASDF',
     currentlyPlaying: '17',
     buttonAmount: '2'
   },
   {
-    IP: '192.168.1.1',
     name: 'QWER',
     currentlyPlaying: '0',
     buttonAmount: '8'
   },
   {
-    IP: '192.168.44.2',
     name: 'ZXCY',
     currentlyPlaying: '8',
     buttonAmount: '2'
   },
   {
-    IP: '192.168.44.2',
     name: 'ZKCV',
     currentlyPlaying: '8',
     buttonAmount: '22'
   },
   {
-    IP: '192.168.44.2',
     name: 'ZACV',
     currentlyPlaying: '8',
     buttonAmount: '11'
   },
   {
-    IP: '192.168.44.2',
     name: 'BXCV',
     currentlyPlaying: '8',
     buttonAmount: '0'
   },
   {
-    IP: '192.168.44.2',
     name: 'ZXPV',
     currentlyPlaying: '8',
     buttonAmount: '6'
   },
   {
-    IP: '192.168.44.2',
     name: 'ZTCV',
     currentlyPlaying: '8',
     buttonAmount: '7'
   },
   {
-    IP: '192.168.44.2',
     name: 'ZXRV',
     currentlyPlaying: '8',
     buttonAmount: '13'
   },
   {
-    IP: '192.168.44.2',
     name: 'ZXCG',
     currentlyPlaying: '8',
     buttonAmount: '2'
