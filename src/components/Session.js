@@ -18,10 +18,12 @@ class Session extends React.Component {
   }
 
   /**
-   * Clicking on a session will transfer you to a new window
+   * Clicking a session takes you to the detailed screen of said session and also changes the
+   * state of the variable keeping track of the amount of buttons each session has.
    */
   handleClick() {
-    this.props.enterSessionWindow(this.props.sessionObj.name);
+    const buttonAmount = parseInt(Number(this.props.sessionObj.buttonAmount), 10);
+    this.props.enterSessionWindow(this.props.sessionObj.name, buttonAmount);
   }
 
   render() {
@@ -30,6 +32,7 @@ class Session extends React.Component {
         <div>ACTIVE SESSION</div>
         <div>{this.props.sessionObj.currentlyPlaying} active players</div>
         <div>{this.props.sessionObj.name}</div>
+        <div>{'Buttons used: '.concat(this.props.sessionObj.buttonAmount)}</div>
       </div>
     );
   }
