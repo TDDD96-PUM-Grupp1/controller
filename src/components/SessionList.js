@@ -13,6 +13,7 @@ class SessionList extends React.Component {
     this.onInstancesReceived = this.onInstancesReceived.bind(this);
     this.onPlayerAdded = this.onPlayerAdded.bind(this);
     this.onInstanceCreated = this.onInstanceCreated.bind(this);
+    //this.state = { instances: this.props.testSessions};
   }
 
   componentDidMount() {
@@ -72,6 +73,7 @@ class SessionList extends React.Component {
 }
 SessionList.propTypes = {
   enterSessionWindow: PropTypes.func.isRequired,
+  testSessions: PropTypes.arrayOf(PropTypes.object),
   requestInstances: PropTypes.func.isRequired,
   stopRequestInstances: PropTypes.func.isRequired
 };
