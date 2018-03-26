@@ -6,6 +6,7 @@ import WelcomeScreen from './components/WelcomeScreen';
 import FilterSession from './components/FilterSession';
 import UsernameInput from './components/UsernameInput';
 import Communication from './components/Communication';
+import settings from './config.js'
 
 class App extends React.Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class App extends React.Component {
     this.state = { windowState: 'default', connectionActive: false };
     this.enterSessionWindow = this.enterSessionWindow.bind(this);
     this.enterMainWindow = this.enterMainWindow.bind(this);
-    this.com = new Communication({ host_ip: '10.90.128.85:60020' });
+    this.com = new Communication(settings.communication);
   }
 
   /**
