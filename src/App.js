@@ -103,11 +103,16 @@ class App extends React.Component {
   }
 
   /**
-   * Used to switch to the game window where all sessions
-   * are being displayed
+   * Switches to the game window and tries to connect to the session IF
+   * arguments are given to the function
+   * @param instanceName optional argument representing the name of the session
+   * @param callback optional argument used in the function to connect to the session
    */
-  enterGameWindow() {
+  enterGameWindow(instanceName, callback) {
     this.setState({ windowState: 'game' });
+    if (instanceName !== undefined && callback !== undefined) {
+      this.com.joinInstance(instanceName, callback);
+    }
   }
 
   /**
@@ -149,7 +154,7 @@ class App extends React.Component {
   renderSession() {
     return (
       <div>
-        <UsernameInput instanceName={this.instanceName} onInputSubmit={this.com.joinInstance} />
+        <UsernameInput instanceName={this.instanceName} onInputSubmit={this.enterGameWindow} />
         <button className="Random">Random</button>
         <button className="Join" onClick={this.enterGameWindow}>
           {' '}
