@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ListItem, ListItemText } from 'material-ui/List';
+import { withStyles } from 'material-ui/styles';
 
 /**
  * A session of an active game, saves:
@@ -9,6 +11,15 @@ import PropTypes from 'prop-types';
  *
  * TODO dont display IP and display the ping instead
  */
+
+const styles = theme => ({
+  root: {
+    width: '100%',
+    maxWidth: 360,
+    backgroundColor: theme.palette.background.primary
+  }
+});
+
 class Session extends React.Component {
   constructor(props) {
     super(props);
@@ -28,13 +39,14 @@ class Session extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
-      <div className="Session" role="button" tabIndex={0} onClick={this.handleClick}>
-        <div>ACTIVE SESSION</div>
-        <div>{this.props.sessionObj.currentlyPlaying} active players</div>
-        <div>{this.props.sessionObj.name}</div>
-        <div>{'Buttons used: '.concat(this.props.sessionObj.buttonAmount)}</div>
-      </div>
+      <ListItem className={classes.root} button tabIndex={0} onClick={this.handleClick}>
+        <ListItemText inset primary="Active Session" />
+        <ListItemText inset primary={this.props.sessionObj.currentlyPlaying} />
+        <ListItemText inset primary={this.props.sessionObj.name} />
+        <ListItemText inset primary={'Buttons used: '.concat(this.props.sessionObj.buttonAmount)} />
+      </ListItem>
     );
   }
 }
@@ -42,8 +54,9 @@ class Session extends React.Component {
 /* eslint-disable react/forbid-prop-types */
 Session.propTypes = {
   sessionObj: PropTypes.object.isRequired,
-  enterSessionWindow: PropTypes.func.isRequired
+  enterSessionWindow: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired
 };
 /* eslint-enable react/forbid-prop-types */
 
-export default Session;
+export default withStyles(styles)(Session);

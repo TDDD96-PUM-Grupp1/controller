@@ -1,5 +1,15 @@
 import React from 'react';
-import logo from '../logo.svg';
+import { withStyles } from 'material-ui/styles';
+import PropTypes from 'prop-types';
+
+const styles = theme => ({
+  root: {
+    width: '100%',
+    maxWidth: 360,
+    fontSize: 100,
+    backgroundColor: theme.palette.background.paper
+  }
+});
 
 /**
  * Handles the header placed at the top of the screen displaying things such as
@@ -9,14 +19,18 @@ import logo from '../logo.svg';
 /* eslint-disable react/prefer-stateless-function */
 class WelcomeScreen extends React.Component {
   render() {
+    const { classes } = this.props;
     return (
-      <div className="WelcomeScreen">
-        <div className="GameName">Ball-E!</div>
-        <div className="UserName">Unknown User</div>
-        <img className="Logo" src={logo} alt="logo" />
+      <div className={classes.root}>
+        <h1>This should be a splashscreen!</h1>
       </div>
     );
   }
 }
+/* eslint-disable react/forbid-prop-types */
+WelcomeScreen.propTypes = {
+  classes: PropTypes.object.isRequired
+};
+/* eslint-enable react/forbid-prop-types */
 
-export default WelcomeScreen;
+export default withStyles(styles)(WelcomeScreen);

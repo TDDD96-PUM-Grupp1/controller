@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import GameScreenButtons from './GameScreenButton';
+import { Button, TextField } from 'material-ui';
 
 /**
  * This class handles all the element being displayed while a game is in progress
@@ -10,7 +11,7 @@ class GameScreen extends Component {
   constructor(props) {
     super(props);
     this.buttonList = [];
-    for (var i = 0; i < this.props.numberOfButtons; i++) {
+    for (let i = 0; i < this.props.numberOfButtons; i++) {
       this.buttonList.push(i);
     }
   }

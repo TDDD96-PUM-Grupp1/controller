@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Button, TextField } from 'material-ui';
 
 /**
  * The button and text field used to get userinput to sort the sessionslist
@@ -35,15 +36,17 @@ class FilterSession extends Component {
   render() {
     return (
       <div>
-        <input
-          className="FilterText"
+        <TextField
           value={this.state.username}
           onChange={this.handleInputChange}
           type="text"
+          placeholder="Enter a name..."
+          label="Search for a room"
+          margin="normal"
         />
-        <button className="FilterButton" onClick={this.handleSubmit}>
+        <Button variant="raised" color="primary" onClick={this.handleSubmit}>
           Filter
-        </button>
+        </Button>
       </div>
     );
   }

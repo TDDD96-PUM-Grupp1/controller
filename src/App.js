@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'material-ui';
 import './components/css/App.css';
 import SensorOutput from './components/SensorOutput';
 import SessionList from './components/SessionList';
@@ -8,6 +9,15 @@ import UsernameInput from './components/UsernameInput';
 import Communication from './components/Communication';
 import settings from './config';
 import GameScreen from './components/GameScreen';
+
+import blue from 'material-ui/colors/blue';
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+
+const theme = createMuiTheme({
+  palette: {
+    primary: blue
+  }
+});
 
 /**
  * This is just some random data to have something to display
@@ -124,9 +134,14 @@ class App extends React.Component {
       <div>
         <WelcomeScreen />
         <div>
-          <button className="WelcomeButton" onClick={this.enterMainWindow}>
+          <Button
+            color="primary"
+            variant="raised"
+            className="WelcomeButton"
+            onClick={this.enterMainWindow}
+          >
             Start!
-          </button>
+          </Button>
         </div>
       </div>
     );
@@ -150,11 +165,13 @@ class App extends React.Component {
     return (
       <div>
         <UsernameInput instanceName={this.instanceName} onInputSubmit={this.com.joinInstance} />
-        <button className="Random">Random</button>
-        <button className="Join" onClick={this.enterGameWindow}>
+        <Button color="primary" className="Random">
+          Random
+        </Button>
+        <Button className="Join" onClick={this.enterGameWindow}>
           {' '}
           Join
-        </button>
+        </Button>
         <SensorOutput onSensorChange={this.com.updateSensorData} />
       </div>
     );
@@ -186,7 +203,12 @@ class App extends React.Component {
       return <div className="App">no state is selected to show!</div>;
     }
 
-    return <div className="App">{stateRender}</div>;
+    return (
+      <MuiThemeProvider theme={theme}>
+        {' '}
+        <div className="App">{stateRender}</div>{' '}
+      </MuiThemeProvider>
+    );
   }
 }
 
