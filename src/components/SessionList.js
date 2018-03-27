@@ -2,13 +2,15 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import List from 'material-ui/List';
 import ListSubheader from 'material-ui/List/ListSubheader';
+import ListItem from 'material-ui/List/ListItem';
+import ListItemText from 'material-ui/List/ListItemText';
 import { withStyles } from 'material-ui/styles';
 import Session from './Session';
 
 const styles = theme => ({
   header: {
     width: '100%',
-    maxWidth: 360,
+    maxWidth: 400,
     backgroundColor: theme.palette.common.white
   }
 });
@@ -47,8 +49,13 @@ class SessionList extends React.Component {
       <List
         component="nav"
         subheader={
-          <ListSubheader className={classes.header} color="primary" component="div">
-            Session List
+          <ListSubheader disableGutters className={classes.header} color="primary">
+            <ListItem>
+              <ListItemText color="primary" primary="Sessions" />
+              <ListItemText primary="Players" />
+              <ListItemText primary="Room Name" />
+              <ListItemText primary="Buttons" />
+            </ListItem>
           </ListSubheader>
         }
       >
@@ -61,12 +68,13 @@ class SessionList extends React.Component {
     );
   }
 }
-/* eslint-disable react/forbid-prop-types */
+/* eslint-disable react/forbid-prop-types, react/require-default-props */
 SessionList.propTypes = {
   testSessions: PropTypes.arrayOf(PropTypes.object),
   requestInstances: PropTypes.func.isRequired,
-  enterSessionWindow: PropTypes.func.isRequired
+  enterSessionWindow: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired
 };
-/* eslint-enable react/forbid-prop-types */
+/* eslint-enable react/forbid-prop-types, react/require-default-props */
 
 export default withStyles(styles)(SessionList);

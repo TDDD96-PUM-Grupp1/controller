@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import GameScreenButtons from './GameScreenButton';
-import { Button, TextField } from 'material-ui';
 
 /**
  * This class handles all the element being displayed while a game is in progress

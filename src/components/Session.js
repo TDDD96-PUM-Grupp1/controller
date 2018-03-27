@@ -16,7 +16,7 @@ const styles = theme => ({
   root: {
     width: '100%',
     maxWidth: 360,
-    backgroundColor: theme.palette.background.primary
+    backgroundColor: theme.palette.cyan
   }
 });
 
@@ -41,11 +41,11 @@ class Session extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <ListItem className={classes.root} button tabIndex={0} onClick={this.handleClick}>
-        <ListItemText inset primary="Active Session" />
-        <ListItemText inset primary={this.props.sessionObj.currentlyPlaying} />
-        <ListItemText inset primary={this.props.sessionObj.name} />
-        <ListItemText inset primary={'Buttons used: '.concat(this.props.sessionObj.buttonAmount)} />
+      <ListItem divider className={classes.root} button onClick={this.handleClick}>
+        <ListItemText primary="Active Session" />
+        <ListItemText primary={this.props.sessionObj.currentlyPlaying} />
+        <ListItemText primary={this.props.sessionObj.name} />
+        <ListItemText primary={'Buttons used: '.concat(this.props.sessionObj.buttonAmount)} />
       </ListItem>
     );
   }

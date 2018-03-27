@@ -1,5 +1,7 @@
 import React from 'react';
 import { Button } from 'material-ui';
+import blue from 'material-ui/colors/blue';
+import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import './components/css/App.css';
 import SensorOutput from './components/SensorOutput';
 import SessionList from './components/SessionList';
@@ -9,9 +11,6 @@ import UsernameInput from './components/UsernameInput';
 import Communication from './components/Communication';
 import settings from './config';
 import GameScreen from './components/GameScreen';
-
-import blue from 'material-ui/colors/blue';
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 
 const theme = createMuiTheme({
   palette: {
@@ -130,21 +129,7 @@ class App extends React.Component {
   }
 
   renderDefault() {
-    return (
-      <div>
-        <WelcomeScreen />
-        <div>
-          <Button
-            color="primary"
-            variant="raised"
-            className="WelcomeButton"
-            onClick={this.enterMainWindow}
-          >
-            Start!
-          </Button>
-        </div>
-      </div>
-    );
+    return <WelcomeScreen buttonPressed={this.enterMainWindow} />;
   }
 
   renderSessionList() {

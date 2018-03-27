@@ -1,13 +1,14 @@
 import React from 'react';
 import { withStyles } from 'material-ui/styles';
 import PropTypes from 'prop-types';
+import { Button } from 'material-ui';
 
-const styles = theme => ({
-  root: {
+const styles = () => ({
+  button: {
     width: '100%',
     maxWidth: 360,
-    fontSize: 100,
-    backgroundColor: theme.palette.background.paper
+    fontSize: 30,
+    height: 500
   }
 });
 
@@ -21,14 +22,20 @@ class WelcomeScreen extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <div className={classes.root}>
+      <Button
+        className={classes.button}
+        onClick={this.props.buttonPressed}
+        color="primary"
+        variant="raised"
+      >
         <h1>This should be a splashscreen!</h1>
-      </div>
+      </Button>
     );
   }
 }
 /* eslint-disable react/forbid-prop-types */
 WelcomeScreen.propTypes = {
+  buttonPressed: PropTypes.PropTypes.func,
   classes: PropTypes.object.isRequired
 };
 /* eslint-enable react/forbid-prop-types */

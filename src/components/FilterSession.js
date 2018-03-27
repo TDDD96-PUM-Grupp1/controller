@@ -1,6 +1,19 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, TextField } from 'material-ui';
+import { withStyles } from 'material-ui/styles';
+
+const styles = () => ({
+  button: {
+    width: '100%',
+    maxWidth: 360,
+    fontSize: 30,
+    height: 500
+  },
+  textField: {
+    width: '100%'
+  }
+});
 
 /**
  * The button and text field used to get userinput to sort the sessionslist
@@ -34,9 +47,11 @@ class FilterSession extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
       <div>
         <TextField
+          className={classes.textField}
           value={this.state.username}
           onChange={this.handleInputChange}
           type="text"
@@ -60,8 +75,11 @@ FilterSession.defaultProps = {
   onInputSubmit: () => {}
 };
 
+/* eslint-disable react/forbid-prop-types */
 FilterSession.propTypes = {
-  onInputSubmit: PropTypes.func
+  onInputSubmit: PropTypes.func,
+  classes: PropTypes.object.isRequired
 };
+/* eslint-enable react/forbid-prop-types */
 
-export default FilterSession;
+export default withStyles(styles)(FilterSession);
