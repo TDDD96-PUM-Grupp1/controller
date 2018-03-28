@@ -8,7 +8,7 @@ import { withStyles } from 'material-ui/styles';
 import Session from './Session';
 
 const styles = theme => ({
-  header: {
+  root: {
     width: '100%',
     maxWidth: 400,
     backgroundColor: theme.palette.common.white
@@ -47,11 +47,10 @@ class SessionList extends React.Component {
     const { classes } = this.props;
     return (
       <List
-        component="nav"
         subheader={
-          <ListSubheader disableGutters className={classes.header} color="primary">
+          <ListSubheader disableGutters className={classes.root}>
             <ListItem>
-              <ListItemText color="primary" primary="Sessions" />
+              <ListItemText primary="Sessions" />
               <ListItemText primary="Players" />
               <ListItemText primary="Room Name" />
               <ListItemText primary="Buttons" />
