@@ -1,6 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import List from 'material-ui/List';
+import ListSubheader from 'material-ui/List/ListSubheader';
+import { withStyles } from 'material-ui/styles';
 import Session from './Session';
+
+const styles = theme => ({
+  root: {
+    width: '100%',
+    maxWidth: 400,
+    backgroundColor: theme.palette.common.white
+  }
+});
 
 /**
  * The list the sessions live within, responsible for updating the list
@@ -67,8 +78,15 @@ class SessionList extends React.Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
-      <div className="SessionList">
+      <List
+        subheader={
+          <ListSubheader color="primary" className={classes.root}>
+            Sessions
+          </ListSubheader>
+        }
+      >
         {this.state.instances.map(session => (
           <div key={session.name}>
             <Session
@@ -78,15 +96,17 @@ class SessionList extends React.Component {
             />
           </div>
         ))}
-      </div>
+      </List>
     );
   }
 }
+/* eslint-disable react/forbid-prop-types, react/require-default-props */
 SessionList.propTypes = {
   enterSessionWindow: PropTypes.func.isRequired,
-  testSessions: PropTypes.arrayOf(PropTypes.object),
   requestInstances: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired,
   stopRequestInstances: PropTypes.func.isRequired
 };
+/* eslint-enable react/forbid-prop-types, react/require-default-props */
 
-export default SessionList;
+export default withStyles(styles)(SessionList);

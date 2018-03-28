@@ -1,5 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Button, TextField } from 'material-ui';
+import { withStyles } from 'material-ui/styles';
+
+const styles = () => ({
+  root: {
+    width: '100%',
+    maxWidth: 360
+  }
+});
 
 /**
  * The class responsible to handle the username input through a text field
@@ -35,17 +44,25 @@ class UsernameInput extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
       <div>
-        <input
-          className="usernameInputText"
+        <TextField
+          className={classes.root}
           value={this.state.username}
           onChange={this.handleInputChange}
-          type="text"
+          placeholder="Enter a name..."
+          label="Enter playername"
+          margin="normal"
         />
-        <button className="usernameSubmitButton" onClick={this.handleSubmit}>
-          Submit
-        </button>
+        <Button
+          className={classes.root}
+          variant="raised"
+          color="primary"
+          onClick={this.props.showGameWindow}
+        >
+          Join
+        </Button>
       </div>
     );
   }
@@ -57,9 +74,13 @@ UsernameInput.defaultProps = {
   }
 };
 
+/* eslint-disable react/forbid-prop-types */
 UsernameInput.propTypes = {
   onInputSubmit: PropTypes.func,
-  instanceName: PropTypes.string.isRequired
+  showGameWindow: PropTypes.func.isRequired,
+  instanceName: PropTypes.string.isRequired,
+  classes: PropTypes.object.isRequired
 };
+/* eslint-enable react/forbid-prop-types */
 
-export default UsernameInput;
+export default withStyles(styles)(UsernameInput);
