@@ -14,7 +14,9 @@ class Communication {
     // Creates and logs in a user to the server.
     this.ds = createDeepstream(options.host_ip);
     this.id = this.ds.getUid();
-    this.client = this.ds.login({ username: this.id }, this.onLoggedIn.bind(this));
+    const { auth } = options;
+    auth.username = this.id;
+    this.client = this.ds.login(auth, this.onLoggedIn.bind(this));
     this.name = '';
 
     // Bind functions.
