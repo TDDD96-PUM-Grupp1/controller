@@ -3,31 +3,67 @@ import PropTypes from 'prop-types';
 import Session from './Session';
 
 /**
- * eg finding new sessions and removing old
  * The list the sessions live within, responsible for updating the list
+ * eg finding new sessions and removing old
  */
 class SessionList extends React.Component {
   constructor(props) {
     super(props);
     this.state = { instances: [] };
-    //this.state = { instances: this.props.testSessions};
+    this.onInstancesReceived = this.onInstancesReceived.bind(this);
+    this.onPlayerAdded = this.onPlayerAdded.bind(this);
+    this.onInstanceCreated = this.onInstanceCreated.bind(this);
+    // this.state = { instances: this.props.testSessions};
+  }
+  /*
+   * Initialize the list when this component gets mounted
+   */
+  componentDidMount() {
+    this.initList();
   }
 
-  componentDidMount() {
-    this.updateList();
+  /*
+   * Callback for when the RPC call returns the instances.
+   */
+  onInstancesReceived(err, result) {
+    if (!err) {
+      this.setState({ instances: result });
+    } else {
+      // TODO: handle error
+    }
+  }
+
+  /*
+   * Increases the counter of the number of players active when a new
+   * player connects.
+   */
+  onPlayerAdded(playerName, instanceName) {
+    for (let i = 0; i < this.state.instances.length; i += 1) {
+      if (this.state.instances[i].name === instanceName) {
+        const { instances } = this.state;
+        instances[i].currentlyPlaying += 1;
+        this.setState({ instances });
+      }
+    }
+  }
+  /*
+   * Adds the instance to the list when it is started.
+   */
+  onInstanceCreated(instanceName) {
+    const { instances } = this.state;
+    instances.push({ name: instanceName, currentlyPlaying: 0 });
+    this.setState({ instances });
   }
 
   /**
    * Update the list of active instances
    */
-  updateList() {
-    this.props.requestInstances((err, result) => {
-      if (!err) {
-        this.setState({ instances: result });
-      } else {
-        // TODO: handle error
-      }
-    });
+  initList() {
+    this.props.requestInstances(
+      this.onInstancesReceived,
+      this.onPlayerAdded,
+      this.onInstanceCreated
+    );
   }
 
   render() {
@@ -35,7 +71,11 @@ class SessionList extends React.Component {
       <div className="SessionList">
         {this.state.instances.map(session => (
           <div key={session.name}>
-            <Session sessionObj={session} enterSessionWindow={this.props.enterSessionWindow} />
+            <Session
+              sessionObj={session}
+              enterSessionWindow={this.props.enterSessionWindow}
+              stopRequestInstances={this.props.stopRequestInstances}
+            />
           </div>
         ))}
       </div>
@@ -43,9 +83,10 @@ class SessionList extends React.Component {
   }
 }
 SessionList.propTypes = {
+  enterSessionWindow: PropTypes.func.isRequired,
   testSessions: PropTypes.arrayOf(PropTypes.object),
   requestInstances: PropTypes.func.isRequired,
-  enterSessionWindow: PropTypes.func.isRequired
+  stopRequestInstances: PropTypes.func.isRequired
 };
 
 export default SessionList;

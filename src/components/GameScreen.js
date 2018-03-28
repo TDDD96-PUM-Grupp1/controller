@@ -10,7 +10,7 @@ class GameScreen extends Component {
   constructor(props) {
     super(props);
     this.buttonList = [];
-    for (var i = 0; i < this.props.numberOfButtons; i++) {
+    for (let i = 0; i < this.props.numberOfButtons; i++) {
       this.buttonList.push(i);
     }
   }

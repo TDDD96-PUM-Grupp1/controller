@@ -25,6 +25,7 @@ class Session extends React.Component {
   handleClick() {
     const buttonAmount = parseInt(Number(this.props.sessionObj.buttonAmount), 10);
     this.props.enterSessionWindow(this.props.sessionObj.name, buttonAmount);
+    this.props.stopRequestInstances();
   }
 
   render() {
@@ -42,7 +43,8 @@ class Session extends React.Component {
 /* eslint-disable react/forbid-prop-types */
 Session.propTypes = {
   sessionObj: PropTypes.object.isRequired,
-  enterSessionWindow: PropTypes.func.isRequired
+  enterSessionWindow: PropTypes.func.isRequired,
+  stopRequestInstances: PropTypes.func.isRequired
 };
 /* eslint-enable react/forbid-prop-types */
 
