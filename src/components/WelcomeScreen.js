@@ -7,7 +7,7 @@ const styles = () => ({
   button: {
     width: '100%',
     fontSize: 30,
-    height: 500
+    height: '100vh'
   }
 });
 
