@@ -141,6 +141,7 @@ class App extends React.Component {
           testSessions={testSessions}
           requestInstances={this.com.requestInstances}
           enterSessionWindow={this.enterSessionWindow}
+          stopRequestInstances={this.com.stopRequestInstances}
         />
         <SensorOutput />
       </div>
