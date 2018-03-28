@@ -34,7 +34,7 @@ class WelcomeScreen extends React.Component {
 }
 /* eslint-disable react/forbid-prop-types */
 WelcomeScreen.propTypes = {
-  buttonPressed: PropTypes.PropTypes.func,
+  buttonPressed: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired
 };
 /* eslint-enable react/forbid-prop-types */
