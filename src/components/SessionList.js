@@ -13,7 +13,7 @@ class SessionList extends React.Component {
     this.onInstancesReceived = this.onInstancesReceived.bind(this);
     this.onPlayerAdded = this.onPlayerAdded.bind(this);
     this.onInstanceCreated = this.onInstanceCreated.bind(this);
-    //this.state = { instances: this.props.testSessions};
+    // this.state = { instances: this.props.testSessions};
   }
 
   componentDidMount() {
@@ -31,7 +31,7 @@ class SessionList extends React.Component {
   onPlayerAdded(playerName, instanceName) {
     for (let i = 0; i < this.state.instances.length; i += 1) {
       if (this.state.instances[i].name === instanceName) {
-        const instances = this.state.instances;
+        const { instances } = this.state.instances;
         instances[i].currentlyPlaying += 1;
         this.setState({ instances });
       }
@@ -39,14 +39,14 @@ class SessionList extends React.Component {
   }
 
   onInstanceCreated(instanceName) {
-    const instances = this.state.instances;
-
+    const { instances } = this.state.instances;
     instances.push({ name: instanceName, currentlyPlaying: 0 });
     this.setState({ instances });
   }
 
   /**
-   * Update the list of active instances */
+   * Update the list of active instances
+   */
   updateList() {
     this.props.requestInstances(
       this.onInstancesReceived,

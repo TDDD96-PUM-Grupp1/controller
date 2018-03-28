@@ -21,7 +21,6 @@ class UsernameInput extends Component {
    * onInputSubmit function passed as a component prop.
    */
   handleSubmit() {
-    console.log(`Input is currently: "${this.state.username}"`);
     // Need to use these parameters for the callback.
     /* eslint-disable no-unused-vars */
     this.props.onInputSubmit(this.props.instanceName, this.state.username, (err, result) => {});

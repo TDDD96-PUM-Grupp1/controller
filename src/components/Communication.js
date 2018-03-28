@@ -1,8 +1,9 @@
 import createDeepstream from 'deepstream.io-client-js';
+
 class Communication {
   /*
-   * Constructor for Communication.  
-   * This initialized the network communication to the deepstream server. 
+   * Constructor for Communication.
+   * This initialized the network communication to the deepstream server.
    * It will also send an rpc-call to the UI to connect to it.
    *
    */
@@ -60,7 +61,6 @@ class Communication {
   joinInstance(instanceName, name, callback) {
     this.instance = instanceName;
     this.name = name;
-    console.log(callback);
     this.client.rpc.make(
       `data/${this.instance}/addPlayer`,
       { id: this.id, name: this.name, sensor: { beta: 0, gamma: 0 } },
