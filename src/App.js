@@ -1,6 +1,6 @@
 import React from 'react';
-import { Button } from 'material-ui';
 import blue from 'material-ui/colors/blue';
+import red from 'material-ui/colors/red';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import './components/css/App.css';
 import SensorOutput from './components/SensorOutput';
@@ -14,7 +14,8 @@ import GameScreen from './components/GameScreen';
 
 const theme = createMuiTheme({
   palette: {
-    primary: blue
+    primary: blue,
+    error: red
   }
 });
 
@@ -149,14 +150,11 @@ class App extends React.Component {
   renderSession() {
     return (
       <div>
-        <UsernameInput instanceName={this.instanceName} onInputSubmit={this.com.joinInstance} />
-        <Button color="primary" className="Random">
-          Random
-        </Button>
-        <Button className="Join" onClick={this.enterGameWindow}>
-          {' '}
-          Join
-        </Button>
+        <UsernameInput
+          instanceName={this.instanceName}
+          showGameWindow={this.enterGameWindow}
+          onInputSubmit={this.com.joinInstance}
+        />
         <SensorOutput onSensorChange={this.com.updateSensorData} />
       </div>
     );

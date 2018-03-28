@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, TextField } from 'material-ui';
+import { TextField } from 'material-ui';
 import { withStyles } from 'material-ui/styles';
 
 const styles = () => ({
@@ -59,9 +59,6 @@ class FilterSession extends Component {
           label="Search for a room"
           margin="normal"
         />
-        <Button variant="raised" color="primary" onClick={this.handleSubmit}>
-          Filter
-        </Button>
       </div>
     );
   }

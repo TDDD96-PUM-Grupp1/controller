@@ -3,11 +3,10 @@ import PropTypes from 'prop-types';
 import { Button, TextField } from 'material-ui';
 import { withStyles } from 'material-ui/styles';
 
-const styles = theme => ({
+const styles = () => ({
   root: {
     width: '100%',
-    maxWidth: 360,
-    backgroundColor: theme.palette.background.paper
+    maxWidth: 360
   }
 });
 
@@ -57,12 +56,12 @@ class UsernameInput extends Component {
           margin="normal"
         />
         <Button
-          color="primary"
-          variant="raised"
           className={classes.root}
-          onClick={this.handleSubmit}
+          variant="raised"
+          color="primary"
+          onClick={this.props.showGameWindow}
         >
-          Submit
+          Join
         </Button>
       </div>
     );
@@ -78,6 +77,7 @@ UsernameInput.defaultProps = {
 /* eslint-disable react/forbid-prop-types */
 UsernameInput.propTypes = {
   onInputSubmit: PropTypes.func,
+  showGameWindow: PropTypes.func.isRequired,
   instanceName: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired
 };
