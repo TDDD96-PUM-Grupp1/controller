@@ -15,11 +15,16 @@ class SessionList extends React.Component {
     this.onInstanceCreated = this.onInstanceCreated.bind(this);
     // this.state = { instances: this.props.testSessions};
   }
-
+  /*
+   * Initialize the list when this component gets mounted
+   */
   componentDidMount() {
-    this.updateList();
+    this.initList();
   }
 
+  /*
+   * Callback for when the RPC call returns the instances.
+   */
   onInstancesReceived(err, result) {
     if (!err) {
       this.setState({ instances: result });
@@ -28,18 +33,24 @@ class SessionList extends React.Component {
     }
   }
 
+  /*
+   * Increases the counter of the number of players active when a new
+   * player connects.
+   */
   onPlayerAdded(playerName, instanceName) {
     for (let i = 0; i < this.state.instances.length; i += 1) {
       if (this.state.instances[i].name === instanceName) {
-        const { instances } = this.state.instances;
+        const { instances } = this.state;
         instances[i].currentlyPlaying += 1;
         this.setState({ instances });
       }
     }
   }
-
+  /*
+   * Adds the instance to the list when it is started.
+   */
   onInstanceCreated(instanceName) {
-    const { instances } = this.state.instances;
+    const { instances } = this.state;
     instances.push({ name: instanceName, currentlyPlaying: 0 });
     this.setState({ instances });
   }
@@ -47,7 +58,7 @@ class SessionList extends React.Component {
   /**
    * Update the list of active instances
    */
-  updateList() {
+  initList() {
     this.props.requestInstances(
       this.onInstancesReceived,
       this.onPlayerAdded,
