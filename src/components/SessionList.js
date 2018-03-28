@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import List from 'material-ui/List';
 import ListSubheader from 'material-ui/List/ListSubheader';
-import ListItem from 'material-ui/List/ListItem';
-import ListItemText from 'material-ui/List/ListItemText';
 import { withStyles } from 'material-ui/styles';
 import Session from './Session';
 
@@ -84,13 +82,8 @@ class SessionList extends React.Component {
     return (
       <List
         subheader={
-          <ListSubheader disableGutters className={classes.root}>
-            <ListItem>
-              <ListItemText primary="Sessions" />
-              <ListItemText primary="Players" />
-              <ListItemText primary="Room Name" />
-              <ListItemText primary="Buttons" />
-            </ListItem>
+          <ListSubheader color="primary" className={classes.root}>
+            Sessions
           </ListSubheader>
         }
       >
