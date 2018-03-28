@@ -6,7 +6,6 @@ import { Button } from 'material-ui';
 const styles = () => ({
   button: {
     width: '100%',
-    maxWidth: 360,
     fontSize: 30,
     height: 500
   }

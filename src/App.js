@@ -2,6 +2,7 @@ import React from 'react';
 import blue from 'material-ui/colors/blue';
 import red from 'material-ui/colors/red';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import PropTypes from 'prop-types';
 import './components/css/App.css';
 import SensorOutput from './components/SensorOutput';
 import SessionList from './components/SessionList';
@@ -84,10 +85,17 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = { windowState: 'default', connectionActive: false, numberOfGameButtons: 0 };
+
+    // Make sure to not create communication when we're running as a test.
+    // This is because of a weird TravisCI error.
+    if (!props.test) {
+      this.com = new Communication(settings.communication);
+    }
+
+    // Bind
     this.enterSessionWindow = this.enterSessionWindow.bind(this);
     this.enterGameWindow = this.enterGameWindow.bind(this);
     this.enterMainWindow = this.enterMainWindow.bind(this);
-    this.com = new Communication(settings.communication);
     this.gameButtonPressed = this.gameButtonPressed.bind(this);
   }
 
@@ -195,5 +203,13 @@ class App extends React.Component {
     );
   }
 }
+
+App.defaultProps = {
+  test: false
+};
+
+App.propTypes = {
+  test: PropTypes.bool
+};
 
 export default App;
