@@ -15,8 +15,7 @@ import { withStyles } from 'material-ui/styles';
 const styles = theme => ({
   root: {
     width: '100%',
-    maxWidth: 360,
-    backgroundColor: theme.palette.cyan
+    maxWidth: 360
   }
 });
 
@@ -36,6 +35,7 @@ class Session extends React.Component {
   handleClick() {
     const buttonAmount = parseInt(Number(this.props.sessionObj.buttonAmount), 10);
     this.props.enterSessionWindow(this.props.sessionObj.name, buttonAmount);
+    this.props.stopRequestInstances();
   }
 
   render() {
@@ -55,7 +55,8 @@ class Session extends React.Component {
 Session.propTypes = {
   sessionObj: PropTypes.object.isRequired,
   enterSessionWindow: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  stopRequestInstances: PropTypes.func.isRequired
 };
 /* eslint-enable react/forbid-prop-types */
 
