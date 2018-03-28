@@ -14,7 +14,11 @@ class Communication {
     this.ds = createDeepstream(options.host_ip);
     this.id = this.ds.getUid();
     this.client = this.ds.login(
-      { username: this.id, id: 'tddd96client', password: 'Irollwithsuperheroes' },
+      {
+        username: this.id,
+        id: 'tddd96client',
+        password: '6da9475cfe8525232dfb42b293f56acea8333e4ee7ea56d961d9dbfe4d2ea324'
+      },
       this.onLoggedIn.bind(this)
     );
     this.name = '';
