@@ -6,7 +6,7 @@ class Communication {
    * This initialized the network communication to the deepstream server.
    * It will also send an rpc-call to the UI to connect to it.
    *
-  */
+   */
   constructor(options) {
     this.instance = '';
     this.dataBuffer = {};
@@ -17,6 +17,7 @@ class Communication {
     this.name = '';
     this.updateSensorData = this.updateSensorData.bind(this);
     this.requestInstances = this.requestInstances.bind(this);
+    this.stopRequestInstances = this.stopRequestInstances.bind(this);
     this.joinInstance = this.joinInstance.bind(this);
   }
 
@@ -31,23 +32,35 @@ class Communication {
   /*
    * Called when the user has tried to login to deepstream.
    * Will be used later for exception handling
-   * eslint-disable no-unused-vars
-   * eslint-disable class-methods-use-this
   */
+  /* eslint-disable */
   onLoggedIn(success, data) {}
+  /* eslint-enable */
 
   /*
    * Request the instances that are currently running.
    */
-  requestInstances(callback) {
-    this.client.rpc.make('services/getInstances', {}, callback);
+  requestInstances(onInstancesReceived, onPlayerAdded, onInstanceCreated) {
+    this.client.rpc.make('services/getInstances', {}, onInstancesReceived);
+    this.client.event.subscribe('services/playerAdded', data => {
+      onPlayerAdded(data.playerName, data.instanceName);
+    });
+    this.client.event.subscribe('services/instanceCreated', data => {
+      onInstanceCreated(data.name);
+    });
+  }
+
+  stopRequestInstances() {
+    this.client.event.unsubscribe('services/playerAdded');
+    this.client.event.unsubscribe('services/instanceCreated');
   }
 
   /*
    * Join a certain instance with the given name.
    */
-  joinInstance(instanceName, callback) {
+  joinInstance(instanceName, name, callback) {
     this.instance = instanceName;
+    this.name = name;
     this.client.rpc.make(
       `data/${this.instance}/addPlayer`,
       { id: this.id, name: this.name, sensor: { beta: 0, gamma: 0 } },
