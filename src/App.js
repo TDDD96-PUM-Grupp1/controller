@@ -4,7 +4,6 @@ import red from 'material-ui/colors/red';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import PropTypes from 'prop-types';
 import './components/css/App.css';
-import SensorOutput from './components/SensorOutput';
 import SessionList from './components/SessionList';
 import WelcomeScreen from './components/WelcomeScreen';
 import FilterSession from './components/FilterSession';
