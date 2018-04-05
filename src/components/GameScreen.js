@@ -20,7 +20,7 @@ class GameScreen extends Component {
     return (
       <div className="GameScreen">
         <div className="GameButtonContainer">
-          <SensorOutput />
+          <SensorOutput onSensorChange={this.props.onSensorChange}/>
           {this.buttonList.map(button => (
             <div key={button}>
               <GameScreenButtons
@@ -38,7 +38,8 @@ class GameScreen extends Component {
 /* eslint-disable react/forbid-prop-types */
 GameScreen.propTypes = {
   numberOfButtons: PropTypes.number.isRequired,
-  gameButtonPressed: PropTypes.func.isRequired
+  gameButtonPressed: PropTypes.func.isRequired,
+  onSensorChange: PropTypes.func.isRequired
 };
 /* eslint-enable react/forbid-prop-types */
 

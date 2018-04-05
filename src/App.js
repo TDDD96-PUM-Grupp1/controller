@@ -181,6 +181,7 @@ class App extends React.Component {
         <GameScreen
           numberOfButtons={this.state.numberOfGameButtons}
           gameButtonPressed={this.gameButtonPressed}
+          onSensorChange={this.com.updateSensorData}
         />
       </div>
     );
