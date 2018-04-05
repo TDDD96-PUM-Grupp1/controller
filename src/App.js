@@ -129,7 +129,6 @@ class App extends React.Component {
    * are being displayed. Automatically tries to connect to the game session.
    */
   enterGameWindow(_username) {
-    //TODO VERIFY USERNAME
     this.setState({ username: _username });
     this.com.joinInstance(this.state.instanceName, this.state.username, (err, result) => {});
     this.setState({ windowState: 'game' });
@@ -140,8 +139,7 @@ class App extends React.Component {
    * @param buttonNumber is an integer identifying which of the buttons was pressed
    */
   gameButtonPressed(buttonNumber) {
-    console.log('Game button '.concat(buttonNumber).concat(' pressed'));
-    this.enterMainWindow();
+    this.com.sendButtonPress(buttonNumber);
   }
 
   renderDefault() {
