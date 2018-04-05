@@ -26,17 +26,16 @@ class UsernameInput extends Component {
   }
 
   /**
-   * Handles a submit request by printing current username and then calls the
-   * onInputSubmit function passed as a component prop.
+   * Is called when the Join button is pressed, callbacks to enterGameWindow in App.js
+   * with the argument of what is written in the text field.
    */
   handleSubmit() {
-    // Need to use these parameters for the callback.
-    /* eslint-disable no-unused-vars */
-    this.props.onInputSubmit(this.props.instanceName, this.state.username, (err, result) => {});
-    /* eslint-enable no-unused-vars */
+    this.props.showGameWindow(this.state.username);
   }
 
-  // Set new state on input change.
+  /**
+   * Set new state on input change.
+   */
   handleInputChange(event) {
     this.setState({
       username: event.target.value
@@ -59,7 +58,7 @@ class UsernameInput extends Component {
           className={classes.root}
           variant="raised"
           color="primary"
-          onClick={this.props.showGameWindow}
+          onClick={this.handleSubmit}
         >
           Join
         </Button>
@@ -68,17 +67,9 @@ class UsernameInput extends Component {
   }
 }
 
-UsernameInput.defaultProps = {
-  onInputSubmit: () => {
-    console.log('Username button clicked!');
-  }
-};
-
 /* eslint-disable react/forbid-prop-types */
 UsernameInput.propTypes = {
-  onInputSubmit: PropTypes.func,
   showGameWindow: PropTypes.func.isRequired,
-  instanceName: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired
 };
 /* eslint-enable react/forbid-prop-types */

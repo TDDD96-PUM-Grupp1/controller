@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import GameScreenButtons from './GameScreenButton';
+import SensorOutput from './SensorOutput';
 
 /**
  * This class handles all the element being displayed while a game is in progress
@@ -19,6 +20,7 @@ class GameScreen extends Component {
     return (
       <div className="GameScreen">
         <div className="GameButtonContainer">
+          <SensorOutput />
           {this.buttonList.map(button => (
             <div key={button}>
               <GameScreenButtons
