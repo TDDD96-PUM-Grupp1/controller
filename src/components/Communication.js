@@ -10,6 +10,7 @@ class Communication {
   constructor(options) {
     this.instance = '';
     this.dataBuffer = {};
+    this.dataBuffer.bnum = [];
     // Creates and logs in a user to the server.
     this.ds = createDeepstream(options.host_ip);
     this.id = this.ds.getUid();
@@ -91,11 +92,10 @@ class Communication {
      *
     */
   flushData() {
-    if (this.dataBuffer !== {}) {
-      this.dataBuffer.id = this.id;
-      this.client.event.emit(`data/${this.instance}/${this.id}`, this.dataBuffer);
-      this.dataBuffer = {};
-    }
+    this.dataBuffer.id = this.id;
+    this.client.event.emit(`data/${this.instance}/${this.id}`, this.dataBuffer);
+    this.dataBuffer = {};
+    this.dataBuffer.bnum = [];
   }
 
   /**
@@ -103,10 +103,7 @@ class Communication {
    * @param buttonNumber identifier for which button is being pressed, enumeration starts at 0
    */
   sendButtonPress(buttonNumber) {
-    this.client.event.emit(`data/button/${this.instance}/${this.id}`, {
-      bNum: buttonNumber,
-      id: this.id
-    });
+    this.dataBuffer.bnum.add(buttonNumber);
   }
 }
 export default Communication;
