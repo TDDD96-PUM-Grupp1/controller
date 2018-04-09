@@ -36,7 +36,7 @@ class Communication {
   */
   onJoined(err, result) {
     this.id = result;
-    setInterval(this.tick.bind(this), 1000 / 128.0);
+    setInterval(this.tick.bind(this), 1000 / this.tickrate);
   }
 
   /*
@@ -118,11 +118,9 @@ class Communication {
    * updated
   */
   tick() {
-    if (this.dataBuffer !== {}) {
-      this.dataBuffer.id = this.id;
-      this.client.event.emit(`${this.serviceName}/data/${this.instance}`, this.dataBuffer);
-      this.dataBuffer = {};
-    }
+    this.dataBuffer.id = this.id;
+    this.client.event.emit(`${this.serviceName}/data/${this.instance}`, this.dataBuffer);
+    this.dataBuffer = {};
   }
 }
 
