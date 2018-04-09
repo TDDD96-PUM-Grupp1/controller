@@ -24,7 +24,9 @@ class Session extends React.Component {
     super(props);
     // This binding is necessary to make `this` work in the callback
     this.handleClick = this.handleClick.bind(this);
-    this.props.sessionObj.currentlyPlaying = 1;
+    if (this.props.sessionObj.currentlyPlaying === undefined) {
+      this.props.sessionObj.currentlyPlaying = 0;
+    }
     this.props.sessionObj.buttonAmount = 3;
   }
 
