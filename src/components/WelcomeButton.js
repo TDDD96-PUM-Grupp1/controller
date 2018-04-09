@@ -12,6 +12,9 @@ class WelcomeButton extends Component {
    * onInputSubmit function passed as a component prop.
    */
   handleClick() {
+    document.documentElement.webkitRequestFullscreen();
+    window.screen.orientation.lock('landscape-primary').then();
+
     this.props.requestInstances((err, result) => {
       console.log(err);
       console.log(result);
