@@ -21,19 +21,14 @@ class UsernameInput extends Component {
       username: ''
     };
 
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleJoin = this.handleJoin.bind(this);
   }
 
-  /**
-   * Handles a submit request by printing current username and then calls the
-   * onInputSubmit function passed as a component prop.
-   */
-  handleSubmit() {
-    // Need to use these parameters for the callback.
-    /* eslint-disable no-unused-vars */
-    this.props.onInputSubmit(this.props.instanceName, this.state.username, (err, result) => {});
-    /* eslint-enable no-unused-vars */
+  // Changes the window and sends the username
+  handleJoin()
+  {
+    this.props.showGameWindow(this.state.username);
   }
 
   // Set new state on input change.
@@ -59,7 +54,7 @@ class UsernameInput extends Component {
           className={classes.root}
           variant="raised"
           color="primary"
-          onClick={this.props.showGameWindow}
+          onClick={this.handleJoin}
         >
           Join
         </Button>

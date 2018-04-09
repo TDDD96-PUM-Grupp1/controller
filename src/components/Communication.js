@@ -10,6 +10,7 @@ class Communication {
     this.instance = '';
     this.dataBuffer = {};
     this.tickrate = options.tickrate;
+    this.serviceName = options.service_name;
 
     // Creates and logs in a user to the server.
     this.ds = createDeepstream(options.host_ip);
@@ -52,17 +53,17 @@ class Communication {
    * @param instanceListener listener for the different instance changes.
    */
   requestInstances(instanceListener) {
-    this.client.rpc.make('services/getInstances', {}, instanceListener.onInstancesReceived);
-    this.client.event.subscribe('services/playerAdded', data => {
+    this.client.rpc.make(`${this.serviceName}/getInstances`, {}, instanceListener.onInstancesReceived);
+    this.client.event.subscribe(`${this.serviceName}/playerAdded`, data => {
       instanceListener.onPlayerAdded(data.playerName, data.instanceName);
     });
-    this.client.event.subscribe('services/playerRemoved', data => {
+    this.client.event.subscribe(`${this.serviceName}/playerRemoved`, data => {
       instanceListener.onPlayerRemoved(data.playerName, data.instanceName);
     });
-    this.client.event.subscribe('services/instanceCreated', data => {
+    this.client.event.subscribe(`${this.serviceName}/instanceCreated`, data => {
       instanceListener.onInstanceCreated(data.name);
     });
-    this.client.event.subscribe('services/instanceRemoved', data => {
+    this.client.event.subscribe(`${this.serviceName}/instanceRemoved`, data => {
       instanceListener.onInstanceRemoved(data.name);
     });
   }
@@ -71,10 +72,10 @@ class Communication {
    * Stop listening for instance changes.
    */
   stopRequestInstances() {
-    this.client.event.unsubscribe('services/playerAdded');
-    this.client.event.unsubscribe('services/playerRemoved');
-    this.client.event.unsubscribe('services/instanceCreated');
-    this.client.event.unsubscribe('services/instanceRemoved');
+    this.client.event.unsubscribe(`${this.serviceName}/playerAdded`);
+    this.client.event.unsubscribe(`${this.serviceName}/playerRemoved`);
+    this.client.event.unsubscribe(`${this.serviceName}/instanceCreated`);
+    this.client.event.unsubscribe(`${this.serviceName}/instanceRemoved`);
   }
 
   /*
@@ -86,8 +87,9 @@ class Communication {
   joinInstance(instanceName, name, callback) {
     this.instance = instanceName;
     this.name = name;
+    console.log(`${this.serviceName}/addPlayer/${this.instance}`);
     this.client.rpc.make(
-      `data/${this.instance}/addPlayer`,
+      `${this.serviceName}/addPlayer/${this.instance}`,
       { id: this.id, name: this.name, sensor: { beta: 0, gamma: 0 } },
       (err, result) => {
         if (!err) {
@@ -115,7 +117,7 @@ class Communication {
   tick() {
     if (this.dataBuffer !== {}) {
       this.dataBuffer.id = this.id;
-      this.client.event.emit(`data/${this.instance}`, this.dataBuffer);
+      this.client.event.emit(`${this.serviceName}/data/${this.instance}`, this.dataBuffer);
       this.dataBuffer = {};
     }
   }

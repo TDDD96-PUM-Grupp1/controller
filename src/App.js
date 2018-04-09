@@ -124,8 +124,10 @@ class App extends React.Component {
    * Used to switch to the game window where all sessions
    * are being displayed
    */
-  enterGameWindow() {
+  enterGameWindow(username) {
     this.setState({ windowState: 'game' });
+    this.username = username;
+    this.com.joinInstance(this.instanceName, this.username, (err, result)=>{});
   }
 
   /**
@@ -162,7 +164,6 @@ class App extends React.Component {
         <UsernameInput
           instanceName={this.instanceName}
           showGameWindow={this.enterGameWindow}
-          onInputSubmit={this.com.joinInstance}
         />
         <SensorOutput onSensorChange={this.com.updateSensorData} />
       </div>
@@ -175,6 +176,8 @@ class App extends React.Component {
         <GameScreen
           numberOfButtons={this.state.numberOfGameButtons}
           gameButtonPressed={this.gameButtonPressed}
+          username={this.username}
+          instanceName={this.instanceName}
         />
       </div>
     );
