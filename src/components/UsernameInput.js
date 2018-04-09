@@ -26,8 +26,7 @@ class UsernameInput extends Component {
   }
 
   // Changes the window and sends the username
-  handleJoin()
-  {
+  handleJoin() {
     this.props.showGameWindow(this.state.username);
   }
 
@@ -50,12 +49,7 @@ class UsernameInput extends Component {
           label="Enter playername"
           margin="normal"
         />
-        <Button
-          className={classes.root}
-          variant="raised"
-          color="primary"
-          onClick={this.handleJoin}
-        >
+        <Button className={classes.root} variant="raised" color="primary" onClick={this.handleJoin}>
           Join
         </Button>
       </div>
@@ -63,17 +57,9 @@ class UsernameInput extends Component {
   }
 }
 
-UsernameInput.defaultProps = {
-  onInputSubmit: () => {
-    console.log('Username button clicked!');
-  }
-};
-
 /* eslint-disable react/forbid-prop-types */
 UsernameInput.propTypes = {
-  onInputSubmit: PropTypes.func,
   showGameWindow: PropTypes.func.isRequired,
-  instanceName: PropTypes.string.isRequired,
   classes: PropTypes.object.isRequired
 };
 /* eslint-enable react/forbid-prop-types */

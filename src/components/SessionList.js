@@ -49,7 +49,6 @@ class SessionList extends React.Component {
    * player connects.
    */
   onPlayerAdded(playerName, instanceName) {
-    console.log('player added');
     for (let i = 0; i < this.state.instances.length; i += 1) {
       if (this.state.instances[i].name === instanceName) {
         const { instances } = this.state;
@@ -64,7 +63,6 @@ class SessionList extends React.Component {
    * player disconnects.
    */
   onPlayerRemoved(playerName, instanceName) {
-    console.log('player removed');
     for (let i = 0; i < this.state.instances.length; i += 1) {
       if (this.state.instances[i].name === instanceName) {
         const { instances } = this.state;
@@ -78,7 +76,6 @@ class SessionList extends React.Component {
    * Adds the instance to the list when it is started.
    */
   onInstanceCreated(instanceName) {
-    console.log('instance created')
     const { instances } = this.state;
     instances.push({ name: instanceName, currentlyPlaying: 0 });
     this.setState({ instances });
@@ -88,7 +85,6 @@ class SessionList extends React.Component {
    * Remove the instance from the list when it is started.
    */
   onInstanceRemoved(instanceName) {
-    console.log('instance removed');
     for (let i = 0; i < this.state.instances.length; i += 1) {
       if (this.state.instances[i].name === instanceName) {
         const { instances } = this.state;

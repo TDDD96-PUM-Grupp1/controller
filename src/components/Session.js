@@ -28,7 +28,6 @@ class Session extends React.Component {
       this.props.sessionObj.currentlyPlaying = 0;
     }
     this.props.sessionObj.buttonAmount = 3;
-    console.log(this.props.sessionObj);
   }
 
   /**

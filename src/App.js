@@ -84,7 +84,7 @@ const testSessions = [
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { windowState: 'default', connectionActive: false, numberOfGameButtons: 0 };
+    this.state = { windowState: 'default', numberOfGameButtons: 0 };
 
     // Make sure to not create communication when we're running as a test.
     // This is because of a weird TravisCI error.
@@ -106,7 +106,7 @@ class App extends React.Component {
    */
   enterSessionWindow(instanceName, nrButtons) {
     this.instanceName = instanceName;
-    if (!isNaN(nrButtons) && parseInt(Number(nrButtons), 10) === nrButtons) {
+    if (!Number.isNaN(nrButtons) && parseInt(Number(nrButtons), 10) === nrButtons) {
       this.setState({ numberOfGameButtons: nrButtons });
     }
     this.setState({ windowState: 'session' });
@@ -127,6 +127,8 @@ class App extends React.Component {
   enterGameWindow(username) {
     this.setState({ windowState: 'game' });
     this.username = username;
+
+    // eslint-disable-next-line
     this.com.joinInstance(this.instanceName, this.username, (err, result)=>{});
   }
 
@@ -134,8 +136,9 @@ class App extends React.Component {
    * This function is called whenever a button in the gamescreen is pressed
    * @param buttonNumber is an integer identifying which of the buttons was pressed
    */
+  // TODO: send this button to the UI.
+  // eslint-disable-next-line
   gameButtonPressed(buttonNumber) {
-    console.log('Game button '.concat(buttonNumber).concat(' pressed'));
     this.enterMainWindow();
   }
 
@@ -161,10 +164,7 @@ class App extends React.Component {
   renderSession() {
     return (
       <div>
-        <UsernameInput
-          instanceName={this.instanceName}
-          showGameWindow={this.enterGameWindow}
-        />
+        <UsernameInput instanceName={this.instanceName} showGameWindow={this.enterGameWindow} />
         <SensorOutput onSensorChange={this.com.updateSensorData} />
       </div>
     );

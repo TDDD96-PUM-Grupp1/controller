@@ -53,7 +53,11 @@ class Communication {
    * @param instanceListener listener for the different instance changes.
    */
   requestInstances(instanceListener) {
-    this.client.rpc.make(`${this.serviceName}/getInstances`, {}, instanceListener.onInstancesReceived);
+    this.client.rpc.make(
+      `${this.serviceName}/getInstances`,
+      {},
+      instanceListener.onInstancesReceived
+    );
     this.client.event.subscribe(`${this.serviceName}/playerAdded`, data => {
       instanceListener.onPlayerAdded(data.playerName, data.instanceName);
     });
@@ -87,7 +91,6 @@ class Communication {
   joinInstance(instanceName, name, callback) {
     this.instance = instanceName;
     this.name = name;
-    console.log(`${this.serviceName}/addPlayer/${this.instance}`);
     this.client.rpc.make(
       `${this.serviceName}/addPlayer/${this.instance}`,
       { id: this.id, name: this.name, sensor: { beta: 0, gamma: 0 } },
