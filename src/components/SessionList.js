@@ -57,6 +57,21 @@ class SessionList extends React.Component {
       }
     }
   }
+
+  /*
+   * Decreases the counter of the number of players active when a
+   * player disconnects.
+   */
+  onPlayerRemoved(playerName, instanceName) {
+    for (let i = 0; i < this.state.instances.length; i += 1) {
+      if (this.state.instances[i].name === instanceName) {
+        const { instances } = this.state;
+        instances[i].currentlyPlaying -= 1;
+        this.setState({ instances });
+      }
+    }
+  }
+
   /*
    * Adds the instance to the list when it is started.
    */
@@ -66,15 +81,24 @@ class SessionList extends React.Component {
     this.setState({ instances });
   }
 
+  /*
+   * Remove the instance from the list when it is started.
+   */
+  onInstanceRemoved(instanceName) {
+    for (let i = 0; i < this.state.instances.length; i += 1) {
+      if (this.state.instances[i].name === instanceName) {
+        const { instances } = this.state;
+        instances.splice(i, 1);
+        this.setState({ instances });
+      }
+    }
+  }
+
   /**
    * Update the list of active instances
    */
   initList() {
-    this.props.requestInstances(
-      this.onInstancesReceived,
-      this.onPlayerAdded,
-      this.onInstanceCreated
-    );
+    this.props.requestInstances(this);
   }
 
   render() {

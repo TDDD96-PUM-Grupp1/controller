@@ -109,11 +109,11 @@ class App extends React.Component {
    * regarding a session is displayed and to send data
    * from the session to the main application
    */
-  enterSessionWindow(_instanceName, nrButtons) {
-    if (!isNaN(nrButtons) && parseInt(Number(nrButtons), 10) === nrButtons) {
+  enterSessionWindow(instanceName, nrButtons) {
+    if (!Number.isNaN(nrButtons) && parseInt(Number(nrButtons), 10) === nrButtons) {
       this.setState({ numberOfGameButtons: nrButtons });
     }
-    this.setState({ instanceName: _instanceName, windowState: 'session' });
+    this.setState({ instanceName, windowState: 'session' });
   }
 
   /**
@@ -128,16 +128,19 @@ class App extends React.Component {
    * Used to switch to the game window where all sessions
    * are being displayed. Automatically tries to connect to the game session.
    */
-  enterGameWindow(_username) {
-    this.setState({ username: _username });
-    this.com.joinInstance(this.state.instanceName, this.state.username, (err, result) => {});
-    this.setState({ windowState: 'game' });
+  enterGameWindow(username) {
+    this.setState({ username, windowState: 'game' });
+
+    // eslint-disable-next-line
+    this.com.joinInstance(this.instanceName, username, (err, result) => {});
   }
 
   /**
    * This function is called whenever a button in the gamescreen is pressed
    * @param buttonNumber is an integer identifying which of the buttons was pressed
    */
+  // TODO: send this button to the UI.
+  // eslint-disable-next-line
   gameButtonPressed(buttonNumber) {
     this.com.sendButtonPress(buttonNumber);
   }
@@ -179,6 +182,8 @@ class App extends React.Component {
           numberOfButtons={this.state.numberOfGameButtons}
           gameButtonPressed={this.gameButtonPressed}
           onSensorChange={this.com.updateSensorData}
+          username={this.username}
+          instanceName={this.instanceName}
         />
       </div>
     );

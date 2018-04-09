@@ -21,8 +21,8 @@ class UsernameInput extends Component {
       username: ''
     };
 
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+    this.handleJoin = this.handleJoin.bind(this);
   }
 
   /**
