@@ -103,7 +103,7 @@ class Communication {
    * @param buttonNumber identifier for which button is being pressed, enumeration starts at 0
    */
   sendButtonPress(buttonNumber) {
-    this.dataBuffer.bnum.add(buttonNumber);
+    this.dataBuffer.bnum.push(buttonNumber);
   }
 }
 export default Communication;
