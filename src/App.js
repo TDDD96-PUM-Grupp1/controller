@@ -4,7 +4,6 @@ import red from 'material-ui/colors/red';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import PropTypes from 'prop-types';
 import './components/css/App.css';
-import SensorOutput from './components/SensorOutput';
 import SessionList from './components/SessionList';
 import WelcomeScreen from './components/WelcomeScreen';
 import FilterSession from './components/FilterSession';
@@ -84,7 +83,13 @@ const testSessions = [
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { windowState: 'default', connectionActive: false, numberOfGameButtons: 0 };
+    this.state = {
+      windowState: 'default',
+      connectionActive: false,
+      numberOfGameButtons: 0,
+      username: '',
+      instanceName: ''
+    };
 
     // Make sure to not create communication when we're running as a test.
     // This is because of a weird TravisCI error.
@@ -104,12 +109,11 @@ class App extends React.Component {
    * regarding a session is displayed and to send data
    * from the session to the main application
    */
-  enterSessionWindow(instanceName, nrButtons) {
-    this.instanceName = instanceName;
+  enterSessionWindow(_instanceName, nrButtons) {
     if (!isNaN(nrButtons) && parseInt(Number(nrButtons), 10) === nrButtons) {
       this.setState({ numberOfGameButtons: nrButtons });
     }
-    this.setState({ windowState: 'session' });
+    this.setState({ instanceName: _instanceName, windowState: 'session' });
   }
 
   /**
@@ -122,9 +126,11 @@ class App extends React.Component {
 
   /**
    * Used to switch to the game window where all sessions
-   * are being displayed
+   * are being displayed. Automatically tries to connect to the game session.
    */
-  enterGameWindow() {
+  enterGameWindow(_username) {
+    this.setState({ username: _username });
+    this.com.joinInstance(this.state.instanceName, this.state.username, (err, result) => {});
     this.setState({ windowState: 'game' });
   }
 
@@ -133,8 +139,7 @@ class App extends React.Component {
    * @param buttonNumber is an integer identifying which of the buttons was pressed
    */
   gameButtonPressed(buttonNumber) {
-    console.log('Game button '.concat(buttonNumber).concat(' pressed'));
-    this.enterMainWindow();
+    this.com.sendButtonPress(buttonNumber);
   }
 
   renderDefault() {
@@ -151,7 +156,6 @@ class App extends React.Component {
           enterSessionWindow={this.enterSessionWindow}
           stopRequestInstances={this.com.stopRequestInstances}
         />
-        <SensorOutput />
       </div>
     );
   }
@@ -164,7 +168,6 @@ class App extends React.Component {
           showGameWindow={this.enterGameWindow}
           onInputSubmit={this.com.joinInstance}
         />
-        <SensorOutput onSensorChange={this.com.updateSensorData} />
       </div>
     );
   }
@@ -175,6 +178,7 @@ class App extends React.Component {
         <GameScreen
           numberOfButtons={this.state.numberOfGameButtons}
           gameButtonPressed={this.gameButtonPressed}
+          onSensorChange={this.com.updateSensorData}
         />
       </div>
     );
