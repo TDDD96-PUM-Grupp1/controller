@@ -2,7 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import GameScreenButtons from './GameScreenButton';
-import SensorOutput from './SensorOutput';
+import SensorManager from './SensorManager';
 
 /**
  * This class handles all the element being displayed while a game is in progress
@@ -11,16 +11,25 @@ class GameScreen extends Component {
   constructor(props) {
     super(props);
     this.buttonList = [];
-    for (let i = 0; i < this.props.numberOfButtons; i++) {
+    for (let i = 0; i < this.props.numberOfButtons; i += 1) {
       this.buttonList.push(i);
     }
+
+    this.sensorManager = SensorManager(props.onSensorChange);
+  }
+
+  componentDidMount() {
+    this.sensorManager.bindEventListener();
+  }
+
+  componentWillUnmount() {
+    this.sensorManager.unbindEvenetListener();
   }
 
   render() {
     return (
       <div className="GameScreen">
         <div className="GameButtonContainer">
-          <SensorOutput onSensorChange={this.props.onSensorChange}/>
           {this.buttonList.map(button => (
             <div key={button}>
               <GameScreenButtons
