@@ -19,73 +19,14 @@ const theme = createMuiTheme({
   }
 });
 
-/**
- * This is just some random data to have something to display
- */
-const testSessions = [
-  {
-    name: 'ABCD',
-    currentlyPlaying: '5',
-    buttonAmount: '5'
-  },
-  {
-    name: 'ASDF',
-    currentlyPlaying: '17',
-    buttonAmount: '2'
-  },
-  {
-    name: 'QWER',
-    currentlyPlaying: '0',
-    buttonAmount: '8'
-  },
-  {
-    name: 'ZXCY',
-    currentlyPlaying: '8',
-    buttonAmount: '2'
-  },
-  {
-    name: 'ZKCV',
-    currentlyPlaying: '8',
-    buttonAmount: '22'
-  },
-  {
-    name: 'ZACV',
-    currentlyPlaying: '8',
-    buttonAmount: '11'
-  },
-  {
-    name: 'BXCV',
-    currentlyPlaying: '8',
-    buttonAmount: '0'
-  },
-  {
-    name: 'ZXPV',
-    currentlyPlaying: '8',
-    buttonAmount: '6'
-  },
-  {
-    name: 'ZTCV',
-    currentlyPlaying: '8',
-    buttonAmount: '7'
-  },
-  {
-    name: 'ZXRV',
-    currentlyPlaying: '8',
-    buttonAmount: '13'
-  },
-  {
-    name: 'ZXCG',
-    currentlyPlaying: '8',
-    buttonAmount: '2'
-  }
-];
-
 class App extends React.Component {
   constructor(props) {
     super(props);
+    // username is not currently used but is expected to be added later in development,
+    // it allows for the user to only give their username once
+    // and then reuse it through multiple game sessions
     this.state = {
       windowState: 'default',
-      connectionActive: false,
       numberOfGameButtons: 0,
       username: '',
       instanceName: ''
@@ -132,15 +73,13 @@ class App extends React.Component {
     this.setState({ username, windowState: 'game' });
 
     // eslint-disable-next-line
-    this.com.joinInstance(this.instanceName, username, (err, result) => {});
+    this.com.joinInstance(this.state.instanceName, username, (err, result) => {});
   }
 
   /**
    * This function is called whenever a button in the gamescreen is pressed
    * @param buttonNumber is an integer identifying which of the buttons was pressed
    */
-  // TODO: send this button to the UI.
-  // eslint-disable-next-line
   gameButtonPressed(buttonNumber) {
     this.com.sendButtonPress(buttonNumber);
   }
@@ -154,7 +93,6 @@ class App extends React.Component {
       <div>
         <FilterSession />
         <SessionList
-          testSessions={testSessions}
           requestInstances={this.com.requestInstances}
           enterSessionWindow={this.enterSessionWindow}
           stopRequestInstances={this.com.stopRequestInstances}
@@ -167,7 +105,7 @@ class App extends React.Component {
     return (
       <div>
         <UsernameInput
-          instanceName={this.instanceName}
+          instanceName={this.state.instanceName}
           showGameWindow={this.enterGameWindow}
           onInputSubmit={this.com.joinInstance}
         />
@@ -183,7 +121,7 @@ class App extends React.Component {
           gameButtonPressed={this.gameButtonPressed}
           onSensorChange={this.com.updateSensorData}
           username={this.username}
-          instanceName={this.instanceName}
+          instanceName={this.state.instanceName}
         />
       </div>
     );

@@ -23,12 +23,12 @@ class SensorManager {
 
   bindEventListener() {
     // Event listener for device orientation
-    window.addEventListener('deviceorientation', this.setSensorValues);
+    window.addEventListener('deviceorientation', this.handleDeviceOrientation);
   }
 
   unbindEventListener() {
     // Make sure to unbind the event listener when component unmounts
-    window.removeEventListener('deviceorientation', this.setSensorValues);
+    window.removeEventListener('deviceorientation', this.handleDeviceOrientation);
   }
 
   handleDeviceOrientation(event) {

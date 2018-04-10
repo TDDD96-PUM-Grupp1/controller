@@ -24,7 +24,6 @@ class SessionList extends React.Component {
     this.onInstancesReceived = this.onInstancesReceived.bind(this);
     this.onPlayerAdded = this.onPlayerAdded.bind(this);
     this.onInstanceCreated = this.onInstanceCreated.bind(this);
-    // this.state = { instances: this.props.testSessions};
   }
   /*
    * Initialize the list when this component gets mounted

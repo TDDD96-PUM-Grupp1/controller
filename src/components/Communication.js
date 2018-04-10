@@ -113,6 +113,7 @@ class Communication {
    * @param gamma the gamma value of the sensor.
    */
   updateSensorData(beta, gamma) {
+    console.log('UPDATESENSOR DATA');
     this.dataBuffer.sensor = { beta, gamma };
   }
 

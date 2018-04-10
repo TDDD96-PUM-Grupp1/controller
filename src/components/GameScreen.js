@@ -15,7 +15,7 @@ class GameScreen extends Component {
       this.buttonList.push(i);
     }
 
-    this.sensorManager = SensorManager(props.onSensorChange);
+    this.sensorManager = new SensorManager(props.onSensorChange);
   }
 
   componentDidMount() {
@@ -23,7 +23,7 @@ class GameScreen extends Component {
   }
 
   componentWillUnmount() {
-    this.sensorManager.unbindEvenetListener();
+    this.sensorManager.unbindEventListener();
   }
 
   render() {
