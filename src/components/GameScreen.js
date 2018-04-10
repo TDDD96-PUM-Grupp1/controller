@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import GameScreenButtons from './GameScreenButton';
+import SensorManager from './SensorManager';
 
 /**
  * This class handles all the element being displayed while a game is in progress
@@ -13,6 +14,16 @@ class GameScreen extends Component {
     for (let i = 0; i < this.props.numberOfButtons; i += 1) {
       this.buttonList.push(i);
     }
+
+    this.sensorManager = new SensorManager(props.onSensorChange);
+  }
+
+  componentDidMount() {
+    this.sensorManager.bindEventListener();
+  }
+
+  componentWillUnmount() {
+    this.sensorManager.unbindEventListener();
   }
 
   render() {
@@ -36,7 +47,8 @@ class GameScreen extends Component {
 /* eslint-disable react/forbid-prop-types */
 GameScreen.propTypes = {
   numberOfButtons: PropTypes.number.isRequired,
-  gameButtonPressed: PropTypes.func.isRequired
+  gameButtonPressed: PropTypes.func.isRequired,
+  onSensorChange: PropTypes.func.isRequired
 };
 /* eslint-enable react/forbid-prop-types */
 
