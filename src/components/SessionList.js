@@ -4,6 +4,7 @@ import List from 'material-ui/List';
 import ListSubheader from 'material-ui/List/ListSubheader';
 import { withStyles } from 'material-ui/styles';
 import Session from './Session';
+import FilterSession from './FilterSession';
 
 const styles = theme => ({
   root: {
@@ -82,7 +83,7 @@ class SessionList extends React.Component {
   onInstanceCreated(instanceName) {
     let instance = { name: instanceName, currentlyPlaying: 0 };
     
-    if(!isFiltered(instanceName))
+    if(!this.isFiltered(instanceName))
     {
       const { instances } = this.state;
       instances.push(instance);
@@ -95,7 +96,7 @@ class SessionList extends React.Component {
    * Remove the instance from the list when it is started.
    */
   onInstanceRemoved(instanceName) {
-    if(!isFiltered(instanceName))
+    if(!this.isFiltered(instanceName))
     {
       for (let i = 0; i < this.state.instances.length; i += 1) {
         if (this.state.instances[i].name === instanceName) {
@@ -124,6 +125,7 @@ class SessionList extends React.Component {
 
   isFiltered(instanceName)
   {
+    console.log(`${instanceName} : ${this.filter}`);
     return !instanceName.includes(this.filter);
   }
 
@@ -135,7 +137,7 @@ class SessionList extends React.Component {
     let stateInstances = []; 
     for (let i = 0; i < this.instances.length; i += 1)
     {
-      if(!isFiltered())
+      if(!this.isFiltered(this.instances[i].name))
       {
         stateInstances.push(this.instances[i]);
       }
@@ -147,6 +149,7 @@ class SessionList extends React.Component {
   render() {
     const { classes } = this.props;
     return (
+      <div>
       <FilterSession onInputChange={this.filterList}/>
       <List
         subheader={
@@ -165,6 +168,7 @@ class SessionList extends React.Component {
           </div>
         ))}
       </List>
+      </div>
     );
   }
 }

@@ -2,16 +2,17 @@ import createDeepstream from 'deepstream.io-client-js';
 
 class Communication {
   /*
-   * Constructor for Communication.
-   * This initialized the network communication to the deepstream server.
-   * It will also send an rpc-call to the UI to connect to it.
-   */
+     * Constructor for Communication.
+     * This initialized the network communication to the deepstream server.
+     * It will also send an rpc-call to the UI to connect to it.
+     *
+     */
   constructor(options) {
     this.instance = '';
     this.dataBuffer = {};
+    this.dataBuffer.bnum = [];
     this.tickrate = options.tickrate;
     this.serviceName = options.service_name;
-
     // Creates and logs in a user to the server.
     this.ds = createDeepstream(options.host_ip);
     this.id = this.ds.getUid();
@@ -40,11 +41,13 @@ class Communication {
   }
 
   /*
-   * Called when the user has tried to login to deepstream.
-   * Will be used later for exception handling
-  */
+     * Called when the user has tried to login to deepstream.
+     * Will be used later for exception handling
+    */
+
   /* eslint-disable */
   onLoggedIn(success, data) {}
+
   /* eslint-enable */
 
   /*
@@ -110,6 +113,7 @@ class Communication {
    * @param gamma the gamma value of the sensor.
    */
   updateSensorData(beta, gamma) {
+    console.log('UPDATESENSOR DATA');
     this.dataBuffer.sensor = { beta, gamma };
   }
 
@@ -118,12 +122,18 @@ class Communication {
    * updated
   */
   tick() {
-    if (this.dataBuffer !== {}) {
-      this.dataBuffer.id = this.id;
-      this.client.event.emit(`${this.serviceName}/data/${this.instance}`, this.dataBuffer);
-      this.dataBuffer = {};
-    }
+    this.dataBuffer.id = this.id;
+    this.client.event.emit(`${this.serviceName}/data/${this.instance}`, this.dataBuffer);
+    this.dataBuffer = {};
+    this.dataBuffer.bnum = [];
+  }
+
+  /**
+   * Notifies the UI that a button has been pressed by the player.
+   * @param buttonNumber identifier for which button is being pressed, enumeration starts at 0
+   */
+  sendButtonPress(buttonNumber) {
+    this.dataBuffer.bnum.push(buttonNumber);
   }
 }
-
 export default Communication;

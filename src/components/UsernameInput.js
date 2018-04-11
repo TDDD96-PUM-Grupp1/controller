@@ -20,17 +20,21 @@ class UsernameInput extends Component {
     this.state = {
       username: ''
     };
-
     this.handleInputChange = this.handleInputChange.bind(this);
-    this.handleJoin = this.handleJoin.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
-  // Changes the window and sends the username
-  handleJoin() {
+  /**
+   * Is called when the Join button is pressed, callbacks to enterGameWindow in App.js
+   * with the argument of what is written in the text field.
+   */
+  handleSubmit() {
     this.props.showGameWindow(this.state.username);
   }
 
-  // Set new state on input change.
+  /**
+   * Set new state on input change.
+   */
   handleInputChange(event) {
     this.setState({
       username: event.target.value
@@ -49,7 +53,12 @@ class UsernameInput extends Component {
           label="Enter playername"
           margin="normal"
         />
-        <Button className={classes.root} variant="raised" color="primary" onClick={this.handleJoin}>
+        <Button
+          className={classes.root}
+          variant="raised"
+          color="primary"
+          onClick={this.handleSubmit}
+        >
           Join
         </Button>
       </div>

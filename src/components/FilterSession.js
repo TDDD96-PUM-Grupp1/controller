@@ -36,7 +36,7 @@ class FilterSession extends Component {
     this.setState({
       filter: event.target.value
     });
-    onInputChange(this.state.filter);
+    this.props.onInputChange(this.state.filter);
   }
 
   render() {

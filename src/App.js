@@ -7,7 +7,6 @@ import './components/css/App.css';
 import SensorOutput from './components/SensorOutput';
 import SessionList from './components/SessionList';
 import WelcomeScreen from './components/WelcomeScreen';
-import FilterSession from './components/FilterSession';
 import UsernameInput from './components/UsernameInput';
 import Communication from './components/Communication';
 import settings from './config';
