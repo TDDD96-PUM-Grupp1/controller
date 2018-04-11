@@ -149,7 +149,6 @@ class App extends React.Component {
   renderSessionList() {
     return (
       <div>
-        <FilterSession />
         <SessionList
           testSessions={testSessions}
           requestInstances={this.com.requestInstances}

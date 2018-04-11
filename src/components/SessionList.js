@@ -20,10 +20,14 @@ const styles = theme => ({
 class SessionList extends React.Component {
   constructor(props) {
     super(props);
+    this.instances = [];
+    this.filter = '';
     this.state = { instances: [] };
     this.onInstancesReceived = this.onInstancesReceived.bind(this);
     this.onPlayerAdded = this.onPlayerAdded.bind(this);
     this.onInstanceCreated = this.onInstanceCreated.bind(this);
+    this.filterList = this.filterList.bind(this);
+    this.isFiltered = this.isFiltered.bind(this);
     // this.state = { instances: this.props.testSessions};
   }
   /*
@@ -76,20 +80,37 @@ class SessionList extends React.Component {
    * Adds the instance to the list when it is started.
    */
   onInstanceCreated(instanceName) {
-    const { instances } = this.state;
-    instances.push({ name: instanceName, currentlyPlaying: 0 });
-    this.setState({ instances });
+    let instance = { name: instanceName, currentlyPlaying: 0 };
+    
+    if(!isFiltered(instanceName))
+    {
+      const { instances } = this.state;
+      instances.push(instance);
+      this.setState({ instances });
+    }
+    this.instances.push(instance);
   }
 
   /*
    * Remove the instance from the list when it is started.
    */
   onInstanceRemoved(instanceName) {
-    for (let i = 0; i < this.state.instances.length; i += 1) {
-      if (this.state.instances[i].name === instanceName) {
-        const { instances } = this.state;
-        instances.splice(i, 1);
-        this.setState({ instances });
+    if(!isFiltered(instanceName))
+    {
+      for (let i = 0; i < this.state.instances.length; i += 1) {
+        if (this.state.instances[i].name === instanceName) {
+          const { instances } = this.state;
+          instances.splice(i, 1);
+          this.setState({ instances });
+          break;
+        }
+      }
+    }
+
+    for (let i = 0; i < this.instances.length; i += 1) {
+      if (this.instances[i].name === instanceName) {
+        this.instances.splice(i, 1);
+        break;
       }
     }
   }
@@ -101,9 +122,32 @@ class SessionList extends React.Component {
     this.props.requestInstances(this);
   }
 
+  isFiltered(instanceName)
+  {
+    return !instanceName.includes(this.filter);
+  }
+
+  /*
+   * This will filter the list with the given string.
+   */
+  filterList(filter) {
+    this.filter = filter;
+    let stateInstances = []; 
+    for (let i = 0; i < this.instances.length; i += 1)
+    {
+      if(!isFiltered())
+      {
+        stateInstances.push(this.instances[i]);
+      }
+    }
+
+    this.setState({instances: stateInstances});
+  }
+
   render() {
     const { classes } = this.props;
     return (
+      <FilterSession onInputChange={this.filterList}/>
       <List
         subheader={
           <ListSubheader color="primary" className={classes.root}>

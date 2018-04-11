@@ -22,18 +22,10 @@ class FilterSession extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: ''
+      filter: ''
     };
 
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
-  }
-
-  /**
-   * The function called when the filter button is pressed.
-   */
-  handleSubmit() {
-    this.props.onInputSubmit();
   }
 
   /**
@@ -42,8 +34,9 @@ class FilterSession extends Component {
    */
   handleInputChange(event) {
     this.setState({
-      username: event.target.value
+      filter: event.target.value
     });
+    onInputChange(this.state.filter);
   }
 
   render() {
@@ -74,7 +67,7 @@ FilterSession.defaultProps = {
 
 /* eslint-disable react/forbid-prop-types */
 FilterSession.propTypes = {
-  onInputSubmit: PropTypes.func,
+  onInputChange: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired
 };
 /* eslint-enable react/forbid-prop-types */
