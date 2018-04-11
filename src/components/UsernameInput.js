@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, TextField } from 'material-ui';
 import { withStyles } from 'material-ui/styles';
+import IconList from './IconList';
 
 const styles = () => ({
   text: {
-    width: '100%',
+    width: '100%'
   },
   joinButton: {
     width: '100%',
@@ -74,14 +75,7 @@ class UsernameInput extends Component {
         >
           Join
         </Button>
-        <Button
-          className={classes.backButton}
-          variant="raised"
-          color="primary"
-          onClick={this.props.goBack}
-        >
-          Back
-        </Button>
+        <IconList />
       </div>
     );
   }
