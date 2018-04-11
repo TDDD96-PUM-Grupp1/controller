@@ -21,19 +21,7 @@ const styles = () => ({
 class FilterSession extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      username: ''
-    };
-
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
-  }
-
-  /**
-   * The function called when the filter button is pressed.
-   */
-  handleSubmit() {
-    this.props.onInputSubmit();
   }
 
   /**
@@ -41,9 +29,7 @@ class FilterSession extends Component {
    * (IE key pressed by the user) in the filter text field
    */
   handleInputChange(event) {
-    this.setState({
-      username: event.target.value
-    });
+    this.props.onInputChange(event.target.value);
   }
 
   render() {
@@ -52,7 +38,6 @@ class FilterSession extends Component {
       <div>
         <TextField
           className={classes.textField}
-          value={this.state.username}
           onChange={this.handleInputChange}
           type="text"
           placeholder="Enter a name..."
@@ -64,17 +49,9 @@ class FilterSession extends Component {
   }
 }
 
-/**
- * Default behavior of the button onClick function,
- * currently used for debugging.
- */
-FilterSession.defaultProps = {
-  onInputSubmit: () => {}
-};
-
 /* eslint-disable react/forbid-prop-types */
 FilterSession.propTypes = {
-  onInputSubmit: PropTypes.func,
+  onInputChange: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired
 };
 /* eslint-enable react/forbid-prop-types */

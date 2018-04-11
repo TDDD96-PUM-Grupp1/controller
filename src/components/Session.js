@@ -9,15 +9,9 @@ import { withStyles } from 'material-ui/styles';
  * 2 : Code needed to enter the game
  * 3 : IP, not sure if it should be displayed
  *
- * TODO dont display IP and display the ping instead
  */
 
-const styles = theme => ({
-  root: {
-    width: '100%',
-    maxWidth: 360
-  }
-});
+const styles = () => {};
 
 class Session extends React.Component {
   constructor(props) {

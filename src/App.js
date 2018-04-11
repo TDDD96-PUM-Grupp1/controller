@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import './components/css/App.css';
 import SessionList from './components/SessionList';
 import WelcomeScreen from './components/WelcomeScreen';
-import FilterSession from './components/FilterSession';
 import UsernameInput from './components/UsernameInput';
 import Communication from './components/Communication';
 import settings from './config';
@@ -49,6 +48,7 @@ class App extends React.Component {
     this.enterGameWindow = this.enterGameWindow.bind(this);
     this.enterMainWindow = this.enterMainWindow.bind(this);
     this.gameButtonPressed = this.gameButtonPressed.bind(this);
+    this.leaveGame = this.leaveGame.bind(this);
   }
 
   /**
@@ -76,8 +76,8 @@ class App extends React.Component {
    * are being displayed. Automatically tries to connect to the game session.
    */
   enterGameWindow(username) {
+    /* eslint-disable-next-line */
     this.setState({ username, windowState: 'game' });
-
     // eslint-disable-next-line
     this.com.joinInstance(this.state.instanceName, username, (err, result) => {});
   }
@@ -90,6 +90,10 @@ class App extends React.Component {
     this.com.sendButtonPress(buttonNumber);
   }
 
+  leaveGame() {
+    this.setState({ windowState: 'session' });
+  }
+
   renderDefault() {
     return <WelcomeScreen buttonPressed={this.enterMainWindow} />;
   }
@@ -97,7 +101,6 @@ class App extends React.Component {
   renderSessionList() {
     return (
       <div>
-        <FilterSession />
         <SessionList
           requestInstances={this.com.requestInstances}
           enterSessionWindow={this.enterSessionWindow}
@@ -114,6 +117,7 @@ class App extends React.Component {
           instanceName={this.state.instanceName}
           showGameWindow={this.enterGameWindow}
           onInputSubmit={this.com.joinInstance}
+          goBack={this.enterMainWindow}
         />
       </div>
     );
@@ -128,6 +132,7 @@ class App extends React.Component {
           onSensorChange={this.com.updateSensorData}
           username={this.username}
           instanceName={this.state.instanceName}
+          goBack={this.leaveGame}
         />
       </div>
     );
