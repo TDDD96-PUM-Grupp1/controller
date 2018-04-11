@@ -76,17 +76,6 @@ class UsernameInput extends Component {
           Join
         </Button>
         <IconList />
-<<<<<<< HEAD
-=======
-        <Button
-          className={classes.backButton}
-          variant="raised"
-          color="primary"
-          onClick={this.props.goBack}
-        >
-          Back
-        </Button>
->>>>>>> ddc4a2e3e360c5074ea02fa75e852c07a2229586
       </div>
     );
   }
