@@ -11,6 +11,8 @@ import { withStyles } from 'material-ui/styles';
  *
  */
 
+const styles = () => {};
+
 class Session extends React.Component {
   constructor(props) {
     super(props);
