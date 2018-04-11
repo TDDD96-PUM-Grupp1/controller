@@ -37,7 +37,7 @@ class Communication {
   */
   onJoined(err, result) {
     this.id = result;
-    setInterval(this.tick.bind(this), 1000 / 128.0);
+    setInterval(this.tick.bind(this), 1000 / this.tickrate);
   }
 
   /*
