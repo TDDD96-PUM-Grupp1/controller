@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, TextField } from 'material-ui';
 import { withStyles } from 'material-ui/styles';
+import IconList from './IconList';
 
 const styles = () => ({
   root: {
@@ -22,8 +23,8 @@ class UsernameInput extends Component {
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
-      this.handleSubmit = this.handleSubmit.bind(this);
-    //this.handleJoin = this.handleJoin.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+    // this.handleJoin = this.handleJoin.bind(this);
   }
 
   /**
@@ -63,6 +64,7 @@ class UsernameInput extends Component {
         >
           Join
         </Button>
+        <IconList />
       </div>
     );
   }
