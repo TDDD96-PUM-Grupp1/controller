@@ -4,14 +4,22 @@ import { Button, TextField } from 'material-ui';
 import { withStyles } from 'material-ui/styles';
 
 const styles = () => ({
-  root: {
+  text: {
     width: '100%',
-    maxWidth: 360
   },
+  joinButton: {
+    width: '100%',
+    position: 'fixed',
+    top: 80,
+    left: 0
+  },
+
   backButton: {
     width: '100%',
-    maxWidth: 360,
-    marginTop: 5
+    marginTop: 5,
+    position: 'fixed',
+    top: 120,
+    left: 0
   }
 });
 
@@ -51,7 +59,7 @@ class UsernameInput extends Component {
     return (
       <div>
         <TextField
-          className={classes.root}
+          className={classes.text}
           value={this.state.username}
           onChange={this.handleInputChange}
           placeholder="Enter a name..."
@@ -59,7 +67,7 @@ class UsernameInput extends Component {
           margin="normal"
         />
         <Button
-          className={classes.root}
+          className={classes.joinButton}
           variant="raised"
           color="primary"
           onClick={this.handleSubmit}
