@@ -5,9 +5,22 @@ import { withStyles } from 'material-ui/styles';
 import IconList from './IconList';
 
 const styles = () => ({
-  root: {
+  text: {
     width: '100%',
-    maxWidth: 360
+  },
+  joinButton: {
+    width: '100%',
+    position: 'fixed',
+    top: 80,
+    left: 0
+  },
+
+  backButton: {
+    width: '100%',
+    marginTop: 5,
+    position: 'fixed',
+    top: 120,
+    left: 0
   }
 });
 
@@ -21,10 +34,8 @@ class UsernameInput extends Component {
     this.state = {
       username: ''
     };
-
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    // this.handleJoin = this.handleJoin.bind(this);
   }
 
   /**
@@ -49,7 +60,7 @@ class UsernameInput extends Component {
     return (
       <div>
         <TextField
-          className={classes.root}
+          className={classes.text}
           value={this.state.username}
           onChange={this.handleInputChange}
           placeholder="Enter a name..."
@@ -57,7 +68,7 @@ class UsernameInput extends Component {
           margin="normal"
         />
         <Button
-          className={classes.root}
+          className={classes.joinButton}
           variant="raised"
           color="primary"
           onClick={this.handleSubmit}
@@ -65,6 +76,14 @@ class UsernameInput extends Component {
           Join
         </Button>
         <IconList />
+        <Button
+          className={classes.backButton}
+          variant="raised"
+          color="primary"
+          onClick={this.props.goBack}
+        >
+          Back
+        </Button>
       </div>
     );
   }
@@ -73,7 +92,8 @@ class UsernameInput extends Component {
 /* eslint-disable react/forbid-prop-types */
 UsernameInput.propTypes = {
   showGameWindow: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  goBack: PropTypes.func.isRequired
 };
 /* eslint-enable react/forbid-prop-types */
 

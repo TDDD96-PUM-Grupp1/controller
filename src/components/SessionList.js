@@ -4,6 +4,7 @@ import List from 'material-ui/List';
 import ListSubheader from 'material-ui/List/ListSubheader';
 import { withStyles } from 'material-ui/styles';
 import Session from './Session';
+import FilterSession from './FilterSession';
 
 const styles = theme => ({
   root: {
@@ -20,10 +21,15 @@ const styles = theme => ({
 class SessionList extends React.Component {
   constructor(props) {
     super(props);
+    this.instances = [];
+    this.filter = '';
     this.state = { instances: [] };
     this.onInstancesReceived = this.onInstancesReceived.bind(this);
     this.onPlayerAdded = this.onPlayerAdded.bind(this);
     this.onInstanceCreated = this.onInstanceCreated.bind(this);
+    this.filterList = this.filterList.bind(this);
+    this.isFiltered = this.isFiltered.bind(this);
+    // this.state = { instances: this.props.testSessions};
   }
   /*
    * Initialize the list when this component gets mounted
@@ -37,6 +43,7 @@ class SessionList extends React.Component {
    */
   onInstancesReceived(err, result) {
     if (!err) {
+      this.instances = result;
       this.setState({ instances: result });
     } else {
       // TODO: handle error
@@ -75,20 +82,35 @@ class SessionList extends React.Component {
    * Adds the instance to the list when it is started.
    */
   onInstanceCreated(instanceName) {
-    const { instances } = this.state;
-    instances.push({ name: instanceName, currentlyPlaying: 0 });
-    this.setState({ instances });
+    const instance = { name: instanceName, currentlyPlaying: 0 };
+
+    if (!this.isFiltered(instanceName)) {
+      const { instances } = this.state;
+      instances.push(instance);
+      this.setState({ instances });
+    }
+    this.instances.push(instance);
   }
 
   /*
    * Remove the instance from the list when it is started.
    */
   onInstanceRemoved(instanceName) {
-    for (let i = 0; i < this.state.instances.length; i += 1) {
-      if (this.state.instances[i].name === instanceName) {
-        const { instances } = this.state;
-        instances.splice(i, 1);
-        this.setState({ instances });
+    if (!this.isFiltered(instanceName)) {
+      for (let i = 0; i < this.state.instances.length; i += 1) {
+        if (this.state.instances[i].name === instanceName) {
+          const { instances } = this.state;
+          instances.splice(i, 1);
+          this.setState({ instances });
+          break;
+        }
+      }
+    }
+
+    for (let i = 0; i < this.instances.length; i += 1) {
+      if (this.instances[i].name === instanceName) {
+        this.instances.splice(i, 1);
+        break;
       }
     }
   }
@@ -100,26 +122,48 @@ class SessionList extends React.Component {
     this.props.requestInstances(this);
   }
 
+  isFiltered(instanceName) {
+    return !instanceName.toLowerCase().includes(this.filter);
+  }
+
+  /*
+   * This will filter the list with the given string.
+   */
+  filterList(filter) {
+    this.filter = filter.toLowerCase();
+    const stateInstances = [];
+    for (let i = 0; i < this.instances.length; i += 1) {
+      if (!this.isFiltered(this.instances[i].name)) {
+        stateInstances.push(this.instances[i]);
+      }
+    }
+
+    this.setState({ instances: stateInstances });
+  }
+
   render() {
     const { classes } = this.props;
     return (
-      <List
-        subheader={
-          <ListSubheader color="primary" className={classes.root}>
-            Sessions
-          </ListSubheader>
-        }
-      >
-        {this.state.instances.map(session => (
-          <div key={session.name}>
-            <Session
-              sessionObj={session}
-              enterSessionWindow={this.props.enterSessionWindow}
-              stopRequestInstances={this.props.stopRequestInstances}
-            />
-          </div>
-        ))}
-      </List>
+      <div>
+        <FilterSession onInputChange={this.filterList} />
+        <List
+          subheader={
+            <ListSubheader color="primary" className={classes.root}>
+              Sessions
+            </ListSubheader>
+          }
+        >
+          {this.state.instances.map(session => (
+            <div key={session.name}>
+              <Session
+                sessionObj={session}
+                enterSessionWindow={this.props.enterSessionWindow}
+                stopRequestInstances={this.props.stopRequestInstances}
+              />
+            </div>
+          ))}
+        </List>
+      </div>
     );
   }
 }

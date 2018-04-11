@@ -37,7 +37,7 @@ class Communication {
   */
   onJoined(err, result) {
     this.id = result;
-    setInterval(this.tick.bind(this), 1000 / 128.0);
+    setInterval(this.tick.bind(this), 1000 / this.tickrate);
   }
 
   /*
@@ -113,7 +113,6 @@ class Communication {
    * @param gamma the gamma value of the sensor.
    */
   updateSensorData(beta, gamma) {
-    console.log('UPDATESENSOR DATA');
     this.dataBuffer.sensor = { beta, gamma };
   }
 
