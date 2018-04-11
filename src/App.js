@@ -49,6 +49,7 @@ class App extends React.Component {
     this.enterGameWindow = this.enterGameWindow.bind(this);
     this.enterMainWindow = this.enterMainWindow.bind(this);
     this.gameButtonPressed = this.gameButtonPressed.bind(this);
+    this.leaveGame = this.leaveGame.bind(this);
   }
 
   /**
@@ -90,6 +91,10 @@ class App extends React.Component {
     this.com.sendButtonPress(buttonNumber);
   }
 
+  leaveGame() {
+    this.setState({ windowState: 'session' });
+  }
+
   renderDefault() {
     return <WelcomeScreen buttonPressed={this.enterMainWindow} />;
   }
@@ -129,6 +134,7 @@ class App extends React.Component {
           onSensorChange={this.com.updateSensorData}
           username={this.username}
           instanceName={this.state.instanceName}
+          goBack={this.leaveGame}
         />
       </div>
     );
