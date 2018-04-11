@@ -6,7 +6,6 @@ import PropTypes from 'prop-types';
 import './components/css/App.css';
 import SessionList from './components/SessionList';
 import WelcomeScreen from './components/WelcomeScreen';
-import FilterSession from './components/FilterSession';
 import UsernameInput from './components/UsernameInput';
 import Communication from './components/Communication';
 import settings from './config';
@@ -102,7 +101,6 @@ class App extends React.Component {
   renderSessionList() {
     return (
       <div>
-        <FilterSession />
         <SessionList
           requestInstances={this.com.requestInstances}
           enterSessionWindow={this.enterSessionWindow}
