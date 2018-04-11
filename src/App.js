@@ -35,6 +35,12 @@ class App extends React.Component {
     // Make sure to not create communication when we're running as a test.
     // This is because of a weird TravisCI error.
     if (!props.test) {
+      // Use local Deepstream server instead of remote.
+      if (process.env.REACT_APP_LOCAL) {
+        /* eslint-disable-next-line */
+        console.log('Using local Deepstream server');
+        settings.communication.host_ip = 'localhost:60020';
+      }
       this.com = new Communication(settings.communication);
     }
 
