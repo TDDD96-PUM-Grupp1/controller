@@ -102,9 +102,8 @@ class App extends React.Component {
     return (
       <div>
         <SessionList
-          requestInstances={this.com.requestInstances}
           enterSessionWindow={this.enterSessionWindow}
-          stopRequestInstances={this.com.stopRequestInstances}
+          communication={this.com}
         />
       </div>
     );
