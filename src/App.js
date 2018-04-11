@@ -76,8 +76,8 @@ class App extends React.Component {
    * are being displayed. Automatically tries to connect to the game session.
    */
   enterGameWindow(username) {
+    /* eslint-disable-next-line */
     this.setState({ username, windowState: 'game' });
-
     // eslint-disable-next-line
     this.com.joinInstance(this.state.instanceName, username, (err, result) => {});
   }
