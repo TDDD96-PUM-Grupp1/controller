@@ -5,6 +5,10 @@ import { withStyles } from 'material-ui/styles';
 import GameScreenButtons from './GameScreenButton';
 import SensorManager from './SensorManager';
 
+/*
+Try to make screen fullscreen and lock orientation.
+The extent to which these actions can be performed is browser dependent.
+*/
 function lockScreen() {
   if (
     !(
@@ -28,11 +32,13 @@ function lockScreen() {
     // Is in fullscreen mode
     // Screen orientation lock currently only works properly in chrome
     // https://developer.mozilla.org/en-US/docs/Web/API/Screen/lockOrientation
-    window.screen.orientation
-      .lock('landscape-primary').catch(() => {});
+    window.screen.orientation.lock('landscape-primary').catch(() => {});
   }
 }
 
+/*
+Unlock screen rotation and exit fullscreen if applicable
+*/
 function unlockScreen() {
   if (typeof document.webkitCancelFullScreen !== 'undefined') {
     // Chrome
@@ -73,6 +79,8 @@ class GameScreen extends Component {
   }
 
   componentWillUnmount() {
+    unlockScreen();
+
     this.sensorManager.unbindEventListener();
   }
 
