@@ -1,6 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import List from 'material-ui/List';
+import ListSubheader from 'material-ui/List/ListSubheader';
+import { withStyles } from 'material-ui/styles';
 import Session from './Session';
+
+const styles = theme => ({
+  root: {
+    width: '100%',
+    maxWidth: 400,
+    backgroundColor: theme.palette.common.white
+  }
+});
 
 /**
  * The list the sessions live within, responsible for updating the list
@@ -9,32 +20,116 @@ import Session from './Session';
 class SessionList extends React.Component {
   constructor(props) {
     super(props);
-    this.displayList = props.activeSessions;
+    this.state = { instances: [] };
+    this.onInstancesReceived = this.onInstancesReceived.bind(this);
+    this.onPlayerAdded = this.onPlayerAdded.bind(this);
+    this.onInstanceCreated = this.onInstanceCreated.bind(this);
+  }
+  /*
+   * Initialize the list when this component gets mounted
+   */
+  componentDidMount() {
+    this.initList();
   }
 
-  // TODO This is where we read the deepstream socket to find game sessions
-  /* eslint-disable */
-  updateList() {
-    // Step 1: Get new sessions deepstream socket
-    // Step 2_ Change displayList
+  /*
+   * Callback for when the RPC call returns the instances.
+   */
+  onInstancesReceived(err, result) {
+    if (!err) {
+      this.setState({ instances: result });
+    } else {
+      // TODO: handle error
+    }
   }
-  /* eslint-enable */
+
+  /*
+   * Increases the counter of the number of players active when a new
+   * player connects.
+   */
+  onPlayerAdded(playerName, instanceName) {
+    for (let i = 0; i < this.state.instances.length; i += 1) {
+      if (this.state.instances[i].name === instanceName) {
+        const { instances } = this.state;
+        instances[i].currentlyPlaying += 1;
+        this.setState({ instances });
+      }
+    }
+  }
+
+  /*
+   * Decreases the counter of the number of players active when a
+   * player disconnects.
+   */
+  onPlayerRemoved(playerName, instanceName) {
+    for (let i = 0; i < this.state.instances.length; i += 1) {
+      if (this.state.instances[i].name === instanceName) {
+        const { instances } = this.state;
+        instances[i].currentlyPlaying -= 1;
+        this.setState({ instances });
+      }
+    }
+  }
+
+  /*
+   * Adds the instance to the list when it is started.
+   */
+  onInstanceCreated(instanceName) {
+    const { instances } = this.state;
+    instances.push({ name: instanceName, currentlyPlaying: 0 });
+    this.setState({ instances });
+  }
+
+  /*
+   * Remove the instance from the list when it is started.
+   */
+  onInstanceRemoved(instanceName) {
+    for (let i = 0; i < this.state.instances.length; i += 1) {
+      if (this.state.instances[i].name === instanceName) {
+        const { instances } = this.state;
+        instances.splice(i, 1);
+        this.setState({ instances });
+      }
+    }
+  }
+
+  /**
+   * Update the list of active instances
+   */
+  initList() {
+    this.props.requestInstances(this);
+  }
 
   render() {
+    const { classes } = this.props;
     return (
-      <div className="SessionList">
-        {this.displayList.map(session => (
+      <List
+        subheader={
+          <ListSubheader color="primary" className={classes.root}>
+            Sessions
+          </ListSubheader>
+        }
+      >
+        {this.state.instances.map(session => (
           <div key={session.name}>
-            <Session sessionObj={session} enterSessionWindow={this.props.enterSessionWindow} />
+            <Session
+              sessionObj={session}
+              enterSessionWindow={this.props.enterSessionWindow}
+              stopRequestInstances={this.props.stopRequestInstances}
+            />
           </div>
         ))}
-      </div>
+      </List>
     );
   }
 }
+/* eslint-disable react/forbid-prop-types, react/require-default-props */
 SessionList.propTypes = {
-  activeSessions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  enterSessionWindow: PropTypes.func.isRequired
+  enterSessionWindow: PropTypes.func.isRequired,
+  requestInstances: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired,
+  stopRequestInstances: PropTypes.func.isRequired
 };
+/* eslint-enable react/forbid-prop-types, react/require-default-props */
 
-export default SessionList;
+export default withStyles(styles)(SessionList);

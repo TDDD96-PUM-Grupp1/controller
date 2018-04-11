@@ -1,17 +1,14 @@
 .usernameInputText{
-    margin-top: 5%;
     font-size: large;
     font-family: "Roboto", "sans-serif";
-    width : 100%;
-    height: 20px;
+    width: 75%;
 }
 
 
 .usernameSubmitButton{
-    width: 103%;
-    height: 26px;
     font-family: "Roboto", "sans-serif";
     font-size: large;
+    width: 25%;
 }
 
 .Join{

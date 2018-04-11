@@ -1,5 +1,14 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { Button, TextField } from 'material-ui';
+import { withStyles } from 'material-ui/styles';
+
+const styles = () => ({
+  root: {
+    width: '100%',
+    maxWidth: 360
+  }
+});
 
 /**
  * The class responsible to handle the username input through a text field
@@ -12,22 +21,22 @@ class UsernameInput extends Component {
       username: ''
     };
 
-    this.handleSubmit = this.handleSubmit.bind(this);
     this.handleInputChange = this.handleInputChange.bind(this);
+      this.handleSubmit = this.handleSubmit.bind(this);
+    //this.handleJoin = this.handleJoin.bind(this);
   }
 
   /**
-   * Handles a submit request by printing current username and then calls the
-   * onInputSubmit function passed as a component prop.
+   * Is called when the Join button is pressed, callbacks to enterGameWindow in App.js
+   * with the argument of what is written in the text field.
    */
   handleSubmit() {
-    console.log(`Input is currently: "${this.state.username}"`);
-    // Need to use these parameters for the callback.
-    // eslint-disable no-unused-vars
-    this.props.onInputSubmit(this.props.instanceName, (err, result) => {});
+    this.props.showGameWindow(this.state.username);
   }
 
-  // Set new state on input change.
+  /**
+   * Set new state on input change.
+   */
   handleInputChange(event) {
     this.setState({
       username: event.target.value
@@ -35,31 +44,35 @@ class UsernameInput extends Component {
   }
 
   render() {
+    const { classes } = this.props;
     return (
       <div>
-        <input
-          className="usernameInputText"
+        <TextField
+          className={classes.root}
           value={this.state.username}
           onChange={this.handleInputChange}
-          type="text"
+          placeholder="Enter a name..."
+          label="Enter playername"
+          margin="normal"
         />
-        <button className="usernameSubmitButton" onClick={this.handleSubmit}>
-          Submit
-        </button>
+        <Button
+          className={classes.root}
+          variant="raised"
+          color="primary"
+          onClick={this.handleSubmit}
+        >
+          Join
+        </Button>
       </div>
     );
   }
 }
 
-UsernameInput.defaultProps = {
-  onInputSubmit: () => {
-    console.log('Username button clicked!');
-  }
-};
-
+/* eslint-disable react/forbid-prop-types */
 UsernameInput.propTypes = {
-  onInputSubmit: PropTypes.func,
-  instanceName: PropTypes.string.isRequired
+  showGameWindow: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired
 };
+/* eslint-enable react/forbid-prop-types */
 
-export default UsernameInput;
+export default withStyles(styles)(UsernameInput);

@@ -1,5 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { ListItem, ListItemText } from 'material-ui/List';
+import { withStyles } from 'material-ui/styles';
 
 /**
  * A session of an active game, saves:
@@ -9,28 +11,44 @@ import PropTypes from 'prop-types';
  *
  * TODO dont display IP and display the ping instead
  */
+
+const styles = theme => ({
+  root: {
+    width: '100%',
+    maxWidth: 360
+  }
+});
+
 class Session extends React.Component {
   constructor(props) {
     super(props);
     // This binding is necessary to make `this` work in the callback
     this.handleClick = this.handleClick.bind(this);
-    this.props.sessionObj.currentlyPlaying = 1;
+    if (this.props.sessionObj.currentlyPlaying === undefined) {
+      this.props.sessionObj.currentlyPlaying = 0;
+    }
+    this.props.sessionObj.buttonAmount = 3;
   }
 
   /**
-   * Clicking on a session will transfer you to a new window
+   * Clicking a session takes you to the detailed screen of said session and also changes the
+   * state of the variable keeping track of the amount of buttons each session has.
    */
   handleClick() {
-    this.props.enterSessionWindow(this.props.sessionObj.name);
+    const buttonAmount = parseInt(Number(this.props.sessionObj.buttonAmount), 10);
+    this.props.enterSessionWindow(this.props.sessionObj.name, buttonAmount);
+    this.props.stopRequestInstances();
   }
 
   render() {
+    const { classes } = this.props;
     return (
-      <div className="Session" role="button" tabIndex={0} onClick={this.handleClick}>
-        <div>ACTIVE SESSION</div>
-        <div>{this.props.sessionObj.currentlyPlaying} active players</div>
-        <div>{this.props.sessionObj.name}</div>
-      </div>
+      <ListItem divider className={classes.root} button onClick={this.handleClick}>
+        <ListItemText primary="Active Session" />
+        <ListItemText primary={this.props.sessionObj.currentlyPlaying} />
+        <ListItemText primary={this.props.sessionObj.name} />
+        <ListItemText primary={'Buttons used: '.concat(this.props.sessionObj.buttonAmount)} />
+      </ListItem>
     );
   }
 }
@@ -38,8 +56,10 @@ class Session extends React.Component {
 /* eslint-disable react/forbid-prop-types */
 Session.propTypes = {
   sessionObj: PropTypes.object.isRequired,
-  enterSessionWindow: PropTypes.func.isRequired
+  enterSessionWindow: PropTypes.func.isRequired,
+  classes: PropTypes.object.isRequired,
+  stopRequestInstances: PropTypes.func.isRequired
 };
 /* eslint-enable react/forbid-prop-types */
 
-export default Session;
+export default withStyles(styles)(Session);

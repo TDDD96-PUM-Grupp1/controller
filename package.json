@@ -4,6 +4,8 @@
   "private": true,
   "dependencies": {
     "deepstream.io-client-js": "^2.3.0",
+    "material-ui": "^1.0.0-beta.38",
+    "material-ui-icons": "^1.0.0-beta.36",
     "prop-types": "^15.6.0",
     "react": "^16.2.0",
     "react-dom": "^16.2.0",
@@ -11,9 +13,10 @@
   },
   "scripts": {
     "start": "PORT=8080 react-scripts start",
+    "start-local": "PORT=8080 REACT_APP_LOCAL=1 react-scripts start",    
     "start-pc": "set PORT=3001&& react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --env=jsdom",
+    "test": "react-scripts test --forceExit --env=jsdom",
     "eject": "react-scripts eject",
     "lint": "eslint src/",
     "lintfix": "eslint src/ --fix"
