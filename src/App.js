@@ -4,7 +4,6 @@ import red from 'material-ui/colors/red';
 import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import PropTypes from 'prop-types';
 import './components/css/App.css';
-import SensorOutput from './components/SensorOutput';
 import SessionList from './components/SessionList';
 import WelcomeScreen from './components/WelcomeScreen';
 import UsernameInput from './components/UsernameInput';
@@ -19,75 +18,28 @@ const theme = createMuiTheme({
   }
 });
 
-/**
- * This is just some random data to have something to display
- */
-const testSessions = [
-  {
-    name: 'ABCD',
-    currentlyPlaying: '5',
-    buttonAmount: '5'
-  },
-  {
-    name: 'ASDF',
-    currentlyPlaying: '17',
-    buttonAmount: '2'
-  },
-  {
-    name: 'QWER',
-    currentlyPlaying: '0',
-    buttonAmount: '8'
-  },
-  {
-    name: 'ZXCY',
-    currentlyPlaying: '8',
-    buttonAmount: '2'
-  },
-  {
-    name: 'ZKCV',
-    currentlyPlaying: '8',
-    buttonAmount: '22'
-  },
-  {
-    name: 'ZACV',
-    currentlyPlaying: '8',
-    buttonAmount: '11'
-  },
-  {
-    name: 'BXCV',
-    currentlyPlaying: '8',
-    buttonAmount: '0'
-  },
-  {
-    name: 'ZXPV',
-    currentlyPlaying: '8',
-    buttonAmount: '6'
-  },
-  {
-    name: 'ZTCV',
-    currentlyPlaying: '8',
-    buttonAmount: '7'
-  },
-  {
-    name: 'ZXRV',
-    currentlyPlaying: '8',
-    buttonAmount: '13'
-  },
-  {
-    name: 'ZXCG',
-    currentlyPlaying: '8',
-    buttonAmount: '2'
-  }
-];
-
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = { windowState: 'default', numberOfGameButtons: 0 };
+    // username is not currently used but is expected to be added later in development,
+    // it allows for the user to only give their username once
+    // and then reuse it through multiple game sessions
+    this.state = {
+      windowState: 'default',
+      numberOfGameButtons: 0,
+      username: '',
+      instanceName: ''
+    };
 
     // Make sure to not create communication when we're running as a test.
     // This is because of a weird TravisCI error.
     if (!props.test) {
+      // Use local Deepstream server instead of remote.
+      if (process.env.REACT_APP_LOCAL) {
+        /* eslint-disable-next-line */
+        console.log('Using local Deepstream server');
+        settings.communication.host_ip = 'localhost:60020';
+      }
       this.com = new Communication(settings.communication);
     }
 
@@ -104,11 +56,10 @@ class App extends React.Component {
    * from the session to the main application
    */
   enterSessionWindow(instanceName, nrButtons) {
-    this.instanceName = instanceName;
     if (!Number.isNaN(nrButtons) && parseInt(Number(nrButtons), 10) === nrButtons) {
       this.setState({ numberOfGameButtons: nrButtons });
     }
-    this.setState({ windowState: 'session' });
+    this.setState({ instanceName, windowState: 'session' });
   }
 
   /**
@@ -121,24 +72,21 @@ class App extends React.Component {
 
   /**
    * Used to switch to the game window where all sessions
-   * are being displayed
+   * are being displayed. Automatically tries to connect to the game session.
    */
   enterGameWindow(username) {
-    this.setState({ windowState: 'game' });
-    this.username = username;
-
+    /* eslint-disable-next-line */
+    this.setState({ username, windowState: 'game' });
     // eslint-disable-next-line
-    this.com.joinInstance(this.instanceName, this.username, (err, result)=>{});
+    this.com.joinInstance(this.state.instanceName, username, (err, result) => {});
   }
 
   /**
    * This function is called whenever a button in the gamescreen is pressed
    * @param buttonNumber is an integer identifying which of the buttons was pressed
    */
-  // TODO: send this button to the UI.
-  // eslint-disable-next-line
   gameButtonPressed(buttonNumber) {
-    this.enterMainWindow();
+    this.com.sendButtonPress(buttonNumber);
   }
 
   renderDefault() {
@@ -149,12 +97,10 @@ class App extends React.Component {
     return (
       <div>
         <SessionList
-          testSessions={testSessions}
           requestInstances={this.com.requestInstances}
           enterSessionWindow={this.enterSessionWindow}
           stopRequestInstances={this.com.stopRequestInstances}
         />
-        <SensorOutput />
       </div>
     );
   }
@@ -162,8 +108,11 @@ class App extends React.Component {
   renderSession() {
     return (
       <div>
-        <UsernameInput instanceName={this.instanceName} showGameWindow={this.enterGameWindow} />
-        <SensorOutput onSensorChange={this.com.updateSensorData} />
+        <UsernameInput
+          instanceName={this.state.instanceName}
+          showGameWindow={this.enterGameWindow}
+          onInputSubmit={this.com.joinInstance}
+        />
       </div>
     );
   }
@@ -174,8 +123,9 @@ class App extends React.Component {
         <GameScreen
           numberOfButtons={this.state.numberOfGameButtons}
           gameButtonPressed={this.gameButtonPressed}
+          onSensorChange={this.com.updateSensorData}
           username={this.username}
-          instanceName={this.instanceName}
+          instanceName={this.state.instanceName}
         />
       </div>
     );

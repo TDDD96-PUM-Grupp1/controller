@@ -43,6 +43,7 @@ class SessionList extends React.Component {
    */
   onInstancesReceived(err, result) {
     if (!err) {
+      this.instances = result;
       this.setState({ instances: result });
     } else {
       // TODO: handle error
@@ -81,10 +82,9 @@ class SessionList extends React.Component {
    * Adds the instance to the list when it is started.
    */
   onInstanceCreated(instanceName) {
-    let instance = { name: instanceName, currentlyPlaying: 0 };
-    
-    if(!this.isFiltered(instanceName))
-    {
+    const instance = { name: instanceName, currentlyPlaying: 0 };
+
+    if (!this.isFiltered(instanceName)) {
       const { instances } = this.state;
       instances.push(instance);
       this.setState({ instances });
@@ -96,8 +96,7 @@ class SessionList extends React.Component {
    * Remove the instance from the list when it is started.
    */
   onInstanceRemoved(instanceName) {
-    if(!this.isFiltered(instanceName))
-    {
+    if (!this.isFiltered(instanceName)) {
       for (let i = 0; i < this.state.instances.length; i += 1) {
         if (this.state.instances[i].name === instanceName) {
           const { instances } = this.state;
@@ -123,51 +122,47 @@ class SessionList extends React.Component {
     this.props.requestInstances(this);
   }
 
-  isFiltered(instanceName)
-  {
-    console.log(`${instanceName} : ${this.filter}`);
-    return !instanceName.includes(this.filter);
+  isFiltered(instanceName) {
+    return !instanceName.toLowerCase().includes(this.filter);
   }
 
   /*
    * This will filter the list with the given string.
    */
   filterList(filter) {
-    this.filter = filter;
-    let stateInstances = []; 
-    for (let i = 0; i < this.instances.length; i += 1)
-    {
-      if(!this.isFiltered(this.instances[i].name))
-      {
+    this.filter = filter.toLowerCase();
+    const stateInstances = [];
+    for (let i = 0; i < this.instances.length; i += 1) {
+      if (!this.isFiltered(this.instances[i].name)) {
         stateInstances.push(this.instances[i]);
       }
     }
 
-    this.setState({instances: stateInstances});
+    this.setState({ instances: stateInstances });
   }
 
   render() {
     const { classes } = this.props;
     return (
       <div>
-      <FilterSession onInputChange={this.filterList}/>
-      <List
-        subheader={
-          <ListSubheader color="primary" className={classes.root}>
-            Sessions
-          </ListSubheader>
-        }
-      >
-        {this.state.instances.map(session => (
-          <div key={session.name}>
-            <Session
-              sessionObj={session}
-              enterSessionWindow={this.props.enterSessionWindow}
-              stopRequestInstances={this.props.stopRequestInstances}
-            />
-          </div>
-        ))}
-      </List>
+        <FilterSession onInputChange={this.filterList} />
+        <List
+          subheader={
+            <ListSubheader color="primary" className={classes.root}>
+              Sessions
+            </ListSubheader>
+          }
+        >
+          {this.state.instances.map(session => (
+            <div key={session.name}>
+              <Session
+                sessionObj={session}
+                enterSessionWindow={this.props.enterSessionWindow}
+                stopRequestInstances={this.props.stopRequestInstances}
+              />
+            </div>
+          ))}
+        </List>
       </div>
     );
   }
