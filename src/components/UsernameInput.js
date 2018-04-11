@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, TextField } from 'material-ui';
 import { withStyles } from 'material-ui/styles';
+import IconList from './IconList';
 
 const styles = () => ({
   text: {
@@ -74,6 +75,7 @@ class UsernameInput extends Component {
         >
           Join
         </Button>
+        <IconList />
         <Button
           className={classes.backButton}
           variant="raised"
