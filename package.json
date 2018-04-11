@@ -14,7 +14,8 @@
   "scripts": {
     "start": "PORT=8080 react-scripts start",
     "start-local": "PORT=8080 REACT_APP_LOCAL=1 react-scripts start",    
-    "start-pc": "set PORT=3001&& react-scripts start",
+    "start-pc": "set PORT=3000 && react-scripts start",
+    "start-pc-local": "set PORT=3000 && set REACT_APP_LOCAL=1 && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --forceExit --env=jsdom",
     "eject": "react-scripts eject",
