@@ -81,8 +81,13 @@ class SessionList extends React.Component {
   /*
    * Adds the instance to the list when it is started.
    */
-  onInstanceCreated(instanceName) {
-    const instance = { name: instanceName, currentlyPlaying: 0 };
+  onInstanceCreated(instanceName, maxPlayers, gamemode) {
+    const instance = {
+      name: instanceName,
+      currentlyPlaying: 0,
+      maxPlayers,
+      gamemode
+    };
 
     if (!this.isFiltered(instanceName)) {
       const { instances } = this.state;
@@ -119,7 +124,7 @@ class SessionList extends React.Component {
    * Update the list of active instances
    */
   initList() {
-    this.props.requestInstances(this);
+    this.props.communication.requestInstances(this);
   }
 
   isFiltered(instanceName) {
@@ -158,7 +163,7 @@ class SessionList extends React.Component {
               <Session
                 sessionObj={session}
                 enterSessionWindow={this.props.enterSessionWindow}
-                stopRequestInstances={this.props.stopRequestInstances}
+                communication={this.props.communication}
               />
             </div>
           ))}
@@ -170,9 +175,10 @@ class SessionList extends React.Component {
 /* eslint-disable react/forbid-prop-types, react/require-default-props */
 SessionList.propTypes = {
   enterSessionWindow: PropTypes.func.isRequired,
-  requestInstances: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
-  stopRequestInstances: PropTypes.func.isRequired
+  /* eslint-disable */
+  communication: PropTypes.object.isRequired,
+  /* eslint-enable */
 };
 /* eslint-enable react/forbid-prop-types, react/require-default-props */
 

@@ -27,6 +27,7 @@ class Communication {
     this.stopRequestInstances = this.stopRequestInstances.bind(this);
     this.joinInstance = this.joinInstance.bind(this);
     this.tick = this.tick.bind(this);
+    this.pingInstance = this.pingInstance.bind(this);
   }
 
   /*
@@ -68,7 +69,7 @@ class Communication {
       instanceListener.onPlayerRemoved(data.playerName, data.instanceName);
     });
     this.client.event.subscribe(`${this.serviceName}/instanceCreated`, data => {
-      instanceListener.onInstanceCreated(data.name);
+      instanceListener.onInstanceCreated(data.name, data.maxPlayers, data.gamemode);
     });
     this.client.event.subscribe(`${this.serviceName}/instanceRemoved`, data => {
       instanceListener.onInstanceRemoved(data.name);
@@ -131,6 +132,12 @@ class Communication {
     this.client.event.emit(`${this.serviceName}/data/${this.instance}`, this.dataBuffer);
     this.dataBuffer = {};
     this.dataBuffer.bnum = [];
+  }
+  /*
+   * Sends a ping message to the given instance.
+   */
+  pingInstance(instanceName, pingCallback) {
+    this.client.rpc.make(`${this.serviceName}/pingTime/${this.instance}`, {}, pingCallback);
   }
 
   /**
