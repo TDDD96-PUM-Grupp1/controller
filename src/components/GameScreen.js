@@ -5,6 +5,50 @@ import { withStyles } from 'material-ui/styles';
 import GameScreenButtons from './GameScreenButton';
 import SensorManager from './SensorManager';
 
+/*
+Try to make screen fullscreen and lock orientation.
+The extent to which these actions can be performed is browser dependent.
+*/
+function lockScreen() {
+  if (
+    !(
+      document.mozFullScreenEnabled ||
+      document.webkitFullscreenEnabled ||
+      document.fullscreenEnabled
+    )
+  ) {
+    return;
+  }
+
+  if (typeof document.documentElement.webkitRequestFullscreen !== 'undefined') {
+    // Chrome
+    document.documentElement.webkitRequestFullscreen();
+  } else if (typeof document.documentElement.mozRequestFullScreen !== 'undefined') {
+    // Firefox
+    document.documentElement.mozRequestFullScreen();
+  }
+
+  if (Document.fullscreenElement !== null) {
+    // Is in fullscreen mode
+    // Screen orientation lock currently only works properly in chrome
+    // https://developer.mozilla.org/en-US/docs/Web/API/Screen/lockOrientation
+    window.screen.orientation.lock('landscape-primary').catch(() => {});
+  }
+}
+
+/*
+Unlock screen rotation and exit fullscreen if applicable
+*/
+function unlockScreen() {
+  if (typeof document.webkitCancelFullScreen !== 'undefined') {
+    // Chrome
+    document.webkitCancelFullScreen();
+  } else if (typeof document.mozCancelFullScreen !== 'undefined') {
+    // Firefox
+    document.mozCancelFullScreen();
+  }
+}
+
 const styles = () => ({
   root: {
     width: '100%',
@@ -26,11 +70,17 @@ class GameScreen extends Component {
     this.sensorManager = new SensorManager(props.onSensorChange);
   }
 
+  componentWillMount() {
+    lockScreen();
+  }
+
   componentDidMount() {
     this.sensorManager.bindEventListener();
   }
 
   componentWillUnmount() {
+    unlockScreen();
+
     this.sensorManager.unbindEventListener();
   }
 
@@ -71,5 +121,4 @@ GameScreen.propTypes = {
 };
 /* eslint-enable react/forbid-prop-types */
 
-//export default GameScreen;
 export default withStyles(styles)(GameScreen);
