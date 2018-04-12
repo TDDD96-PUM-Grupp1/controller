@@ -131,3 +131,4 @@ GameScreen.propTypes = {
 /* eslint-enable react/forbid-prop-types */
 
 export default withStyles(styles)(GameScreen);
+
