@@ -17,11 +17,18 @@ const styles = () => ({
   },
 
   backButton: {
-    width: '100%',
+    width: '49%',
     marginTop: 5,
     position: 'fixed',
     top: 120,
     left: 0
+  },
+  randomButton: {
+    width: '49%',
+    marginTop: 5,
+    position: 'fixed',
+    top: 120,
+    right: 0
   }
 });
 
@@ -40,6 +47,7 @@ class UsernameInput extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.goBack = this.goBack.bind(this);
+    this.randomizeName = this.randomizeName.bind(this);
   }
 
   /**
@@ -70,6 +78,14 @@ class UsernameInput extends Component {
   goBack() {
     this.props.goBack(this.state.username);
   }
+
+  /**
+   * Changes the current username to a random one
+   */
+  randomizeName() {
+    this.setState({ username: this.randomizer.getRandomName() });
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -97,6 +113,14 @@ class UsernameInput extends Component {
           onClick={this.goBack}
         >
           Back
+        </Button>
+        <Button
+          className={classes.randomButton}
+          variant="raised"
+          color="primary"
+          onClick={this.randomizeName}
+        >
+          Random
         </Button>
         <IconList />
       </div>

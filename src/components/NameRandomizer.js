@@ -52,9 +52,9 @@ class NameRandomizer {
    * Returns a random name based on the list of possible words
    */
   getRandomName() {
-    const noun = this.nouns[NameRandomizer.randomIntFromInterval(0, this.nouns.length)];
+    const noun = this.nouns[NameRandomizer.randomIntFromInterval(0, this.nouns.length - 1)];
     const adjective = this.adjectives[
-      NameRandomizer.randomIntFromInterval(0, this.adjectives.length)
+      NameRandomizer.randomIntFromInterval(0, this.adjectives.length - 1)
     ];
     return noun.concat(adjective);
   }
