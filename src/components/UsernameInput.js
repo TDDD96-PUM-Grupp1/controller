@@ -2,10 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, TextField } from 'material-ui';
 import { withStyles } from 'material-ui/styles';
+import IconList from './IconList';
 
 const styles = () => ({
   text: {
-    width: '100%',
+    width: '100%'
   },
   joinButton: {
     width: '100%',
@@ -64,7 +65,7 @@ class UsernameInput extends Component {
           onChange={this.handleInputChange}
           placeholder="Enter a name..."
           label="Enter playername"
-          margin="normal"
+          fullWidth
         />
         <Button
           className={classes.joinButton}
@@ -82,6 +83,7 @@ class UsernameInput extends Component {
         >
           Back
         </Button>
+        <IconList />
       </div>
     );
   }
