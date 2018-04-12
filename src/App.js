@@ -143,17 +143,18 @@ class App extends React.Component {
   render() {
     let stateRender;
 
-    if (this.state.windowState === 'default') {
-      stateRender = this.renderDefault();
-    } else if (this.state.windowState === 'sessionList') {
-      stateRender = this.renderSessionList();
-    } else if (this.state.windowState === 'session') {
-      stateRender = this.renderSession();
-    } else if (this.state.windowState === 'game') {
-      stateRender = this.renderGame();
-    } else {
-      return <div className="App">no state is selected to show!</div>;
-    }
+    stateRender = this.renderSession();
+    // if (this.state.windowState === 'default') {
+    //   stateRender = this.renderDefault();
+    // } else if (this.state.windowState === 'sessionList') {
+    //   stateRender = this.renderSessionList();
+    // } else if (this.state.windowState === 'session') {
+    //   stateRender = this.renderSession();
+    // } else if (this.state.windowState === 'game') {
+    //   stateRender = this.renderGame();
+    // } else {
+    //   return <div className="App">no state is selected to show!</div>;
+    // }
 
     return (
       <MuiThemeProvider theme={theme}>

@@ -3,6 +3,7 @@ import GridList, { GridListTile } from 'material-ui/GridList';
 import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
 import { withStyles } from 'material-ui/styles';
+import { TwitterPicker } from 'react-color';
 import Subheader from 'material-ui/List/ListSubheader';
 import PropTypes from 'prop-types';
 import iconData from './iconData';
@@ -30,9 +31,12 @@ const styles = () => ({
     width: '100%'
   },
   imageSize: {
-    width: '65%',
+    width: 128,
     height: '65%',
     margin: 'auto'
+  },
+  imagePreview: {
+    color: '777777'
   }
 });
 
@@ -46,9 +50,11 @@ class IconList extends Component {
     super(props);
     this.state = {
       currentImage: iconData[0].img,
-      currentImageName: iconData[0].name
+      currentImageName: iconData[0].name,
+      previewColor: '#FFFFFF'
     };
     this.handleClick = this.handleClick.bind(this);
+    this.handleColorChange = this.handleColorChange.bind(this);
   }
   /**
    * Sets the current icon given a user has clicked on a icon.
@@ -65,12 +71,24 @@ class IconList extends Component {
     });
   }
 
+  handleColorChange(color) {
+    this.setState({ previewColor: color.hex });
+  }
+
   render() {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
         <Grid container className={classes.currentIcon}>
-          <Grid item className={classes.currentItem}>
+          <Grid
+            item
+            className={classes.currentItem}
+            style={{
+              backgroundColor: this.state.previewColor,
+              float: 'left',
+              display: 'inline'
+            }}
+          >
             <Paper>
               <Subheader> {this.state.currentImageName} </Subheader>
               <Grid item className={classes.imageSize}>
@@ -78,6 +96,15 @@ class IconList extends Component {
               </Grid>
             </Paper>
           </Grid>
+          <TwitterPicker
+            color={this.state.previewColor}
+            onChange={this.handleColorChange}
+            style={{
+              float: 'left',
+              display: 'inline'
+            }}
+            triangle="hide"
+          />
         </Grid>
         <Paper className={classes.alternatives}>
           <Subheader> Icons </Subheader>
