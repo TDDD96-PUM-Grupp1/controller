@@ -38,7 +38,9 @@ class App extends React.Component {
       if (process.env.REACT_APP_LOCAL) {
         /* eslint-disable-next-line */
         console.log('Using local Deepstream server');
-        settings.communication.host_ip = 'localhost:60020';
+        const ip = document.location.href.split('://')[1].split(':')[0];
+        const ipPort = `${ip}:60020`;
+        settings.communication.host_ip = ipPort;
       }
       this.com = new Communication(settings.communication);
     }
