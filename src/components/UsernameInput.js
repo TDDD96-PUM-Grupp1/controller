@@ -2,16 +2,25 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, TextField } from 'material-ui';
 import { withStyles } from 'material-ui/styles';
+import IconList from './IconList';
 
 const styles = () => ({
-  root: {
-    width: '100%',
-    maxWidth: 360
+  text: {
+    width: '100%'
   },
+  joinButton: {
+    width: '100%',
+    position: 'fixed',
+    top: 80,
+    left: 0
+  },
+
   backButton: {
     width: '100%',
-    maxWidth: 360,
-    marginTop: 5
+    marginTop: 5,
+    position: 'fixed',
+    top: 120,
+    left: 0
   }
 });
 
@@ -51,15 +60,15 @@ class UsernameInput extends Component {
     return (
       <div>
         <TextField
-          className={classes.root}
+          className={classes.text}
           value={this.state.username}
           onChange={this.handleInputChange}
           placeholder="Enter a name..."
           label="Enter playername"
-          margin="normal"
+          fullWidth
         />
         <Button
-          className={classes.root}
+          className={classes.joinButton}
           variant="raised"
           color="primary"
           onClick={this.handleSubmit}
@@ -74,6 +83,7 @@ class UsernameInput extends Component {
         >
           Back
         </Button>
+        <IconList />
       </div>
     );
   }
