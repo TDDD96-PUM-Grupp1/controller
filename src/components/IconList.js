@@ -9,7 +9,8 @@ import iconData from './iconData';
 
 const styles = () => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
+    marginTop: 110
   },
   gridList: {
     flexWrap: 'nowrap',
@@ -25,7 +26,8 @@ const styles = () => ({
     width: '100%'
   },
   alternatives: {
-    width: 360
+    textAlign: 'center',
+    width: '100%'
   },
   imageSize: {
     width: '65%',
@@ -33,6 +35,11 @@ const styles = () => ({
     margin: 'auto'
   }
 });
+
+/**
+ * Component that shows selected icon and provides a scrollable bar
+ * to pick between icons provided by iconData.js.
+ */
 
 class IconList extends Component {
   constructor(props) {
@@ -43,9 +50,12 @@ class IconList extends Component {
     };
     this.handleClick = this.handleClick.bind(this);
   }
-
+  /**
+   * Sets the current icon given a user has clicked on a icon.
+   */
   handleClick(e) {
-    if (e.target.id === undefined) {
+    // Error check, for index in list.
+    if (!e.target.id) {
       return;
     }
 

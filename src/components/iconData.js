@@ -69,7 +69,7 @@ const iconData = [
     id: 12
   },
   {
-    img: '/icons/Elephant.svg',
+    img: '/icons/elephant.svg',
     name: 'Elephant',
     id: 13
   },

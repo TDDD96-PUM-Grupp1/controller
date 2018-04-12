@@ -65,7 +65,7 @@ class UsernameInput extends Component {
           onChange={this.handleInputChange}
           placeholder="Enter a name..."
           label="Enter playername"
-          margin="normal"
+          fullWidth
         />
         <Button
           className={classes.joinButton}
@@ -74,6 +74,14 @@ class UsernameInput extends Component {
           onClick={this.handleSubmit}
         >
           Join
+        </Button>
+        <Button
+          className={classes.backButton}
+          variant="raised"
+          color="primary"
+          onClick={this.props.goBack}
+        >
+          Back
         </Button>
         <IconList />
       </div>
