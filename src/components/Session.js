@@ -22,9 +22,11 @@ class Session extends React.Component {
       this.props.sessionObj.currentlyPlaying = 0;
     }
     this.props.sessionObj.buttonAmount = 3;
-    this.state = {pingTime: "..."};
-    let current = Date.now();
-    this.props.communication.pingInstance(this.props.sessionObj.name, (data,err) => { this.setState({pingTime: `${Date.now()-current} ms`})});
+    this.state = { pingTime: '...' };
+    const current = Date.now();
+    this.props.communication.pingInstance(this.props.sessionObj.name, (data, err) => {
+      this.setState({ pingTime: `${Date.now() - current} ms` });
+    });
   }
 
   /**
@@ -43,7 +45,9 @@ class Session extends React.Component {
       <ListItem divider className={classes.root} button onClick={this.handleClick}>
         <ListItemText primary={this.props.sessionObj.name} />
         <ListItemText primary={this.props.sessionObj.gamemode} />
-        <ListItemText primary={this.props.sessionObj.currentlyPlaying+"/"+this.props.sessionObj.maxPlayers} />
+        <ListItemText
+          primary={`${this.props.sessionObj.currentlyPlaying}/${this.props.sessionObj.maxPlayers}`}
+        />
         <ListItemText primary={this.state.pingTime} />
       </ListItem>
     );
@@ -58,7 +62,6 @@ Session.propTypes = {
   /* eslint-disable */
   communication: PropTypes.object.isRequired,
   /* eslint-enable */
-
 };
 /* eslint-enable react/forbid-prop-types */
 

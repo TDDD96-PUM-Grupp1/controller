@@ -82,7 +82,12 @@ class SessionList extends React.Component {
    * Adds the instance to the list when it is started.
    */
   onInstanceCreated(instanceName, maxPlayers, gamemode) {
-    const instance = { name: instanceName, currentlyPlaying: 0,maxPlayers,gamemode };
+    const instance = {
+      name: instanceName,
+      currentlyPlaying: 0,
+      maxPlayers,
+      gamemode
+    };
 
     if (!this.isFiltered(instanceName)) {
       const { instances } = this.state;

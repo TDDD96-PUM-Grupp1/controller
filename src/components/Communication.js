@@ -130,9 +130,8 @@ class Communication {
   /*
    * Sends a ping message to the given instance.
    */
-  pingInstance(instanceName, pingCallback)
-  {
-    this.client.rpc.make(`${this.serviceName}/pingTime/${this.instance}`,{},pingCallback); 
+  pingInstance(instanceName, pingCallback) {
+    this.client.rpc.make(`${this.serviceName}/pingTime/${this.instance}`, {}, pingCallback);
   }
 
   /**
