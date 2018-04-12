@@ -63,6 +63,8 @@ class IconList extends Component {
       currentImage: iconData[e.target.id].img,
       currentImageName: iconData[e.target.id].name
     });
+
+    this.props.onIconSelect(iconData[e.target.id].id);
   }
 
   render() {
@@ -103,7 +105,8 @@ class IconList extends Component {
 
 /* eslint-disable react/forbid-prop-types */
 IconList.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  onIconSelect: PropTypes.func.isRequired
 };
 /* eslint-enable react/forbid-prop-types */
 

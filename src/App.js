@@ -81,11 +81,11 @@ class App extends React.Component {
    * Used to switch to the game window where all sessions
    * are being displayed. Automatically tries to connect to the game session.
    */
-  enterGameWindow(username) {
+  enterGameWindow(username, iconID) {
     /* eslint-disable-next-line */
     this.setState({ username, windowState: 'game' });
     // eslint-disable-next-line
-    this.com.joinInstance(this.state.instanceName, username, (err, result) => {});
+    this.com.joinInstance(this.state.instanceName, username, iconID, (err, result) => {});
   }
 
   /**

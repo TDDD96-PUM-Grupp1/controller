@@ -41,13 +41,15 @@ class UsernameInput extends Component {
     super(props);
     this.randomizer = new NameRandomizer();
     this.state = {
-      username: this.props.username
+      username: this.props.username,
+      iconID: 0
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.goBack = this.goBack.bind(this);
     this.randomizeName = this.randomizeName.bind(this);
+    this.handleIconSelect = this.handleIconSelect.bind(this);
   }
 
   /**
@@ -57,10 +59,16 @@ class UsernameInput extends Component {
    */
   handleSubmit() {
     if (this.state.username === '') {
-      this.props.showGameWindow(this.randomizer.getRandomName());
+      this.props.showGameWindow(this.randomizer.getRandomName(), this.state.iconID);
     } else {
-      this.props.showGameWindow(this.state.username);
+      this.props.showGameWindow(this.state.username, this.state.iconID);
     }
+  }
+
+  handleIconSelect(iconID) {
+    this.setState({
+      iconID
+    });
   }
 
   /**
@@ -122,7 +130,7 @@ class UsernameInput extends Component {
         >
           Random
         </Button>
-        <IconList />
+        <IconList onIconSelect={this.handleIconSelect} />
       </div>
     );
   }
