@@ -68,6 +68,7 @@ class GameScreen extends Component {
     }
 
     this.sensorManager = new SensorManager(props.onSensorChange);
+    this.sensorManager.calibrate = this.sensorManager.calibrate.bind(this);
   }
 
   componentWillMount() {
@@ -95,6 +96,14 @@ class GameScreen extends Component {
           onClick={this.props.goBack}
         >
           Leave
+        </Button>
+        <Button
+          className={classes.backButton}
+          variant="raised"
+          color="primary"
+          onClick={this.sensorManager.calibrate}
+        >
+          Recallibrate Sensors
         </Button>
         <div className="GameButtonContainer">
           {this.buttonList.map(button => (
