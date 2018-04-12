@@ -32,10 +32,12 @@ class UsernameInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: ''
+      username: '',
+      iconID: 0
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleIconSelect = this.handleIconSelect.bind(this);
   }
 
   /**
@@ -43,7 +45,13 @@ class UsernameInput extends Component {
    * with the argument of what is written in the text field.
    */
   handleSubmit() {
-    this.props.showGameWindow(this.state.username);
+    this.props.showGameWindow(this.state.username, this.state.iconID);
+  }
+
+  handleIconSelect(iconID) {
+    this.setState({
+      iconID
+    });
   }
 
   /**
@@ -83,7 +91,7 @@ class UsernameInput extends Component {
         >
           Back
         </Button>
-        <IconList />
+        <IconList onIconSelect={this.handleIconSelect} />
       </div>
     );
   }
