@@ -84,6 +84,7 @@ class IconList extends Component {
           <GridList className={classes.gridList}>
             {iconData.map(tile => (
               <GridListTile
+                key={tile.id}
                 style={{
                   height: 64,
                   width: 64
