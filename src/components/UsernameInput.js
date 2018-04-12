@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { Button, TextField } from 'material-ui';
 import { withStyles } from 'material-ui/styles';
 import IconList from './IconList';
+import NameRandomizer from './NameRandomizer';
 
 const styles = () => ({
   text: {
@@ -31,9 +32,11 @@ const styles = () => ({
 class UsernameInput extends Component {
   constructor(props) {
     super(props);
+    this.randomizer = new NameRandomizer();
     this.state = {
       username: this.props.username
     };
+
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.goBack = this.goBack.bind(this);
@@ -42,9 +45,14 @@ class UsernameInput extends Component {
   /**
    * Is called when the Join button is pressed, callbacks to enterGameWindow in App.js
    * with the argument of what is written in the text field.
+   * If no username is specified the game generates a random one for the player.
    */
   handleSubmit() {
-    this.props.showGameWindow(this.state.username);
+    if (this.state.username === '') {
+      this.props.showGameWindow(this.randomizer.getRandomName());
+    } else {
+      this.props.showGameWindow(this.state.username);
+    }
   }
 
   /**
