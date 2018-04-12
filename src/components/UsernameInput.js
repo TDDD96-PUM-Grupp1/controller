@@ -32,10 +32,11 @@ class UsernameInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: ''
+      username: this.props.username
     };
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.goBack = this.goBack.bind(this);
   }
 
   /**
@@ -55,6 +56,12 @@ class UsernameInput extends Component {
     });
   }
 
+  /**
+   * Leaves this window and saves the username
+   */
+  goBack() {
+    this.props.goBack(this.state.username);
+  }
   render() {
     const { classes } = this.props;
     return (
@@ -79,7 +86,7 @@ class UsernameInput extends Component {
           className={classes.backButton}
           variant="raised"
           color="primary"
-          onClick={this.props.goBack}
+          onClick={this.goBack}
         >
           Back
         </Button>
@@ -93,7 +100,8 @@ class UsernameInput extends Component {
 UsernameInput.propTypes = {
   showGameWindow: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
-  goBack: PropTypes.func.isRequired
+  goBack: PropTypes.func.isRequired,
+  username: PropTypes.string.isRequired
 };
 /* eslint-enable react/forbid-prop-types */
 
