@@ -22,6 +22,11 @@ class Session extends React.Component {
       this.props.sessionObj.currentlyPlaying = 0;
     }
     this.props.sessionObj.buttonAmount = 3;
+    this.state = { pingTime: '...' };
+    const current = Date.now();
+    this.props.communication.pingInstance(this.props.sessionObj.name, (data, err) => {
+      this.setState({ pingTime: `${Date.now() - current} ms` });
+    });
   }
 
   /**
@@ -31,17 +36,19 @@ class Session extends React.Component {
   handleClick() {
     const buttonAmount = parseInt(Number(this.props.sessionObj.buttonAmount), 10);
     this.props.enterSessionWindow(this.props.sessionObj.name, buttonAmount);
-    this.props.stopRequestInstances();
+    this.props.communication.stopRequestInstances();
   }
 
   render() {
     const { classes } = this.props;
     return (
       <ListItem divider className={classes.root} button onClick={this.handleClick}>
-        <ListItemText primary="Active Session" />
-        <ListItemText primary={this.props.sessionObj.currentlyPlaying} />
         <ListItemText primary={this.props.sessionObj.name} />
-        <ListItemText primary={'Buttons used: '.concat(this.props.sessionObj.buttonAmount)} />
+        <ListItemText primary={this.props.sessionObj.gamemode} />
+        <ListItemText
+          primary={`${this.props.sessionObj.currentlyPlaying}/${this.props.sessionObj.maxPlayers}`}
+        />
+        <ListItemText primary={this.state.pingTime} />
       </ListItem>
     );
   }
@@ -52,7 +59,9 @@ Session.propTypes = {
   sessionObj: PropTypes.object.isRequired,
   enterSessionWindow: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
-  stopRequestInstances: PropTypes.func.isRequired
+  /* eslint-disable */
+  communication: PropTypes.object.isRequired,
+  /* eslint-enable */
 };
 /* eslint-enable react/forbid-prop-types */
 
