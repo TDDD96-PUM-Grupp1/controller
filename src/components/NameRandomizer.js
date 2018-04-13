@@ -206,7 +206,7 @@ class NameRandomizer {
     const adjective = this.adjectives[
       NameRandomizer.randomIntFromInterval(0, this.adjectives.length - 1)
     ];
-    return noun.concat(adjective);
+    return adjective.concat(noun);
   }
 
   /**
