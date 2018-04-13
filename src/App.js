@@ -101,7 +101,7 @@ class App extends React.Component {
    */
   leaveGame() {
     this.com.stopTick();
-    this.setState({ windowState: 'session' });
+    this.setState({ windowState: 'sessionList' });
   }
 
   renderDefault() {
