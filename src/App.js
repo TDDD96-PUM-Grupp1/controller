@@ -96,8 +96,12 @@ class App extends React.Component {
     this.com.sendButtonPress(buttonNumber);
   }
 
+  /**
+   * Leaves the gamescreen and disconnects the player
+   */
   leaveGame() {
-    this.setState({ windowState: 'session' });
+    this.com.stopTick();
+    this.setState({ windowState: 'sessionList' });
   }
 
   renderDefault() {
