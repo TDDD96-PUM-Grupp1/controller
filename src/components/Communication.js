@@ -20,6 +20,7 @@ class Communication {
     auth.username = this.id;
     this.client = this.ds.login(auth, this.onLoggedIn.bind(this));
     this.name = '';
+    this.intervalid = 0;
 
     // Bind functions.
     this.updateSensorData = this.updateSensorData.bind(this);
@@ -38,7 +39,7 @@ class Communication {
   */
   onJoined(err, result) {
     this.id = result;
-    setInterval(this.tick.bind(this), 1000 / this.tickrate);
+    this.intervalid = setInterval(this.tick.bind(this), 1000 / this.tickrate);
   }
 
   /*
@@ -113,6 +114,13 @@ class Communication {
     );
   }
 
+  /**
+   * Stops the transmission of ticks to the UI
+   */
+  stopTick() {
+    clearInterval(this.intervalid);
+  }
+
   /*
    * Updates the sensor data, this data will be sent to the UI when
    * flushData is called.
@@ -124,8 +132,8 @@ class Communication {
   }
 
   /*
-   * Sends all the updated data to the UI. It will not send any data if none has been
-   * updated
+   * Sends all the updated data to the UI. It will send data even if none has been
+   * updated. Think of it as a heartbeat.
   */
   tick() {
     this.dataBuffer.id = this.id;
