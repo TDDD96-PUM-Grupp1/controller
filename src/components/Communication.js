@@ -92,12 +92,18 @@ class Communication {
    * @param name The name of the player.
    * @param callback will get called when the user has connected to the instance.
    */
-  joinInstance(instanceName, name, callback) {
+  joinInstance(instanceName, name, iconID, callback) {
     this.instance = instanceName;
     this.name = name;
+    this.iconID = iconID;
     this.client.rpc.make(
       `${this.serviceName}/addPlayer/${this.instance}`,
-      { id: this.id, name: this.name, sensor: { beta: 0, gamma: 0 } },
+      {
+        id: this.id,
+        name: this.name,
+        iconID: this.iconID,
+        sensor: { beta: 0, gamma: 0 }
+      },
       (err, result) => {
         if (!err) {
           this.onJoined(err, result);
