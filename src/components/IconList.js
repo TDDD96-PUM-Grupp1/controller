@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import GridList, { GridListTile } from 'material-ui/GridList';
 import Grid from 'material-ui/Grid';
@@ -18,9 +19,10 @@ const styles = () => ({
     transform: 'translateZ(0)'
   },
   currentIcon: {
+    marginTop: 125,
     width: 200,
     textAlign: 'center',
-    margin: 'auto'
+    margin: 'auto',
   },
   currentItem: {
     width: '100%'
