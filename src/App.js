@@ -67,9 +67,13 @@ class App extends React.Component {
 
   /**
    * Used to switch to the main window where all sessions
-   * are being displayed
+   * are being displayed.
+   * @param username is an optional variable for setting the username
    */
-  enterMainWindow() {
+  enterMainWindow(username) {
+    if (typeof username === 'string') {
+      this.setState({ username: username });
+    }
     this.setState({ windowState: 'sessionList' });
   }
 
@@ -116,6 +120,7 @@ class App extends React.Component {
           showGameWindow={this.enterGameWindow}
           onInputSubmit={this.com.joinInstance}
           goBack={this.enterMainWindow}
+          username={this.state.username}
         />
       </div>
     );
