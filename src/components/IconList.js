@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import React, { Component } from 'react';
 import GridList, { GridListTile } from 'material-ui/GridList';
 import Grid from 'material-ui/Grid';
