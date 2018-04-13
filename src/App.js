@@ -122,7 +122,6 @@ class App extends React.Component {
         <UsernameInput
           instanceName={this.state.instanceName}
           showGameWindow={this.enterGameWindow}
-          onInputSubmit={this.com.joinInstance}
           goBack={this.enterMainWindow}
           username={this.state.username}
         />
