@@ -21,7 +21,7 @@ const styles = () => ({
     marginTop: 125,
     width: 200,
     textAlign: 'center',
-    margin: 'auto',
+    margin: 'auto'
   },
   currentItem: {
     width: '100%'

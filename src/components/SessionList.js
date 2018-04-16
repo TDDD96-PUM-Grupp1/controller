@@ -1,16 +1,40 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import List from 'material-ui/List';
-import ListSubheader from 'material-ui/List/ListSubheader';
 import { withStyles } from 'material-ui/styles';
 import Session from './Session';
+import Table, { TableBody, TableCell, TableHead, TableRow } from 'material-ui/Table';
+import Paper from 'material-ui/Paper';
 import FilterSession from './FilterSession';
+import ButtonBase from 'material-ui/ButtonBase';
 
 const styles = theme => ({
   root: {
     width: '100%',
-    maxWidth: 400,
-    backgroundColor: theme.palette.common.white
+    marginTop: theme.spacing.unit * 3,
+    overflowX: 'auto'
+  },
+  instanceCol: {
+    paddingLeft: 10,
+    paddingRight: 0,
+    minWidth: 150 
+  },
+  gamemodeCol: {
+    paddingLeft: 0,
+    paddingRight: 0,
+    minWidth: 100 
+  
+  },
+  playersCol: {
+    paddingLeft: 0,
+    paddingRight: 0,
+    minWidth: 50 
+  
+  },
+  latencyCol: {
+    paddingLeft: 0,
+    paddingRight: 10,
+    minWidth: 50 
+  
   }
 });
 
@@ -23,10 +47,12 @@ class SessionList extends React.Component {
     super(props);
     this.instances = [];
     this.filter = '';
-    this.state = { instances: [] };
+    this.state = { instances: {} };
     this.onInstancesReceived = this.onInstancesReceived.bind(this);
     this.onPlayerAdded = this.onPlayerAdded.bind(this);
+    this.onPlayerRemoved = this.onPlayerRemoved.bind(this);
     this.onInstanceCreated = this.onInstanceCreated.bind(this);
+    this.onInstanceRemoved = this.onInstanceRemoved.bind(this);
     this.filterList = this.filterList.bind(this);
     this.isFiltered = this.isFiltered.bind(this);
     // this.state = { instances: this.props.testSessions};
@@ -44,6 +70,7 @@ class SessionList extends React.Component {
   onInstancesReceived(err, result) {
     if (!err) {
       this.instances = result;
+      console.log(result);
       this.setState({ instances: result });
     } else {
       // TODO: handle error
@@ -55,13 +82,9 @@ class SessionList extends React.Component {
    * player connects.
    */
   onPlayerAdded(playerName, instanceName) {
-    for (let i = 0; i < this.state.instances.length; i += 1) {
-      if (this.state.instances[i].name === instanceName) {
-        const { instances } = this.state;
-        instances[i].currentlyPlaying += 1;
-        this.setState({ instances });
-      }
-    }
+    const { instances } = this.state;
+    instances[instanceName].currentlyPlaying += 1;
+    this.setState({ instances });
   }
 
   /*
@@ -69,13 +92,9 @@ class SessionList extends React.Component {
    * player disconnects.
    */
   onPlayerRemoved(playerName, instanceName) {
-    for (let i = 0; i < this.state.instances.length; i += 1) {
-      if (this.state.instances[i].name === instanceName) {
-        const { instances } = this.state;
-        instances[i].currentlyPlaying -= 1;
-        this.setState({ instances });
-      }
-    }
+    const { instances } = this.state;
+    instances[instanceName].currentlyPlaying -= 1;
+    this.setState({ instances });
   }
 
   /*
@@ -91,10 +110,11 @@ class SessionList extends React.Component {
 
     if (!this.isFiltered(instanceName)) {
       const { instances } = this.state;
-      instances.push(instance);
+      instances[instanceName] = instance;
       this.setState({ instances });
     }
-    this.instances.push(instance);
+
+    this.instances[instanceName] = instance;
   }
 
   /*
@@ -102,22 +122,11 @@ class SessionList extends React.Component {
    */
   onInstanceRemoved(instanceName) {
     if (!this.isFiltered(instanceName)) {
-      for (let i = 0; i < this.state.instances.length; i += 1) {
-        if (this.state.instances[i].name === instanceName) {
-          const { instances } = this.state;
-          instances.splice(i, 1);
-          this.setState({ instances });
-          break;
-        }
-      }
+      const { instances } = this.state;
+      delete instances[instanceName];
+      this.setState({ instances });
     }
-
-    for (let i = 0; i < this.instances.length; i += 1) {
-      if (this.instances[i].name === instanceName) {
-        this.instances.splice(i, 1);
-        break;
-      }
-    }
+    delete this.instances[instanceName];
   }
 
   /**
@@ -136,10 +145,11 @@ class SessionList extends React.Component {
    */
   filterList(filter) {
     this.filter = filter.toLowerCase();
-    const stateInstances = [];
-    for (let i = 0; i < this.instances.length; i += 1) {
-      if (!this.isFiltered(this.instances[i].name)) {
-        stateInstances.push(this.instances[i]);
+    const stateInstances = {};
+    const keys = Object.keys(this.instances);
+    for (let i = 0; i < keys.length; i += 1) {
+      if (!this.isFiltered(keys[i])) {
+        stateInstances[keys[i]] = this.instances[keys[i]];
       }
     }
 
@@ -149,26 +159,29 @@ class SessionList extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <div>
-        <FilterSession onInputChange={this.filterList} />
-        <List
-          subheader={
-            <ListSubheader color="primary" className={classes.root}>
-              Sessions
-            </ListSubheader>
-          }
-        >
-          {this.state.instances.map(session => (
-            <div key={session.name}>
+      <Paper className={classes.root}>
+        <FilterSession onInputChange={this.filterList} />        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <TableCell className={classes.instanceCol}>Instance Name</TableCell>
+              <TableCell className={classes.gamemodeCol}>Gamemode</TableCell>
+              <TableCell className={classes.playersCol}>Players</TableCell>
+              <TableCell className={classes.latencyCol}>Latency</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {Object.keys(this.state.instances).map(sessionKey => (
               <Session
-                sessionObj={session}
+                sessionObj={this.state.instances[sessionKey]}
+                sessionName={sessionKey}
                 enterSessionWindow={this.props.enterSessionWindow}
                 communication={this.props.communication}
+                classes={classes}
               />
-            </div>
-          ))}
-        </List>
-      </div>
+            ))}
+          </TableBody>
+        </Table>
+      </Paper>
     );
   }
 }
@@ -177,7 +190,7 @@ SessionList.propTypes = {
   enterSessionWindow: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   /* eslint-disable */
-  communication: PropTypes.object.isRequired,
+  communication: PropTypes.object.isRequired
   /* eslint-enable */
 };
 /* eslint-enable react/forbid-prop-types, react/require-default-props */

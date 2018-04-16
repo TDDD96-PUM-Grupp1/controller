@@ -72,7 +72,7 @@ class App extends React.Component {
    */
   enterMainWindow(username) {
     if (typeof username === 'string') {
-      this.setState({ username: username });
+      this.setState({ username });
     }
     this.setState({ windowState: 'sessionList' });
   }
