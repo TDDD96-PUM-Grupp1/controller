@@ -22,6 +22,8 @@ class Communication {
     this.name = '';
     this.intervalid = 0;
 
+    this.fresh = true;
+
     // Bind functions.
     this.updateSensorData = this.updateSensorData.bind(this);
     this.requestInstances = this.requestInstances.bind(this);
@@ -142,7 +144,13 @@ class Communication {
    * @param gamma the gamma value of the sensor.
    */
   updateSensorData(beta, gamma) {
-    this.dataBuffer.sensor = { beta, gamma };
+    const oldBeta = this.dataBuffer.beta;
+    const oldGamma = this.dataBuffer.gamma;
+
+    if (beta !== oldBeta || gamma !== oldGamma) {
+      this.dataBuffer.sensor = { beta, gamma };
+      this.fresh = true;
+    }
   }
 
   /*
@@ -150,10 +158,13 @@ class Communication {
    * updated. Think of it as a heartbeat.
   */
   tick() {
-    this.dataBuffer.id = this.id;
-    this.client.event.emit(`${this.serviceName}/data/${this.instance}`, this.dataBuffer);
-    this.dataBuffer = {};
-    this.dataBuffer.bnum = [];
+    if (this.fresh || this.dataBuffer.bnum.length > 0) {
+      this.dataBuffer.id = this.id;
+      this.client.event.emit(`${this.serviceName}/data/${this.instance}`, this.dataBuffer);
+      // this.dataBuffer = {};
+      this.dataBuffer.bnum = [];
+      this.fresh = false;
+    }
   }
   /*
    * Sends a ping message to the given instance.

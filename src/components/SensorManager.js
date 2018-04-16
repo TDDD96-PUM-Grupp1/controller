@@ -40,8 +40,8 @@ class SensorManager {
   // Sets the correct sensor values base on the calibrated base and current
   // sensor values.
   setSensorValues(beta, gamma) {
-    this.beta = beta - this.betaBase;
-    this.gamma = gamma - this.gammaBase;
+    this.beta = Math.round(beta - this.betaBase);
+    this.gamma = Math.round(gamma - this.gammaBase);
   }
 
   getSensorValues() {
