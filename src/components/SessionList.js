@@ -49,7 +49,14 @@ class SessionList extends React.Component {
       // TODO: handle error
     }
   }
-
+  pingInstance(instanceName)
+  {
+    const current = Date.now();
+    this.props.communication.pingInstance(instanceName, (data, err) => {
+      let time = Date.now - current;
+      const {instances} = this.state;
+    });
+  }
   /*
    * Increases the counter of the number of players active when a new
    * player connects.
@@ -149,29 +156,30 @@ class SessionList extends React.Component {
   render() {
     const { classes } = this.props;
     return (
-      <div>
-        <FilterSession onInputChange={this.filterList} />
-        <List
-          subheader={
-            <ListSubheader color="primary" className={classes.root}>
-              Sessions
-            </ListSubheader>
-          }
-        >
-          {this.state.instances.map(session => (
-            <div key={session.name}>
-              <Session
-                sessionObj={session}
-                enterSessionWindow={this.props.enterSessionWindow}
-                communication={this.props.communication}
-              />
-            </div>
-          ))}
-        </List>
-      </div>
+      <Paper className={classes.root}>
+        <Table className={classes.table}>
+          <TableHead>
+            <TableRow>
+              <TableCell>Instance Name</TableCell>
+              <TableCell>Gamemode</TableCell>
+              <TableCell>Players</TableCell>
+              <TableCell>Latency</TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {Object.keys(this.state.instances).map(sessionKey=> (
+              <TableRow key={sessionKey}>
+                <TableCell>{sessionKey}</TableCell>
+                <TableCell>{this.state.instances[sessionKey].gamemode}</TableCell>
+                <TableCell>{this.state.instances[sessionKey].currentlyPlaying}</TableCell>
+                <TableCell>{this.state.instances[sessionKey].gamemode}</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </Paper>
     );
   }
-}
 /* eslint-disable react/forbid-prop-types, react/require-default-props */
 SessionList.propTypes = {
   enterSessionWindow: PropTypes.func.isRequired,
