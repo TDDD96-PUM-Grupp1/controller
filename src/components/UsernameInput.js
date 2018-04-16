@@ -4,6 +4,9 @@ import { Button, TextField } from 'material-ui';
 import { withStyles } from 'material-ui/styles';
 import IconList from './IconList';
 import NameRandomizer from './NameRandomizer';
+import IconPreview from './IconPreview';
+import iconData from './iconData';
+import ColorPicker from './ColorPicker';
 
 const styles = () => ({
   text: {
@@ -11,26 +14,34 @@ const styles = () => ({
   },
   joinButton: {
     width: '100%',
-    position: 'fixed',
-    top: 80,
+    position: 'relative',
+    marginTop: 5,
     left: 0
   },
 
   backButton: {
     width: '49%',
     marginTop: 5,
-    position: 'fixed',
-    top: 120,
+    position: 'relative',
     left: 0
   },
   randomButton: {
     width: '49%',
     marginTop: 5,
-    position: 'fixed',
-    top: 120,
-    right: 0
+    marginLeft: '1%',
+    position: 'relative'
+  },
+  buttonContainer: {
+    width: '100%'
   }
 });
+
+function setSVGColor(color) {
+  document
+    .querySelector('.svgClass')
+    .getSVGDocument()
+    .childNodes[0].childNodes[0].setAttribute('fill', color);
+}
 
 /**
  * The class responsible to handle the username input through a text field
@@ -42,7 +53,11 @@ class UsernameInput extends Component {
     this.randomizer = new NameRandomizer();
     this.state = {
       username: this.props.username,
-      iconID: 0
+      currentIconID: 0,
+      currentIcon: iconData[0].img,
+      currentIconName: iconData[0].name,
+      iconColor: '#000000',
+      backgroundColor: '#FFFFFF'
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -50,6 +65,8 @@ class UsernameInput extends Component {
     this.goBack = this.goBack.bind(this);
     this.randomizeName = this.randomizeName.bind(this);
     this.handleIconSelect = this.handleIconSelect.bind(this);
+    this.handleIconColor = this.handleIconColor.bind(this);
+    this.handleBackgroundColor = this.handleBackgroundColor.bind(this);
   }
 
   /**
@@ -59,15 +76,27 @@ class UsernameInput extends Component {
    */
   handleSubmit() {
     if (this.state.username === '') {
-      this.props.showGameWindow(this.randomizer.getRandomName(), this.state.iconID);
+      this.props.showGameWindow(
+        this.randomizer.getRandomName(),
+        this.state.currentIconID,
+        this.state.backgroundColor,
+        this.state.iconColor
+      );
     } else {
-      this.props.showGameWindow(this.state.username, this.state.iconID);
+      this.props.showGameWindow(
+        this.state.username,
+        this.state.currentIconID,
+        this.state.backgroundColor,
+        this.state.iconColor
+      );
     }
   }
 
-  handleIconSelect(iconID) {
+  handleIconSelect(iconID, icon, iconName) {
     this.setState({
-      iconID
+      currentIconID: iconID,
+      currentIcon: icon,
+      currentIconName: iconName
     });
   }
 
@@ -94,6 +123,19 @@ class UsernameInput extends Component {
     this.setState({ username: this.randomizer.getRandomName() });
   }
 
+  handleIconColor(color) {
+    this.setState({
+      iconColor: color
+    });
+    setSVGColor(color);
+  }
+
+  handleBackgroundColor(color) {
+    this.setState({
+      backgroundColor: color
+    });
+  }
+
   render() {
     const { classes } = this.props;
     return (
@@ -114,23 +156,35 @@ class UsernameInput extends Component {
         >
           Join
         </Button>
-        <Button
-          className={classes.backButton}
-          variant="raised"
-          color="primary"
-          onClick={this.goBack}
-        >
-          Back
-        </Button>
-        <Button
-          className={classes.randomButton}
-          variant="raised"
-          color="primary"
-          onClick={this.randomizeName}
-        >
-          Random
-        </Button>
+        <div className={classes.buttonContainer}>
+          <Button
+            className={classes.backButton}
+            variant="raised"
+            color="primary"
+            onClick={this.goBack}
+          >
+            Back
+          </Button>
+          <Button
+            className={classes.randomButton}
+            variant="raised"
+            color="primary"
+            onClick={this.randomizeName}
+          >
+            Random
+          </Button>
+        </div>
+        <IconPreview
+          currentIcon={this.state.currentIcon}
+          currentIconName={this.state.currentIconName}
+          iconColor={this.state.iconColor}
+          backgroundColor={this.state.backgroundColor}
+        />
         <IconList onIconSelect={this.handleIconSelect} />
+        <ColorPicker
+          onIconColorSelect={this.handleIconColor}
+          onBackgroundColorSelect={this.handleBackgroundColor}
+        />
       </div>
     );
   }
