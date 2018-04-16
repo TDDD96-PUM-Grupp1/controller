@@ -9,7 +9,7 @@ class Communication {
      */
   constructor(options) {
     this.instance = '';
-    this.dataBuffer = {};
+    this.dataBuffer = { sensor: { beta: 0, gamma: 0 } };
     this.dataBuffer.bnum = [];
     this.tickrate = options.tickrate;
     this.serviceName = options.service_name;
@@ -41,7 +41,8 @@ class Communication {
   */
   onJoined(err, result) {
     this.id = result;
-    this.intervalid = setInterval(this.tick.bind(this), 1000 / this.tickrate);
+    const val = 1000 / this.tickrate;
+    this.intervalid = setInterval(this.tick, 1000 / this.tickrate);
   }
 
   /*
@@ -144,8 +145,8 @@ class Communication {
    * @param gamma the gamma value of the sensor.
    */
   updateSensorData(beta, gamma) {
-    const oldBeta = this.dataBuffer.beta;
-    const oldGamma = this.dataBuffer.gamma;
+    const oldBeta = this.dataBuffer.sensor.beta;
+    const oldGamma = this.dataBuffer.sensor.gamma;
 
     if (beta !== oldBeta || gamma !== oldGamma) {
       this.dataBuffer.sensor = { beta, gamma };
