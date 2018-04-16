@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ListItem, ListItemText } from 'material-ui/List';
 import { withStyles } from 'material-ui/styles';
+import { TableCell, TableRow } from 'material-ui/Table';
 
 /**
  * A session of an active game, saves:
@@ -35,21 +35,22 @@ class Session extends React.Component {
    */
   handleClick() {
     const buttonAmount = parseInt(Number(this.props.sessionObj.buttonAmount), 10);
-    this.props.enterSessionWindow(this.props.sessionObj.name, buttonAmount);
+    this.props.enterSessionWindow(this.props.sessionName, buttonAmount);
     this.props.communication.stopRequestInstances();
   }
 
   render() {
-    const { classes } = this.props;
     return (
-      <ListItem divider className={classes.root} button onClick={this.handleClick}>
-        <ListItemText primary={this.props.sessionObj.name} />
-        <ListItemText primary={this.props.sessionObj.gamemode} />
-        <ListItemText
-          primary={`${this.props.sessionObj.currentlyPlaying}/${this.props.sessionObj.maxPlayers}`}
-        />
-        <ListItemText primary={this.state.pingTime} />
-      </ListItem>
+      <TableRow key={this.props.sessionName} onClick={this.handleClick}>
+          <TableCell className={this.props.classes.instanceCol}>{this.props.sessionName}</TableCell>
+          <TableCell className={this.props.classes.gamemodeCol}>
+            {this.props.sessionObj.gamemode}
+          </TableCell>
+          <TableCell className={this.props.classes.playersCol}>{`${
+            this.props.sessionObj.currentlyPlaying
+          }/${this.props.sessionObj.maxPlayers}`}</TableCell>
+          <TableCell className={this.props.classes.latencyCol}>{this.state.pingTime}</TableCell>
+      </TableRow>
     );
   }
 }
@@ -62,6 +63,7 @@ Session.propTypes = {
   /* eslint-disable */
   communication: PropTypes.object.isRequired,
   /* eslint-enable */
+  sessionName: PropTypes.string.isRequired
 };
 /* eslint-enable react/forbid-prop-types */
 

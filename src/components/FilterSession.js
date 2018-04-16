@@ -40,7 +40,7 @@ class FilterSession extends Component {
           className={classes.textField}
           onChange={this.handleInputChange}
           type="text"
-          placeholder="Enter a name..."
+          placeholder="Enter a room name..."
           label="Search for a room"
           margin="normal"
         />
