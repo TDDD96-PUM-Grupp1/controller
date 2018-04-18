@@ -35,7 +35,7 @@ class Session extends React.Component {
    */
   handleClick() {
     const buttonAmount = parseInt(Number(this.props.sessionObj.buttonAmount), 10);
-    this.props.enterSessionWindow(this.props.sessionObj.name, buttonAmount);
+    this.props.enterSessionWindow(this.props.sessionName, buttonAmount);
     this.props.communication.stopRequestInstances();
   }
 
@@ -43,7 +43,7 @@ class Session extends React.Component {
     const { classes } = this.props;
     return (
       <ListItem divider className={classes.root} button onClick={this.handleClick}>
-        <ListItemText primary={this.props.sessionObj.name} />
+        <ListItemText primary={this.props.sessionName} />
         <ListItemText primary={this.props.sessionObj.gamemode} />
         <ListItemText
           primary={`${this.props.sessionObj.currentlyPlaying}/${this.props.sessionObj.maxPlayers}`}
@@ -62,6 +62,7 @@ Session.propTypes = {
   /* eslint-disable */
   communication: PropTypes.object.isRequired,
   /* eslint-enable */
+  sessionName: PropTypes.string.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 
