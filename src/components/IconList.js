@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import GridList, { GridListTile } from 'material-ui/GridList';
-import Grid from 'material-ui/Grid';
 import Paper from 'material-ui/Paper';
 import { withStyles } from 'material-ui/styles';
 import Subheader from 'material-ui/List/ListSubheader';
@@ -10,13 +9,14 @@ import iconData from './iconData';
 const styles = () => ({
   root: {
     flexGrow: 1,
-    marginTop: 110
+    marginTop: 5
   },
   gridList: {
     flexWrap: 'nowrap',
     // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
     transform: 'translateZ(0)'
   },
+
   currentIcon: {
     marginTop: 125,
     width: 200,
@@ -26,14 +26,10 @@ const styles = () => ({
   currentItem: {
     width: '100%'
   },
+
   alternatives: {
     textAlign: 'center',
     width: '100%'
-  },
-  imageSize: {
-    width: '65%',
-    height: '65%',
-    margin: 'auto'
   }
 });
 
@@ -45,12 +41,10 @@ const styles = () => ({
 class IconList extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      currentImage: iconData[0].img,
-      currentImageName: iconData[0].name
-    };
+
     this.handleClick = this.handleClick.bind(this);
   }
+
   /**
    * Sets the current icon given a user has clicked on a icon.
    */
@@ -60,28 +54,17 @@ class IconList extends Component {
       return;
     }
 
-    this.setState({
-      currentImage: iconData[e.target.id].img,
-      currentImageName: iconData[e.target.id].name
-    });
-
-    this.props.onIconSelect(iconData[e.target.id].id);
+    this.props.onIconSelect(
+      iconData[e.target.id].id,
+      iconData[e.target.id].img,
+      iconData[e.target.id].name
+    );
   }
 
   render() {
     const { classes } = this.props;
     return (
       <div className={classes.root}>
-        <Grid container className={classes.currentIcon}>
-          <Grid item className={classes.currentItem}>
-            <Paper>
-              <Subheader> {this.state.currentImageName} </Subheader>
-              <Grid item className={classes.imageSize}>
-                <img src={this.state.currentImage} alt={this.state.currentImageName} />
-              </Grid>
-            </Paper>
-          </Grid>
-        </Grid>
         <Paper className={classes.alternatives}>
           <Subheader> Icons </Subheader>
           <GridList className={classes.gridList}>
