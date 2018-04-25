@@ -1,37 +1,8 @@
 import React, { Component } from 'react';
-import GridList, { GridListTile } from 'material-ui/GridList';
-import Paper from 'material-ui/Paper';
-import { withStyles } from 'material-ui/styles';
-import Subheader from 'material-ui/List/ListSubheader';
+import { Paper, Subheader, Button } from 'react-md';
 import PropTypes from 'prop-types';
 import iconData from './iconData';
-
-const styles = () => ({
-  root: {
-    flexGrow: 1,
-    marginTop: 5
-  },
-  gridList: {
-    flexWrap: 'nowrap',
-    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-    transform: 'translateZ(0)'
-  },
-
-  currentIcon: {
-    marginTop: 125,
-    width: 200,
-    textAlign: 'center',
-    margin: 'auto'
-  },
-  currentItem: {
-    width: '100%'
-  },
-
-  alternatives: {
-    textAlign: 'center',
-    width: '100%'
-  }
-});
+import './stylesheets/Component.css';
 
 /**
  * Component that shows selected icon and provides a scrollable bar
@@ -43,6 +14,10 @@ class IconList extends Component {
     super(props);
 
     this.handleClick = this.handleClick.bind(this);
+  }
+
+  shouldComponentUpdate() {
+    return false;
   }
 
   /**
@@ -62,25 +37,17 @@ class IconList extends Component {
   }
 
   render() {
-    const { classes } = this.props;
     return (
-      <div className={classes.root}>
-        <Paper className={classes.alternatives}>
-          <Subheader> Icons </Subheader>
-          <GridList className={classes.gridList}>
+      <div>
+        <Paper>
+          <Subheader primaryText="Sessions" />
+          <div className="fluidGridList">
             {iconData.map(tile => (
-              <GridListTile
-                key={tile.id}
-                style={{
-                  height: 64,
-                  width: 64
-                }}
-                onClick={this.handleClick}
-              >
+              <Button flat key={tile.id} onClick={this.handleClick} className="iconListItemSize">
                 <img src={tile.img} alt={tile.name} id={tile.id} />
-              </GridListTile>
+              </Button>
             ))}
-          </GridList>
+          </div>
         </Paper>
       </div>
     );
@@ -89,9 +56,8 @@ class IconList extends Component {
 
 /* eslint-disable react/forbid-prop-types */
 IconList.propTypes = {
-  classes: PropTypes.object.isRequired,
   onIconSelect: PropTypes.func.isRequired
 };
 /* eslint-enable react/forbid-prop-types */
 
-export default withStyles(styles)(IconList);
+export default IconList;

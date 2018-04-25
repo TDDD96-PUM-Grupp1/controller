@@ -1,15 +1,7 @@
 import React from 'react';
-import { withStyles } from 'material-ui/styles';
+import { Button } from 'react-md';
 import PropTypes from 'prop-types';
-import { Button } from 'material-ui';
-
-const styles = () => ({
-  button: {
-    width: '100%',
-    fontSize: 30,
-    height: '100vh'
-  }
-});
+import './stylesheets/Component.css';
 
 /**
  * Handles the header placed at the top of the screen displaying things such as
@@ -17,26 +9,20 @@ const styles = () => ({
  * This class is reused heavily in multiple screens
  */
 /* eslint-disable react/prefer-stateless-function */
+// asdasd
 class WelcomeScreen extends React.Component {
   render() {
-    const { classes } = this.props;
     return (
-      <Button
-        className={classes.button}
-        onClick={this.props.buttonPressed}
-        color="primary"
-        variant="raised"
-      >
-        <h1>This should be a splashscreen!</h1>
+      <Button className="mainScreen" onClick={this.props.buttonPressed} primary raised>
+        This should be a splashscreen!
       </Button>
     );
   }
 }
 /* eslint-disable react/forbid-prop-types */
 WelcomeScreen.propTypes = {
-  buttonPressed: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired
+  buttonPressed: PropTypes.func.isRequired
 };
 /* eslint-enable react/forbid-prop-types */
 
-export default withStyles(styles)(WelcomeScreen);
+export default WelcomeScreen;

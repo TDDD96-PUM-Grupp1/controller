@@ -1,18 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import List from 'material-ui/List';
-import ListSubheader from 'material-ui/List/ListSubheader';
-import { withStyles } from 'material-ui/styles';
+import { Subheader, Divider, Paper } from 'react-md';
 import Session from './Session';
 import FilterSession from './FilterSession';
-
-const styles = theme => ({
-  root: {
-    width: '100%',
-    maxWidth: 400,
-    backgroundColor: theme.palette.common.white
-  }
-});
 
 /**
  * The list the sessions live within, responsible for updating the list
@@ -46,7 +36,6 @@ class SessionList extends React.Component {
   onInstancesReceived(err, result) {
     if (!err) {
       this.instances = result;
-      console.log(result);
       this.setState({ instances: result });
     } else {
       // TODO: handle error
@@ -60,7 +49,7 @@ class SessionList extends React.Component {
   onPlayerAdded(playerName, instanceName) {
     const { instances } = this.state;
     instances[instanceName].currentlyPlaying += 1;
-    this.setState({instances});
+    this.setState({ instances });
   }
 
   /*
@@ -70,7 +59,7 @@ class SessionList extends React.Component {
   onPlayerRemoved(playerName, instanceName) {
     const { instances } = this.state;
     instances[instanceName].currentlyPlaying -= 1;
-    this.setState({instances});
+    this.setState({ instances });
   }
 
   /*
@@ -122,7 +111,7 @@ class SessionList extends React.Component {
   filterList(filter) {
     this.filter = filter.toLowerCase();
     const stateInstances = {};
-    const keys = Object.keys(this.instances)
+    const keys = Object.keys(this.instances);
     for (let i = 0; i < keys.length; i += 1) {
       if (!this.isFiltered(keys[i])) {
         stateInstances[keys[i]] = this.instances[keys[i]];
@@ -133,17 +122,12 @@ class SessionList extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
     return (
       <div>
         <FilterSession onInputChange={this.filterList} />
-        <List
-          subheader={
-            <ListSubheader color="primary" className={classes.root}>
-              Sessions
-            </ListSubheader>
-          }
-        >
+        <Paper>
+          <Subheader primary primaryText="Sessions" />
+          <Divider />
           {Object.keys(this.state.instances).map(sessionKey => (
             <div key={sessionKey}>
               <Session
@@ -152,9 +136,10 @@ class SessionList extends React.Component {
                 enterSessionWindow={this.props.enterSessionWindow}
                 communication={this.props.communication}
               />
+              <Divider />
             </div>
           ))}
-        </List>
+        </Paper>
       </div>
     );
   }
@@ -162,11 +147,10 @@ class SessionList extends React.Component {
 /* eslint-disable react/forbid-prop-types, react/require-default-props */
 SessionList.propTypes = {
   enterSessionWindow: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
   /* eslint-disable */
-  communication: PropTypes.object.isRequired,
+  communication: PropTypes.object.isRequired
   /* eslint-enable */
 };
 /* eslint-enable react/forbid-prop-types, react/require-default-props */
 
-export default withStyles(styles)(SessionList);
+export default SessionList;

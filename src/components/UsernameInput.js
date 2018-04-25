@@ -1,40 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Button, TextField } from 'material-ui';
-import { withStyles } from 'material-ui/styles';
+import { Button, TextField, Grid, Cell } from 'react-md';
 import IconList from './IconList';
 import NameRandomizer from './NameRandomizer';
 import IconPreview from './IconPreview';
 import iconData from './iconData';
 import ColorPicker from './ColorPicker';
-
-const styles = () => ({
-  text: {
-    width: '100%'
-  },
-  joinButton: {
-    width: '100%',
-    position: 'relative',
-    marginTop: 5,
-    left: 0
-  },
-
-  backButton: {
-    width: '49%',
-    marginTop: 5,
-    position: 'relative',
-    left: 0
-  },
-  randomButton: {
-    width: '49%',
-    marginTop: 5,
-    marginLeft: '1%',
-    position: 'relative'
-  },
-  buttonContainer: {
-    width: '100%'
-  }
-});
 
 function setSVGColor(color) {
   document
@@ -103,9 +74,9 @@ class UsernameInput extends Component {
   /**
    * Set new state on input change.
    */
-  handleInputChange(event) {
+  handleInputChange(value, e) {
     this.setState({
-      username: event.target.value
+      username: value
     });
   }
 
@@ -137,43 +108,33 @@ class UsernameInput extends Component {
   }
 
   render() {
-    const { classes } = this.props;
     return (
       <div>
         <TextField
-          className={classes.text}
           value={this.state.username}
           onChange={this.handleInputChange}
           placeholder="Enter a name..."
           label="Enter playername"
           fullWidth
+          id="2" // required by react-md
         />
-        <Button
-          className={classes.joinButton}
-          variant="raised"
-          color="primary"
-          onClick={this.handleSubmit}
-        >
-          Join
-        </Button>
-        <div className={classes.buttonContainer}>
-          <Button
-            className={classes.backButton}
-            variant="raised"
-            color="primary"
-            onClick={this.goBack}
-          >
-            Back
-          </Button>
-          <Button
-            className={classes.randomButton}
-            variant="raised"
-            color="primary"
-            onClick={this.randomizeName}
-          >
-            Random
-          </Button>
-        </div>
+        <Grid className="md-grid buttonContainer">
+          <Cell size={4}>
+            <Button className="button" raised primary onClick={this.handleSubmit}>
+              Join
+            </Button>
+          </Cell>
+          <Cell size={4}>
+            <Button className="button" raised primary onClick={this.goBack}>
+              Back
+            </Button>
+          </Cell>
+          <Cell size={4}>
+            <Button className="button" raised primary onClick={this.randomizeName}>
+              Random
+            </Button>
+          </Cell>
+        </Grid>
         <IconPreview
           currentIcon={this.state.currentIcon}
           currentIconName={this.state.currentIconName}
@@ -193,10 +154,9 @@ class UsernameInput extends Component {
 /* eslint-disable react/forbid-prop-types */
 UsernameInput.propTypes = {
   showGameWindow: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
   goBack: PropTypes.func.isRequired,
   username: PropTypes.string.isRequired
 };
 /* eslint-enable react/forbid-prop-types */
 
-export default withStyles(styles)(UsernameInput);
+export default UsernameInput;

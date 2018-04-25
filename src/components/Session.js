@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ListItem, ListItemText } from 'material-ui/List';
-import { withStyles } from 'material-ui/styles';
+import { Grid, Cell } from 'react-md';
 
 /**
  * A session of an active game, saves:
@@ -10,8 +9,6 @@ import { withStyles } from 'material-ui/styles';
  * 3 : IP, not sure if it should be displayed
  *
  */
-
-const styles = () => {};
 
 class Session extends React.Component {
   constructor(props) {
@@ -40,16 +37,15 @@ class Session extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
     return (
-      <ListItem divider className={classes.root} button onClick={this.handleClick}>
-        <ListItemText primary={this.props.sessionName} />
-        <ListItemText primary={this.props.sessionObj.gamemode} />
-        <ListItemText
-          primary={`${this.props.sessionObj.currentlyPlaying}/${this.props.sessionObj.maxPlayers}`}
-        />
-        <ListItemText primary={this.state.pingTime} />
-      </ListItem>
+      <Grid onClick={this.handleClick} className="md-grid">
+        <Cell size={1}>{this.props.sessionName}</Cell>
+        <Cell size={1}>{this.props.sessionObj.gamemode}</Cell>
+        <Cell size={1}>{`${this.props.sessionObj.currentlyPlaying}/${
+          this.props.sessionObj.maxPlayers
+        }`}</Cell>
+        <Cell size={1}>{this.state.pingTime}</Cell>
+      </Grid>
     );
   }
 }
@@ -58,12 +54,11 @@ class Session extends React.Component {
 Session.propTypes = {
   sessionObj: PropTypes.object.isRequired,
   enterSessionWindow: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
   /* eslint-disable */
   communication: PropTypes.object.isRequired,
   /* eslint-enable */
-  sessionName: PropTypes.string.isRequired,
+  sessionName: PropTypes.string.isRequired
 };
 /* eslint-enable react/forbid-prop-types */
 
-export default withStyles(styles)(Session);
+export default Session;
