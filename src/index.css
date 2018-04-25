@@ -1102,7 +1102,7 @@ a.md-btn {
   background: rgba(33, 150, 243, 0.12); }
 
 .md-btn--color-secondary-active {
-  background: rgba(213, 0, 249, 0.12); }
+  background: rgba(100, 181, 246, 0.12); }
 
 .md-btn--text {
   border-radius: 2px;
@@ -1481,7 +1481,7 @@ tbody .md-table-row {
     margin-left: 8px; }
 
 .md-card-title--contextual {
-  background: #f3e5f5;
+  background: #e3f2fd;
   height: 100%;
   left: 0;
   position: absolute;
@@ -1490,7 +1490,7 @@ tbody .md-table-row {
   z-index: 1; }
 
 .md-card-title--title-contextual {
-  color: #d500f9;
+  color: #64b5f6;
   font-size: 16px;
   font-weight: 500;
   line-height: 80px; }
@@ -2484,7 +2484,7 @@ svg.md-icon {
 
 .md-circular-progress-path {
   fill: none;
-  stroke: #d500f9;
+  stroke: #64b5f6;
   stroke-dasharray: 187px; }
 
 .md-circular-progress-path--animated {
@@ -2513,14 +2513,14 @@ svg.md-icon {
     stroke-dashoffset: 187px; } }
 
 .md-progress--linear {
-  background: #ea80fc;
+  background: #82b1ff;
   height: 3px;
   overflow: hidden;
   position: relative;
   width: 100%; }
 
 .md-progress--linear-active {
-  background: #d500f9; }
+  background: #64b5f6; }
 
 .md-progress--linear-determinate {
   height: 100%;
@@ -2645,7 +2645,7 @@ svg.md-icon {
   width: 40px; }
 
 .md-switch-track--on {
-  background: rgba(156, 39, 176, 0.5); }
+  background: rgba(33, 150, 243, 0.5); }
 
 .md-switch-track--off {
   background: rgba(0, 0, 0, 0.38); }
@@ -2665,7 +2665,7 @@ svg.md-icon {
   width: 24px; }
 
 .md-switch-thumb--on {
-  background: #9c27b0;
+  background: #2196f3;
   transform: translate3d(20px, -4px, 0); }
 
 .md-switch-thumb--off {
@@ -3007,7 +3007,7 @@ svg.md-icon {
     color: rgba(255, 255, 255, 0.7); }
 
 .md-tab-indicator {
-  background: #d500f9;
+  background: #64b5f6;
   bottom: 0;
   content: '';
   height: 2px;
@@ -3616,7 +3616,7 @@ svg.md-icon {
   .md-text--theme-primary {
     color: #2196f3; }
   .md-text--theme-secondary {
-    color: #d500f9; }
+    color: #64b5f6; }
   .md-text--error {
     color: #f44336; }
   .md-text--inherit.md-text--inherit {
@@ -3626,7 +3626,7 @@ svg.md-icon {
   background: rgba(33, 150, 243, 0.26); }
 
 .md-ink--secondary .md-ink {
-  background: rgba(213, 0, 249, 0.26); }
+  background: rgba(100, 181, 246, 0.26); }
 
 .md-background {
   background: #fafafa; }
@@ -3636,14 +3636,14 @@ svg.md-icon {
     background: #2196f3;
     color: #fff; }
   .md-background--secondary {
-    background: #d500f9;
+    background: #64b5f6;
     color: #fff; }
 
 @media screen and (min-width: 1025px) {
   .md-background--primary-hover:hover {
     background: rgba(33, 150, 243, 0.9); }
   .md-background--secondary-hover:hover {
-    background: rgba(213, 0, 249, 0.9); } }
+    background: rgba(100, 181, 246, 0.9); } }
 
 body {
   margin: 0;
