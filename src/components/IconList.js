@@ -17,6 +17,16 @@ const styles = () => ({
     transform: 'translateZ(0)'
   },
 
+  currentIcon: {
+    marginTop: 125,
+    width: 200,
+    textAlign: 'center',
+    margin: 'auto'
+  },
+  currentItem: {
+    width: '100%'
+  },
+
   alternatives: {
     textAlign: 'center',
     width: '100%'
