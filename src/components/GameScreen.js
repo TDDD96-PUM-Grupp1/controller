@@ -53,7 +53,7 @@ const styles = () => ({
   root: {
     width: '100%',
     maxWidth: 360
-  }
+  },
 });
 
 /**
@@ -66,7 +66,6 @@ class GameScreen extends Component {
     for (let i = 0; i < this.props.numberOfButtons; i += 1) {
       this.buttonList.push(i);
     }
-
     this.sensorManager = new SensorManager(props.onSensorChange);
     this.sensorManager.calibrate = this.sensorManager.calibrate.bind(this);
   }
@@ -77,11 +76,15 @@ class GameScreen extends Component {
 
   componentDidMount() {
     this.sensorManager.bindEventListener();
+    this.intervalId = setInterval(() => {
+      this.setState({ ping: this.props.com.currentPing });
+    }, 1000);
   }
 
   componentWillUnmount() {
     unlockScreen();
     this.sensorManager.unbindEventListener();
+    clearInterval(this.intervalId);
   }
 
   render() {
@@ -114,7 +117,10 @@ class GameScreen extends Component {
             </div>
           ))}
         </div>
-        <p>{`${this.props.com.currentPing} ms`}</p>
+        <div className="pingTime" style=
+  {{textAlign: 'center',fontSize: '200%'}}>
+          {`${this.props.com.currentPing} ms`}
+        </div>
       </div>
     );
   }
@@ -127,7 +133,7 @@ GameScreen.propTypes = {
   onSensorChange: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
-  com: PropTypes.object.isRequired,
+  com: PropTypes.object.isRequired
 };
 /* eslint-enable react/forbid-prop-types */
 
