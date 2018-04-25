@@ -31,6 +31,7 @@ class SessionList extends React.Component {
     this.onInstanceRemoved = this.onInstanceRemoved.bind(this);
     this.filterList = this.filterList.bind(this);
     this.isFiltered = this.isFiltered.bind(this);
+    this.pingAllSessions = this.pingAllSessions.bind(this);
     // this.state = { instances: this.props.testSessions};
   }
   /*
@@ -40,14 +41,18 @@ class SessionList extends React.Component {
     this.initList();
   }
 
+  componentWillUnmount() {
+    clearInterval(this.pingLoop);
+  }
+
   /*
    * Callback for when the RPC call returns the instances.
    */
   onInstancesReceived(err, result) {
     if (!err) {
       this.instances = result;
-      console.log(result);
       this.setState({ instances: result });
+      this.pingLoop = setInterval(this.pingAllSessions, 1000);
     } else {
       // TODO: handle error
     }
@@ -60,7 +65,7 @@ class SessionList extends React.Component {
   onPlayerAdded(playerName, instanceName) {
     const { instances } = this.state;
     instances[instanceName].currentlyPlaying += 1;
-    this.setState({instances});
+    this.setState({ instances });
   }
 
   /*
@@ -70,7 +75,7 @@ class SessionList extends React.Component {
   onPlayerRemoved(playerName, instanceName) {
     const { instances } = this.state;
     instances[instanceName].currentlyPlaying -= 1;
-    this.setState({instances});
+    this.setState({ instances });
   }
 
   /*
@@ -105,6 +110,19 @@ class SessionList extends React.Component {
     delete this.instances[instanceName];
   }
 
+  pingAllSessions() {
+    const { instances } = this.state;
+    const keys = Object.keys(instances);
+    for (let i = 0; i < keys.length; i += 1) {
+      const current = Date.now();
+      this.props.communication.pingInstance(keys[i], () => {
+        const ping = Date.now() - current;
+        instances[keys[i]].pingTime = ping;
+        this.setState({ instances });
+      });
+    }
+  }
+
   /**
    * Update the list of active instances
    */
@@ -122,7 +140,7 @@ class SessionList extends React.Component {
   filterList(filter) {
     this.filter = filter.toLowerCase();
     const stateInstances = {};
-    const keys = Object.keys(this.instances)
+    const keys = Object.keys(this.instances);
     for (let i = 0; i < keys.length; i += 1) {
       if (!this.isFiltered(keys[i])) {
         stateInstances[keys[i]] = this.instances[keys[i]];

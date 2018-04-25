@@ -100,15 +100,6 @@ class Communication {
     this.iconColor = iconColor;
     this.backgroundColor = backgroundColor;
 
-    console.log({
-      id: this.id,
-      name: this.name,
-      iconID: this.iconID,
-      backgroundColor: this.backgroundColor,
-      iconColor: this.iconColor,
-      sensor: { beta: 0, gamma: 0 }
-    });
-
     this.client.rpc.make(
       `${this.serviceName}/addPlayer/${this.instance}`,
       {
@@ -159,7 +150,7 @@ class Communication {
    * Sends a ping message to the given instance.
    */
   pingInstance(instanceName, pingCallback) {
-    this.client.rpc.make(`${this.serviceName}/pingTime/${this.instance}`, {}, pingCallback);
+    this.client.rpc.make(`${this.serviceName}/pingTime/${instanceName}`, {}, pingCallback);
   }
 
   /**

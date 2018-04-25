@@ -47,7 +47,6 @@ class ColorPicker extends Component {
     if (this.state.colorType) {
       this.props.onIconColorSelect(Colors[e.target.id].hex);
     } else {
-      console.log(this.state.colorType);
       this.props.onBackgroundColorSelect(Colors[e.target.id].hex);
     }
   }
