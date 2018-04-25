@@ -12,6 +12,7 @@ class Communication {
     this.dataBuffer = { sensor: { beta: 0, gamma: 0 } };
     this.dataBuffer.bnum = [];
     this.tickrate = options.tickrate;
+    this.pingrate = options.pingrate;
     this.serviceName = options.service_name;
     // Creates and logs in a user to the server.
     this.ds = createDeepstream(options.host_ip);
@@ -22,7 +23,8 @@ class Communication {
     this.name = '';
     this.intervalid = 0;
 
-    this.fresh = true;
+    this.hasNewData = true;
+    this.setPingTime();
 
     // Bind functions.
     this.updateSensorData = this.updateSensorData.bind(this);
@@ -41,7 +43,6 @@ class Communication {
   */
   onJoined(err, result) {
     this.id = result;
-    const val = 1000 / this.tickrate;
     this.intervalid = setInterval(this.tick, 1000 / this.tickrate);
   }
 
@@ -103,15 +104,6 @@ class Communication {
     this.iconColor = iconColor;
     this.backgroundColor = backgroundColor;
 
-    console.log({
-      id: this.id,
-      name: this.name,
-      iconID: this.iconID,
-      backgroundColor: this.backgroundColor,
-      iconColor: this.iconColor,
-      sensor: { beta: 0, gamma: 0 }
-    });
-
     this.client.rpc.make(
       `${this.serviceName}/addPlayer/${this.instance}`,
       {
@@ -150,7 +142,7 @@ class Communication {
 
     if (beta !== oldBeta || gamma !== oldGamma) {
       this.dataBuffer.sensor = { beta, gamma };
-      this.fresh = true;
+      this.hasNewData = true;
     }
   }
 
@@ -159,12 +151,15 @@ class Communication {
    * updated. Think of it as a heartbeat.
   */
   tick() {
-    if (this.fresh || this.dataBuffer.bnum.length > 0) {
+    const currentTime = Date.now();
+    const sendPing = currentTime >= this.pingTime;
+    if (this.hasNewData || this.dataBuffer.bnum.length > 0 || sendPing) {
       this.dataBuffer.id = this.id;
+      this.dataBuffer.bnum = [];
+      this.hasNewData = false;
+      this.setPingTime();
       this.client.event.emit(`${this.serviceName}/data/${this.instance}`, this.dataBuffer);
       // this.dataBuffer = {};
-      this.dataBuffer.bnum = [];
-      this.fresh = false;
     }
   }
   /*
@@ -180,6 +175,14 @@ class Communication {
    */
   sendButtonPress(buttonNumber) {
     this.dataBuffer.bnum.push(buttonNumber);
+  }
+
+  /**
+   * Sets the ping time correctly
+   */
+  setPingTime() {
+    /* eslint-disable-next-line */
+    this.pingTime = Date.now() + 1000 * (1 / this.pingrate);
   }
 }
 export default Communication;
