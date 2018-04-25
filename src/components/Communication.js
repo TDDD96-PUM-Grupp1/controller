@@ -23,7 +23,7 @@ class Communication {
     this.name = '';
     this.intervalid = 0;
 
-    this.hasNewData = true;
+    this.shouldFlushData = true;
     this.setPingTime();
 
     // Bind functions.
@@ -142,7 +142,7 @@ class Communication {
 
     if (beta !== oldBeta || gamma !== oldGamma) {
       this.dataBuffer.sensor = { beta, gamma };
-      this.hasNewData = true;
+      this.shouldFlushData = true;
     }
   }
 
@@ -153,12 +153,12 @@ class Communication {
   tick() {
     const currentTime = Date.now();
     const sendPing = currentTime >= this.pingTime;
-    if (this.hasNewData || this.dataBuffer.bnum.length > 0 || sendPing) {
+    if (this.shouldFlushData || sendPing) {
       this.dataBuffer.id = this.id;
-      this.dataBuffer.bnum = [];
-      this.hasNewData = false;
+      this.shouldFlushData = false;
       this.setPingTime();
       this.client.event.emit(`${this.serviceName}/data/${this.instance}`, this.dataBuffer);
+      this.dataBuffer.bnum = [];
       // this.dataBuffer = {};
     }
   }
@@ -175,6 +175,7 @@ class Communication {
    */
   sendButtonPress(buttonNumber) {
     this.dataBuffer.bnum.push(buttonNumber);
+    this.shouldFlushData = true;
   }
 
   /**
