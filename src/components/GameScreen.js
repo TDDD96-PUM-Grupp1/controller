@@ -53,7 +53,7 @@ const styles = () => ({
   root: {
     width: '100%',
     maxWidth: 360
-  },
+  }
 });
 
 /**
@@ -117,9 +117,8 @@ class GameScreen extends Component {
             </div>
           ))}
         </div>
-        <div className="pingTime" style=
-  {{textAlign: 'center',fontSize: '200%'}}>
-          {`${this.props.com.currentPing} ms`}
+        <div className="pingTime" style={{ textAlign: 'center', fontSize: '200%' }}>
+          {`${this.state.ping} ms`}
         </div>
       </div>
     );

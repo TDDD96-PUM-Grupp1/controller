@@ -144,16 +144,13 @@ class Communication {
    * updated. Think of it as a heartbeat.
   */
   tick() {
-    let now = Date.now();
-    let diff = now - this.tickTimer;
-    if(diff > 1000/this.pingrate)
-    {
-      this.pingInstance(this.instance,(err) => {
+    const now = Date.now();
+    const diff = now - this.tickTimer;
+    if (diff > 1000 / this.pingrate) {
+      this.pingInstance(this.instance, () => {
         this.currentPing = Date.now() - now;
-        console.log(this);
       });
-      this.tickTimer += 1000/this.pingrate;
-      console.log(this.currentPing);
+      this.tickTimer += 1000 / this.pingrate;
     }
     this.dataBuffer.id = this.id;
     this.client.event.emit(`${this.serviceName}/data/${this.instance}`, this.dataBuffer);
