@@ -63,9 +63,9 @@ class SessionList extends React.Component {
    * player connects.
    */
   onPlayerAdded(playerName, instanceName) {
-    const { instances } = this.state;
-    instances[instanceName].currentlyPlaying += 1;
-    this.setState({ instances });
+    if(this.instances[instanceName] === undefined)
+      return;
+    this.instances[instanceName].currentlyPlaying += 1;
   }
 
   /*
@@ -73,9 +73,9 @@ class SessionList extends React.Component {
    * player disconnects.
    */
   onPlayerRemoved(playerName, instanceName) {
-    const { instances } = this.state;
-    instances[instanceName].currentlyPlaying -= 1;
-    this.setState({ instances });
+    if(this.instances[instanceName] === undefined)
+      return;
+    this.instances[instanceName].currentlyPlaying -= 1;
   }
 
   /*
@@ -140,7 +140,7 @@ class SessionList extends React.Component {
   filterList(filter) {
     this.filter = filter.toLowerCase();
     const stateInstances = {};
-    const keys = Object.keys(this.instances);
+    const keys = Object.keys(this.instances)
     for (let i = 0; i < keys.length; i += 1) {
       if (!this.isFiltered(keys[i])) {
         stateInstances[keys[i]] = this.instances[keys[i]];

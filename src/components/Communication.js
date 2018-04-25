@@ -5,14 +5,15 @@ class Communication {
      * Constructor for Communication.
      * This initialized the network communication to the deepstream server.
      * It will also send an rpc-call to the UI to connect to it.
-     *
-     */
+     * */
   constructor(options) {
     this.instance = '';
     this.dataBuffer = {};
     this.dataBuffer.bnum = [];
     this.tickrate = options.tickrate;
+    this.pingrate = options.pingrate;
     this.serviceName = options.service_name;
+    this.currentPing = 1000;
     // Creates and logs in a user to the server.
     this.ds = createDeepstream(options.host_ip);
     this.id = this.ds.getUid();
@@ -21,6 +22,7 @@ class Communication {
     this.client = this.ds.login(auth, this.onLoggedIn.bind(this));
     this.name = '';
     this.intervalid = 0;
+    this.tickTimer = undefined;
 
     // Bind functions.
     this.updateSensorData = this.updateSensorData.bind(this);
@@ -40,6 +42,7 @@ class Communication {
   onJoined(err, result) {
     this.id = result;
     this.intervalid = setInterval(this.tick.bind(this), 1000 / this.tickrate);
+    this.tickTimer = Date.now();
   }
 
   /*
@@ -141,11 +144,22 @@ class Communication {
    * updated. Think of it as a heartbeat.
   */
   tick() {
+    let now = Date.now();
+    let diff = now - this.tickTimer;
+    if(diff > 1000/this.pingrate)
+    {
+      this.pingInstance(this.instance,(err) => {
+        this.currentPing = Date.now() - now;
+        console.log(this);
+      });
+      this.tickTimer += 1000/this.pingrate;
+    }
     this.dataBuffer.id = this.id;
     this.client.event.emit(`${this.serviceName}/data/${this.instance}`, this.dataBuffer);
     this.dataBuffer = {};
     this.dataBuffer.bnum = [];
   }
+
   /*
    * Sends a ping message to the given instance.
    */

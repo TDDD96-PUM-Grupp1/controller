@@ -81,7 +81,6 @@ class GameScreen extends Component {
 
   componentWillUnmount() {
     unlockScreen();
-
     this.sensorManager.unbindEventListener();
   }
 
@@ -115,6 +114,7 @@ class GameScreen extends Component {
             </div>
           ))}
         </div>
+        <p>{`${this.props.com.currentPing} ms`}</p>
       </div>
     );
   }
@@ -126,7 +126,8 @@ GameScreen.propTypes = {
   gameButtonPressed: PropTypes.func.isRequired,
   onSensorChange: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
+  com: PropTypes.object.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 
