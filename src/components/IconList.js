@@ -23,17 +23,8 @@ class IconList extends Component {
   /**
    * Sets the current icon given a user has clicked on a icon.
    */
-  handleClick(e) {
-    // Error check, for index in list.
-    if (!e.target.id) {
-      return;
-    }
-
-    this.props.onIconSelect(
-      iconData[e.target.id].id,
-      iconData[e.target.id].img,
-      iconData[e.target.id].name
-    );
+  handleClick(id) {
+    this.props.onIconSelect(iconData[id].id, iconData[id].img);
   }
 
   render() {
@@ -43,8 +34,15 @@ class IconList extends Component {
           <Subheader primaryText="Sessions" />
           <div className="fluidGridList">
             {iconData.map(tile => (
-              <Button flat key={tile.id} onClick={this.handleClick} className="iconListItemSize">
-                <img src={tile.img} alt={tile.name} id={tile.id} />
+              <Button
+                flat
+                key={tile.id}
+                onClick={() => {
+                  this.handleClick(tile.id);
+                }}
+                className="iconListItemSize"
+              >
+                <img src={tile.img} alt="" id={tile.id} />
               </Button>
             ))}
           </div>

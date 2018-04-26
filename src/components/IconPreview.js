@@ -25,7 +25,7 @@ function IconPreview(props) {
           className="svgClass center"
           type="image/svg+xml"
           data={props.currentIcon}
-          alt={props.currentIconName}
+          alt={props.currentIconID}
           width="128"
           height="128"
           style={{
@@ -42,7 +42,7 @@ function IconPreview(props) {
 
 /* eslint-disable react/forbid-prop-types */
 IconPreview.propTypes = {
-  currentIconName: PropTypes.string.isRequired,
+  currentIconID: PropTypes.number.isRequired,
   currentIcon: PropTypes.string.isRequired,
   iconColor: PropTypes.string.isRequired,
   backgroundColor: PropTypes.string.isRequired
