@@ -10,16 +10,16 @@ const styles = () => ({
     marginTop: 5,
     width: 200,
     textAlign: 'center',
-    margin: 'auto'
+    margin: 'auto',
   },
   currentItem: {
-    width: '100%'
+    width: '100%',
   },
   imageSize: {
     width: '65%',
     height: '65%',
-    margin: 'auto'
-  }
+    margin: 'auto',
+  },
 });
 
 function setSVGColor(color) {
@@ -36,7 +36,7 @@ function IconPreview(props) {
       <Grid item className={classes.currentItem}>
         <Paper
           style={{
-            backgroundColor: props.backgroundColor
+            backgroundColor: props.backgroundColor,
           }}
         >
           <Subheader> {props.currentIconName} </Subheader>
@@ -67,7 +67,7 @@ IconPreview.propTypes = {
   currentIconName: PropTypes.string.isRequired,
   currentIcon: PropTypes.string.isRequired,
   iconColor: PropTypes.string.isRequired,
-  backgroundColor: PropTypes.string.isRequired
+  backgroundColor: PropTypes.string.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 

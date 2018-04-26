@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import NoSleep from 'nosleep.js';
 import PropTypes from 'prop-types';
 import { Button } from 'material-ui';
 import { withStyles } from 'material-ui/styles';
@@ -52,8 +53,8 @@ function unlockScreen() {
 const styles = () => ({
   root: {
     width: '100%',
-    maxWidth: 360
-  }
+    maxWidth: 360,
+  },
 });
 
 /**
@@ -69,10 +70,13 @@ class GameScreen extends Component {
 
     this.sensorManager = new SensorManager(props.onSensorChange);
     this.sensorManager.calibrate = this.sensorManager.calibrate.bind(this);
+
+    this.wakeLock = new NoSleep();
   }
 
   componentWillMount() {
     lockScreen();
+    this.wakeLock.enable();
   }
 
   componentDidMount() {
@@ -81,6 +85,7 @@ class GameScreen extends Component {
 
   componentWillUnmount() {
     unlockScreen();
+    this.wakeLock.disable();
 
     this.sensorManager.unbindEventListener();
   }
@@ -126,7 +131,7 @@ GameScreen.propTypes = {
   gameButtonPressed: PropTypes.func.isRequired,
   onSensorChange: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 

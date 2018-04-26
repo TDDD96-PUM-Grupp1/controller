@@ -10,30 +10,30 @@ import ColorPicker from './ColorPicker';
 
 const styles = () => ({
   text: {
-    width: '100%'
+    width: '100%',
   },
   joinButton: {
     width: '100%',
     position: 'relative',
     marginTop: 5,
-    left: 0
+    left: 0,
   },
 
   backButton: {
     width: '49%',
     marginTop: 5,
     position: 'relative',
-    left: 0
+    left: 0,
   },
   randomButton: {
     width: '49%',
     marginTop: 5,
     marginLeft: '1%',
-    position: 'relative'
+    position: 'relative',
   },
   buttonContainer: {
-    width: '100%'
-  }
+    width: '100%',
+  },
 });
 
 function setSVGColor(color) {
@@ -57,7 +57,7 @@ class UsernameInput extends Component {
       currentIcon: iconData[0].img,
       currentIconName: iconData[0].name,
       iconColor: '#000000',
-      backgroundColor: '#FFFFFF'
+      backgroundColor: '#FFFFFF',
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -96,7 +96,7 @@ class UsernameInput extends Component {
     this.setState({
       currentIconID: iconID,
       currentIcon: icon,
-      currentIconName: iconName
+      currentIconName: iconName,
     });
   }
 
@@ -105,7 +105,7 @@ class UsernameInput extends Component {
    */
   handleInputChange(event) {
     this.setState({
-      username: event.target.value
+      username: event.target.value,
     });
   }
 
@@ -125,14 +125,14 @@ class UsernameInput extends Component {
 
   handleIconColor(color) {
     this.setState({
-      iconColor: color
+      iconColor: color,
     });
     setSVGColor(color);
   }
 
   handleBackgroundColor(color) {
     this.setState({
-      backgroundColor: color
+      backgroundColor: color,
     });
   }
 
@@ -195,7 +195,7 @@ UsernameInput.propTypes = {
   showGameWindow: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   goBack: PropTypes.func.isRequired,
-  username: PropTypes.string.isRequired
+  username: PropTypes.string.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 

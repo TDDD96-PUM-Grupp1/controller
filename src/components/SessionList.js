@@ -10,8 +10,8 @@ const styles = theme => ({
   root: {
     width: '100%',
     maxWidth: 400,
-    backgroundColor: theme.palette.common.white
-  }
+    backgroundColor: theme.palette.common.white,
+  },
 });
 
 /**
@@ -23,10 +23,12 @@ class SessionList extends React.Component {
     super(props);
     this.instances = [];
     this.filter = '';
-    this.state = { instances: [] };
+    this.state = { instances: {} };
     this.onInstancesReceived = this.onInstancesReceived.bind(this);
     this.onPlayerAdded = this.onPlayerAdded.bind(this);
+    this.onPlayerRemoved = this.onPlayerRemoved.bind(this);
     this.onInstanceCreated = this.onInstanceCreated.bind(this);
+    this.onInstanceRemoved = this.onInstanceRemoved.bind(this);
     this.filterList = this.filterList.bind(this);
     this.isFiltered = this.isFiltered.bind(this);
     // this.state = { instances: this.props.testSessions};
@@ -55,13 +57,9 @@ class SessionList extends React.Component {
    * player connects.
    */
   onPlayerAdded(playerName, instanceName) {
-    for (let i = 0; i < this.state.instances.length; i += 1) {
-      if (this.state.instances[i].name === instanceName) {
-        const { instances } = this.state;
-        instances[i].currentlyPlaying += 1;
-        this.setState({ instances });
-      }
-    }
+    const { instances } = this.state;
+    instances[instanceName].currentlyPlaying += 1;
+    this.setState({ instances });
   }
 
   /*
@@ -69,13 +67,9 @@ class SessionList extends React.Component {
    * player disconnects.
    */
   onPlayerRemoved(playerName, instanceName) {
-    for (let i = 0; i < this.state.instances.length; i += 1) {
-      if (this.state.instances[i].name === instanceName) {
-        const { instances } = this.state;
-        instances[i].currentlyPlaying -= 1;
-        this.setState({ instances });
-      }
-    }
+    const { instances } = this.state;
+    instances[instanceName].currentlyPlaying -= 1;
+    this.setState({ instances });
   }
 
   /*
@@ -92,10 +86,11 @@ class SessionList extends React.Component {
 
     if (!this.isFiltered(instanceName)) {
       const { instances } = this.state;
-      instances.push(instance);
+      instances[instanceName] = instance;
       this.setState({ instances });
     }
-    this.instances.push(instance);
+
+    this.instances[instanceName] = instance;
   }
 
   /*
@@ -103,22 +98,11 @@ class SessionList extends React.Component {
    */
   onInstanceRemoved(instanceName) {
     if (!this.isFiltered(instanceName)) {
-      for (let i = 0; i < this.state.instances.length; i += 1) {
-        if (this.state.instances[i].name === instanceName) {
-          const { instances } = this.state;
-          instances.splice(i, 1);
-          this.setState({ instances });
-          break;
-        }
-      }
+      const { instances } = this.state;
+      delete instances[instanceName];
+      this.setState({ instances });
     }
-
-    for (let i = 0; i < this.instances.length; i += 1) {
-      if (this.instances[i].name === instanceName) {
-        this.instances.splice(i, 1);
-        break;
-      }
-    }
+    delete this.instances[instanceName];
   }
 
   /**
@@ -137,10 +121,11 @@ class SessionList extends React.Component {
    */
   filterList(filter) {
     this.filter = filter.toLowerCase();
-    const stateInstances = [];
-    for (let i = 0; i < this.instances.length; i += 1) {
-      if (!this.isFiltered(this.instances[i].name)) {
-        stateInstances.push(this.instances[i]);
+    const stateInstances = {};
+    const keys = Object.keys(this.instances);
+    for (let i = 0; i < keys.length; i += 1) {
+      if (!this.isFiltered(keys[i])) {
+        stateInstances[keys[i]] = this.instances[keys[i]];
       }
     }
 
@@ -159,10 +144,11 @@ class SessionList extends React.Component {
             </ListSubheader>
           }
         >
-          {this.state.instances.map(session => (
-            <div key={session.name}>
+          {Object.keys(this.state.instances).map(sessionKey => (
+            <div key={sessionKey}>
               <Session
-                sessionObj={session}
+                sessionObj={this.state.instances[sessionKey]}
+                sessionName={sessionKey}
                 enterSessionWindow={this.props.enterSessionWindow}
                 communication={this.props.communication}
               />

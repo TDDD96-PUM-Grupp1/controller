@@ -10,19 +10,19 @@ import Colors from './Colors';
 const styles = () => ({
   root: {
     flexGrow: 1,
-    marginTop: 10
+    marginTop: 10,
   },
   gridList: {
     flexWrap: 'nowrap',
     // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
     transform: 'translateZ(0)',
-    marginTop: 10
+    marginTop: 10,
   },
 
   alternatives: {
     textAlign: 'center',
-    width: '100%'
-  }
+    width: '100%',
+  },
 });
 
 class ColorPicker extends Component {
@@ -30,7 +30,7 @@ class ColorPicker extends Component {
     super(props);
 
     this.state = {
-      colorType: 0
+      colorType: 0,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -39,7 +39,7 @@ class ColorPicker extends Component {
 
   handleChange(e, value) {
     this.setState({
-      colorType: value
+      colorType: value,
     });
   }
 
@@ -75,7 +75,7 @@ class ColorPicker extends Component {
                   height: 64,
                   width: 64,
                   textAlign: 'center',
-                  marginTop: 10
+                  marginTop: 10,
                 }}
               >
                 <Button
@@ -99,7 +99,7 @@ class ColorPicker extends Component {
 ColorPicker.propTypes = {
   classes: PropTypes.object.isRequired,
   onIconColorSelect: PropTypes.func.isRequired,
-  onBackgroundColorSelect: PropTypes.func.isRequired
+  onBackgroundColorSelect: PropTypes.func.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 

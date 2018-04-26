@@ -8,11 +8,11 @@ const styles = () => ({
     width: '100%',
     maxWidth: 360,
     fontSize: 30,
-    height: 500
+    height: 500,
   },
   textField: {
-    width: '100%'
-  }
+    width: '100%',
+  },
 });
 
 /**
@@ -52,7 +52,7 @@ class FilterSession extends Component {
 /* eslint-disable react/forbid-prop-types */
 FilterSession.propTypes = {
   onInputChange: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 

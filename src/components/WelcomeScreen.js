@@ -7,8 +7,8 @@ const styles = () => ({
   button: {
     width: '100%',
     fontSize: 30,
-    height: '100vh'
-  }
+    height: '100vh',
+  },
 });
 
 /**
@@ -35,7 +35,7 @@ class WelcomeScreen extends React.Component {
 /* eslint-disable react/forbid-prop-types */
 WelcomeScreen.propTypes = {
   buttonPressed: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 
