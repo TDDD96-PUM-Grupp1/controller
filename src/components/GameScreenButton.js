@@ -15,7 +15,7 @@ class GameScreenButton extends Component {
    * onInputSubmit function passed as a component prop.
    */
   handleClick() {
-    this.props.gameButtonPressed(this.props.buttonName);
+    this.props.gameButtonPressed(this.props.buttonPos);
   }
 
   render() {
@@ -32,6 +32,7 @@ class GameScreenButton extends Component {
 GameScreenButton.propTypes = {
   buttonName: PropTypes.string.isRequired,
   gameButtonPressed: PropTypes.func.isRequired,
+  buttonPos: PropTypes.number.isRequired,
 };
 
 export default GameScreenButton;

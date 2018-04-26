@@ -116,6 +116,7 @@ class GameScreen extends Component {
               <GameScreenButtons
                 gameButtonPressed={this.props.gameButtonPressed}
                 buttonName={this.props.buttons[button]}
+                buttonPos={button}
               />
             </div>
           ))}
