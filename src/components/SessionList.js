@@ -10,8 +10,8 @@ const styles = theme => ({
   root: {
     width: '100%',
     maxWidth: 400,
-    backgroundColor: theme.palette.common.white
-  }
+    backgroundColor: theme.palette.common.white,
+  },
 });
 
 /**
@@ -46,7 +46,6 @@ class SessionList extends React.Component {
   onInstancesReceived(err, result) {
     if (!err) {
       this.instances = result;
-      console.log(result);
       this.setState({ instances: result });
     } else {
       // TODO: handle error
@@ -60,7 +59,7 @@ class SessionList extends React.Component {
   onPlayerAdded(playerName, instanceName) {
     const { instances } = this.state;
     instances[instanceName].currentlyPlaying += 1;
-    this.setState({instances});
+    this.setState({ instances });
   }
 
   /*
@@ -70,7 +69,7 @@ class SessionList extends React.Component {
   onPlayerRemoved(playerName, instanceName) {
     const { instances } = this.state;
     instances[instanceName].currentlyPlaying -= 1;
-    this.setState({instances});
+    this.setState({ instances });
   }
 
   /*
@@ -81,7 +80,7 @@ class SessionList extends React.Component {
       name: instanceName,
       currentlyPlaying: 0,
       maxPlayers,
-      gamemode
+      gamemode,
     };
 
     if (!this.isFiltered(instanceName)) {
@@ -122,7 +121,7 @@ class SessionList extends React.Component {
   filterList(filter) {
     this.filter = filter.toLowerCase();
     const stateInstances = {};
-    const keys = Object.keys(this.instances)
+    const keys = Object.keys(this.instances);
     for (let i = 0; i < keys.length; i += 1) {
       if (!this.isFiltered(keys[i])) {
         stateInstances[keys[i]] = this.instances[keys[i]];

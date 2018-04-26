@@ -31,7 +31,7 @@ class GameScreenButton extends Component {
 
 GameScreenButton.propTypes = {
   buttonName: PropTypes.string.isRequired,
-  gameButtonPressed: PropTypes.func.isRequired
+  gameButtonPressed: PropTypes.func.isRequired,
 };
 
 export default GameScreenButton;

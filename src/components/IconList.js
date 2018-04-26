@@ -9,28 +9,28 @@ import iconData from './iconData';
 const styles = () => ({
   root: {
     flexGrow: 1,
-    marginTop: 5
+    marginTop: 5,
   },
   gridList: {
     flexWrap: 'nowrap',
     // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-    transform: 'translateZ(0)'
+    transform: 'translateZ(0)',
   },
 
   currentIcon: {
     marginTop: 125,
     width: 200,
     textAlign: 'center',
-    margin: 'auto'
+    margin: 'auto',
   },
   currentItem: {
-    width: '100%'
+    width: '100%',
   },
 
   alternatives: {
     textAlign: 'center',
-    width: '100%'
-  }
+    width: '100%',
+  },
 });
 
 /**
@@ -73,7 +73,7 @@ class IconList extends Component {
                 key={tile.id}
                 style={{
                   height: 64,
-                  width: 64
+                  width: 64,
                 }}
                 onClick={this.handleClick}
               >
@@ -90,7 +90,7 @@ class IconList extends Component {
 /* eslint-disable react/forbid-prop-types */
 IconList.propTypes = {
   classes: PropTypes.object.isRequired,
-  onIconSelect: PropTypes.func.isRequired
+  onIconSelect: PropTypes.func.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 
