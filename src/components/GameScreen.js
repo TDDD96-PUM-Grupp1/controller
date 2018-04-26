@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import NoSleep from 'nosleep.js';
 import PropTypes from 'prop-types';
-import { Button } from 'material-ui';
-import { withStyles } from 'material-ui/styles';
+import { Button } from 'react-md';
+
 import GameScreenButtons from './GameScreenButton';
 import SensorManager from './SensorManager';
 
@@ -50,13 +50,6 @@ function unlockScreen() {
   }
 }
 
-const styles = () => ({
-  root: {
-    width: '100%',
-    maxWidth: 360,
-  },
-});
-
 /**
  * This class handles all the element being displayed while a game is in progress
  */
@@ -91,23 +84,12 @@ class GameScreen extends Component {
   }
 
   render() {
-    const { classes } = this.props;
     return (
       <div className="GameScreen">
-        <Button
-          className={classes.backButton}
-          variant="raised"
-          color="primary"
-          onClick={this.props.goBack}
-        >
+        <Button primary raised onClick={this.props.goBack}>
           Leave
         </Button>
-        <Button
-          className={classes.backButton}
-          variant="raised"
-          color="primary"
-          onClick={this.sensorManager.calibrate}
-        >
+        <Button primary raised onClick={this.sensorManager.calibrate}>
           Recallibrate Sensors
         </Button>
         <div className="GameButtonContainer">
@@ -131,8 +113,7 @@ GameScreen.propTypes = {
   gameButtonPressed: PropTypes.func.isRequired,
   onSensorChange: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 
-export default withStyles(styles)(GameScreen);
+export default GameScreen;
