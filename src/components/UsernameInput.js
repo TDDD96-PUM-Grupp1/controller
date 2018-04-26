@@ -91,7 +91,7 @@ class UsernameInput extends Component {
       username: value,
     });
 
-    if (value.length >= MAX_NAME_LENGTH) {
+    if (value.length > MAX_NAME_LENGTH) {
       this.setState({
         errorNameLength: true,
         errorHelpText: 'shorter',
