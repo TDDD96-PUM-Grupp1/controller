@@ -28,7 +28,7 @@ class Session extends React.Component {
     });
   }
 
-  shouldComponentUpdate(e) {
+  shouldComponentUpdate() {
     return false;
   }
 
