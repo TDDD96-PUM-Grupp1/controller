@@ -9,6 +9,8 @@ import ColorPicker from './ColorPicker';
 import Colors from './Colors';
 import './stylesheets/Component.css';
 
+const MAX_NAME_LENGTH = 20;
+
 function setSVGColor(color) {
   document
     .querySelector('.svgClass')
@@ -38,6 +40,8 @@ class UsernameInput extends Component {
       currentIcon: iconData[randomIconNumber].img,
       iconColor: Colors[randomIconColor].hex,
       backgroundColor: Colors[randomBackgroundColor].hex,
+      errorNameLength: false,
+      errorHelpText: '',
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -86,6 +90,22 @@ class UsernameInput extends Component {
     this.setState({
       username: value,
     });
+
+    if (value.length > MAX_NAME_LENGTH) {
+      this.setState({
+        errorNameLength: true,
+        errorHelpText: 'shorter',
+      });
+    } else if (value.length === 0) {
+      this.setState({
+        errorNameLength: true,
+        errorHelpText: 'longer',
+      });
+    } else {
+      this.setState({
+        errorNameLength: false,
+      });
+    }
   }
 
   /**
@@ -124,6 +144,11 @@ class UsernameInput extends Component {
           placeholder="Enter a name..."
           label="Enter playername"
           fullWidth
+          error={this.state.errorNameLength}
+          errorText={`${this.state.username.length}/${MAX_NAME_LENGTH} Please enter a ${
+            this.state.errorHelpText
+          } name!`}
+          helpText={`${this.state.username.length}/${MAX_NAME_LENGTH}`}
           id="2" // required by react-md
         />
         <Grid className="md-grid buttonContainer">
@@ -138,7 +163,13 @@ class UsernameInput extends Component {
             </Button>
           </Cell>
           <Cell size={4}>
-            <Button className="button" raised primary onClick={this.handleSubmit}>
+            <Button
+              disabled={this.state.errorNameLength}
+              className="button"
+              raised
+              primary
+              onClick={this.handleSubmit}
+            >
               Join
             </Button>
           </Cell>

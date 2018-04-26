@@ -20,16 +20,11 @@ class Session extends React.Component {
       this.props.sessionObj.currentlyPlaying = 0;
     }
     this.props.sessionObj.buttonAmount = 3;
-    this.state = { pingTime: '...' };
-    const current = Date.now();
-    this.props.communication.pingInstance(this.props.sessionObj.name, () => {
-      this.setState({ pingTime: `${Date.now() - current} ms` });
-      this.forceUpdate();
-    });
+    this.props.sessionObj.pingTime = '...';
   }
 
   shouldComponentUpdate() {
-    return false;
+    return true;
   }
 
   /**
@@ -50,7 +45,7 @@ class Session extends React.Component {
         <Cell className="md-cell--1">{`${this.props.sessionObj.currentlyPlaying}/${
           this.props.sessionObj.maxPlayers
         }`}</Cell>
-        <Cell className="md-cell--1">{this.state.pingTime}</Cell>
+        <Cell className="md-cell--1">{`${this.props.sessionObj.pingTime} ms`}</Cell>
       </Grid>
     );
   }
@@ -59,11 +54,11 @@ class Session extends React.Component {
 /* eslint-disable react/forbid-prop-types */
 Session.propTypes = {
   sessionObj: PropTypes.object.isRequired,
+  sessionName: PropTypes.string.isRequired,
   enterSessionWindow: PropTypes.func.isRequired,
   /* eslint-disable */
   communication: PropTypes.object.isRequired,
   /* eslint-enable */
-  sessionName: PropTypes.string.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 

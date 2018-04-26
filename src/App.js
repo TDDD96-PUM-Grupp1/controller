@@ -40,6 +40,8 @@ class App extends React.Component {
     this.enterGameWindow = this.enterGameWindow.bind(this);
     this.enterMainWindow = this.enterMainWindow.bind(this);
     this.gameButtonPressed = this.gameButtonPressed.bind(this);
+    this.renderSessionList = this.renderSessionList.bind(this);
+    this.renderGame = this.renderGame.bind(this);
     this.leaveGame = this.leaveGame.bind(this);
   }
 
@@ -137,6 +139,7 @@ class App extends React.Component {
           username={this.username}
           instanceName={this.state.instanceName}
           goBack={this.leaveGame}
+          com={this.com}
         />
       </div>
     );
