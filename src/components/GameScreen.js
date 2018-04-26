@@ -5,6 +5,7 @@ import { Button } from 'material-ui';
 import { withStyles } from 'material-ui/styles';
 import GameScreenButtons from './GameScreenButton';
 import SensorManager from './SensorManager';
+import KeyboardManager from '../KeyboardManager';
 
 /*
 Try to make screen fullscreen and lock orientation.
@@ -71,6 +72,8 @@ class GameScreen extends Component {
     this.sensorManager = new SensorManager(props.onSensorChange);
     this.sensorManager.calibrate = this.sensorManager.calibrate.bind(this);
 
+    this.keyboardManager = new KeyboardManager(props.onSensorChange);
+
     this.wakeLock = new NoSleep();
   }
 
@@ -81,6 +84,7 @@ class GameScreen extends Component {
 
   componentDidMount() {
     this.sensorManager.bindEventListener();
+    this.keyboardManager.bindEventListener();
   }
 
   componentWillUnmount() {
@@ -88,6 +92,7 @@ class GameScreen extends Component {
     this.wakeLock.disable();
 
     this.sensorManager.unbindEventListener();
+    this.keyboardManager.unbindEventListener();
   }
 
   render() {
