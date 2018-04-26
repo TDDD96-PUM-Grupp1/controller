@@ -13,7 +13,7 @@ class Communication {
     this.tickrate = options.tickrate;
     this.pingrate = options.pingrate;
     this.serviceName = options.service_name;
-    this.currentPing = '...';
+    this.currentPing = '-';
     // Creates and logs in a user to the server.
     this.ds = createDeepstream(options.host_ip);
     this.id = this.ds.getUid();
@@ -152,6 +152,8 @@ class Communication {
       });
       this.tickTimer += 1000 / this.pingrate;
     }
+
+    this.dataBuffer.ping = this.currentPing;
     this.dataBuffer.id = this.id;
     this.client.event.emit(`${this.serviceName}/data/${this.instance}`, this.dataBuffer);
     this.dataBuffer = {};
