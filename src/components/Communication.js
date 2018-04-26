@@ -9,9 +9,10 @@ class Communication {
      */
   constructor(options) {
     this.instance = '';
-    this.dataBuffer = {};
+    this.dataBuffer = { sensor: { beta: 0, gamma: 0 } };
     this.dataBuffer.bnum = [];
     this.tickrate = options.tickrate;
+    this.pingrate = options.pingrate;
     this.serviceName = options.service_name;
     // Creates and logs in a user to the server.
     this.ds = createDeepstream(options.host_ip);
@@ -21,6 +22,9 @@ class Communication {
     this.client = this.ds.login(auth, this.onLoggedIn.bind(this));
     this.name = '';
     this.intervalid = 0;
+
+    this.shouldFlushData = true;
+    this.setPingTime();
 
     // Bind functions.
     this.updateSensorData = this.updateSensorData.bind(this);
@@ -39,7 +43,7 @@ class Communication {
   */
   onJoined(err, result) {
     this.id = result;
-    this.intervalid = setInterval(this.tick.bind(this), 1000 / this.tickrate);
+    this.intervalid = setInterval(this.tick, 1000 / this.tickrate);
   }
 
   /*
@@ -133,7 +137,13 @@ class Communication {
    * @param gamma the gamma value of the sensor.
    */
   updateSensorData(beta, gamma) {
-    this.dataBuffer.sensor = { beta, gamma };
+    const oldBeta = this.dataBuffer.sensor.beta;
+    const oldGamma = this.dataBuffer.sensor.gamma;
+
+    if (beta !== oldBeta || gamma !== oldGamma) {
+      this.dataBuffer.sensor = { beta, gamma };
+      this.shouldFlushData = true;
+    }
   }
 
   /*
@@ -141,10 +151,16 @@ class Communication {
    * updated. Think of it as a heartbeat.
   */
   tick() {
-    this.dataBuffer.id = this.id;
-    this.client.event.emit(`${this.serviceName}/data/${this.instance}`, this.dataBuffer);
-    this.dataBuffer = {};
-    this.dataBuffer.bnum = [];
+    const currentTime = Date.now();
+    const sendPing = currentTime >= this.pingTime;
+    if (this.shouldFlushData || sendPing) {
+      this.dataBuffer.id = this.id;
+      this.shouldFlushData = false;
+      this.setPingTime();
+      this.client.event.emit(`${this.serviceName}/data/${this.instance}`, this.dataBuffer);
+      this.dataBuffer.bnum = [];
+      // this.dataBuffer = {};
+    }
   }
   /*
    * Sends a ping message to the given instance.
@@ -159,6 +175,15 @@ class Communication {
    */
   sendButtonPress(buttonNumber) {
     this.dataBuffer.bnum.push(buttonNumber);
+    this.shouldFlushData = true;
+  }
+
+  /**
+   * Sets the ping time correctly
+   */
+  setPingTime() {
+    /* eslint-disable-next-line */
+    this.pingTime = Date.now() + 1000 * (1 / this.pingrate);
   }
 }
 export default Communication;
