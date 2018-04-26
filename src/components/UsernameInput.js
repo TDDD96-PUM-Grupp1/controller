@@ -128,11 +128,6 @@ class UsernameInput extends Component {
         />
         <Grid className="md-grid buttonContainer">
           <Cell size={4}>
-            <Button className="button" raised primary onClick={this.handleSubmit}>
-              Join
-            </Button>
-          </Cell>
-          <Cell size={4}>
             <Button className="button" raised primary onClick={this.goBack}>
               Back
             </Button>
@@ -140,6 +135,11 @@ class UsernameInput extends Component {
           <Cell size={4}>
             <Button className="button" raised primary onClick={this.randomizeName}>
               Random
+            </Button>
+          </Cell>
+          <Cell size={4}>
+            <Button className="button" raised primary onClick={this.handleSubmit}>
+              Join
             </Button>
           </Cell>
         </Grid>
