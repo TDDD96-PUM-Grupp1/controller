@@ -32,7 +32,7 @@ class UsernameInput extends Component {
       currentIconID: iconData[randomIconNumber].id,
       currentIcon: iconData[randomIconNumber].img,
       iconColor: Colors[randomIconColor].hex,
-      backgroundColor: Colors[randomBackgroundColor].hex
+      backgroundColor: Colors[randomBackgroundColor].hex,
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -70,7 +70,7 @@ class UsernameInput extends Component {
   handleIconSelect(iconID, icon) {
     this.setState({
       currentIconID: iconID,
-      currentIcon: icon
+      currentIcon: icon,
     });
   }
 
@@ -79,7 +79,7 @@ class UsernameInput extends Component {
    */
   handleInputChange(value) {
     this.setState({
-      username: value
+      username: value,
     });
   }
 
@@ -99,14 +99,14 @@ class UsernameInput extends Component {
 
   handleIconColor(color) {
     this.setState({
-      iconColor: color
+      iconColor: color,
     });
     setSVGColor(color);
   }
 
   handleBackgroundColor(color) {
     this.setState({
-      backgroundColor: color
+      backgroundColor: color,
     });
   }
 
@@ -157,7 +157,7 @@ class UsernameInput extends Component {
 /* eslint-disable react/forbid-prop-types */
 UsernameInput.propTypes = {
   showGameWindow: PropTypes.func.isRequired,
-  goBack: PropTypes.func.isRequired
+  goBack: PropTypes.func.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 

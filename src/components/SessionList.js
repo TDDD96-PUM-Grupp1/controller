@@ -70,7 +70,7 @@ class SessionList extends React.Component {
       name: instanceName,
       currentlyPlaying: 0,
       maxPlayers,
-      gamemode
+      gamemode,
     };
 
     if (!this.isFiltered(instanceName)) {
@@ -148,7 +148,7 @@ class SessionList extends React.Component {
 SessionList.propTypes = {
   enterSessionWindow: PropTypes.func.isRequired,
   /* eslint-disable */
-  communication: PropTypes.object.isRequired
+  communication: PropTypes.object.isRequired,
   /* eslint-enable */
 };
 /* eslint-enable react/forbid-prop-types, react/require-default-props */

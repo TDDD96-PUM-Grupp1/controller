@@ -8,7 +8,7 @@ class ColorPicker extends Component {
     super(props);
 
     this.state = {
-      colorType: 0
+      colorType: 0,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -21,7 +21,7 @@ class ColorPicker extends Component {
 
   handleChange(index) {
     this.setState({
-      colorType: index
+      colorType: index,
     });
   }
 
@@ -66,7 +66,7 @@ class ColorPicker extends Component {
 /* eslint-disable react/forbid-prop-types */
 ColorPicker.propTypes = {
   onIconColorSelect: PropTypes.func.isRequired,
-  onBackgroundColorSelect: PropTypes.func.isRequired
+  onBackgroundColorSelect: PropTypes.func.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 

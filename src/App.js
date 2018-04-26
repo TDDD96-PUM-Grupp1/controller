@@ -18,7 +18,7 @@ class App extends React.Component {
       windowState: 'default',
       numberOfGameButtons: 0,
       username: '',
-      instanceName: ''
+      instanceName: '',
     };
 
     // Make sure to not create communication when we're running as a test.
@@ -81,7 +81,7 @@ class App extends React.Component {
       iconID,
       backgroundColor,
       iconColor,
-      (err, result) => {}
+      () => {}
     );
   }
 
@@ -162,11 +162,11 @@ class App extends React.Component {
 }
 
 App.defaultProps = {
-  test: false
+  test: false,
 };
 
 App.propTypes = {
-  test: PropTypes.bool
+  test: PropTypes.bool,
 };
 
 export default App;

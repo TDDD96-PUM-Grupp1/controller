@@ -15,7 +15,7 @@ function IconPreview(props) {
       <Paper
         className="iconPreviewWindow"
         style={{
-          backgroundColor: props.backgroundColor
+          backgroundColor: props.backgroundColor,
         }}
       >
         <object
@@ -30,7 +30,7 @@ function IconPreview(props) {
           height="128"
           style={{
             display: 'block',
-            textAlign: 'center'
+            textAlign: 'center',
           }}
         >
           Image failed to load
@@ -45,7 +45,7 @@ IconPreview.propTypes = {
   currentIconID: PropTypes.number.isRequired,
   currentIcon: PropTypes.string.isRequired,
   iconColor: PropTypes.string.isRequired,
-  backgroundColor: PropTypes.string.isRequired
+  backgroundColor: PropTypes.string.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 

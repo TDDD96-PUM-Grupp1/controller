@@ -112,7 +112,7 @@ class Communication {
         iconID: this.iconID,
         backgroundColor: this.backgroundColor,
         iconColor: this.iconColor,
-        sensor: { beta: 0, gamma: 0 }
+        sensor: { beta: 0, gamma: 0 },
       },
       (err, result) => {
         if (!err) {

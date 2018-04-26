@@ -112,7 +112,7 @@ GameScreen.propTypes = {
   numberOfButtons: PropTypes.number.isRequired,
   gameButtonPressed: PropTypes.func.isRequired,
   onSensorChange: PropTypes.func.isRequired,
-  goBack: PropTypes.func.isRequired
+  goBack: PropTypes.func.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 

@@ -54,7 +54,7 @@ class IconList extends Component {
 
 /* eslint-disable react/forbid-prop-types */
 IconList.propTypes = {
-  onIconSelect: PropTypes.func.isRequired
+  onIconSelect: PropTypes.func.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 

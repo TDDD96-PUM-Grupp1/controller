@@ -35,7 +35,7 @@ class FilterSession extends Component {
 
 /* eslint-disable react/forbid-prop-types */
 FilterSession.propTypes = {
-  onInputChange: PropTypes.func.isRequired
+  onInputChange: PropTypes.func.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 
