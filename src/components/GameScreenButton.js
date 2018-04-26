@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Button } from 'react-md';
 import PropTypes from 'prop-types';
 
 /**
@@ -21,9 +22,9 @@ class GameScreenButton extends Component {
   render() {
     return (
       <div>
-        <button className="GameButton" onClick={this.handleClick}>
+        <Button raised className="GameButton" onClick={this.handleClick}>
           {'Button '.concat(this.props.buttonName)}
-        </button>
+        </Button>
       </div>
     );
   }
@@ -31,7 +32,7 @@ class GameScreenButton extends Component {
 
 GameScreenButton.propTypes = {
   buttonName: PropTypes.string.isRequired,
-  gameButtonPressed: PropTypes.func.isRequired
+  gameButtonPressed: PropTypes.func.isRequired,
 };
 
 export default GameScreenButton;

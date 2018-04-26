@@ -8,7 +8,7 @@ class Communication {
      * */
   constructor(options) {
     this.instance = '';
-    this.dataBuffer = {};
+    this.dataBuffer = { sensor: { beta: 0, gamma: 0 } };
     this.dataBuffer.bnum = [];
     this.tickrate = options.tickrate;
     this.pingrate = options.pingrate;
@@ -23,6 +23,9 @@ class Communication {
     this.name = '';
     this.intervalid = 0;
     this.tickTimer = undefined;
+
+    this.shouldFlushData = true;
+    this.setPingTime();
 
     // Bind functions.
     this.updateSensorData = this.updateSensorData.bind(this);
@@ -41,8 +44,7 @@ class Communication {
   */
   onJoined(err, result) {
     this.id = result;
-    this.intervalid = setInterval(this.tick.bind(this), 1000 / this.tickrate);
-    this.tickTimer = Date.now();
+    this.intervalid = setInterval(this.tick, 1000 / this.tickrate);
   }
 
   /*
@@ -111,7 +113,7 @@ class Communication {
         iconID: this.iconID,
         backgroundColor: this.backgroundColor,
         iconColor: this.iconColor,
-        sensor: { beta: 0, gamma: 0 }
+        sensor: { beta: 0, gamma: 0 },
       },
       (err, result) => {
         if (!err) {
@@ -136,7 +138,13 @@ class Communication {
    * @param gamma the gamma value of the sensor.
    */
   updateSensorData(beta, gamma) {
-    this.dataBuffer.sensor = { beta, gamma };
+    const oldBeta = this.dataBuffer.sensor.beta;
+    const oldGamma = this.dataBuffer.sensor.gamma;
+
+    if (beta !== oldBeta || gamma !== oldGamma) {
+      this.dataBuffer.sensor = { beta, gamma };
+      this.shouldFlushData = true;
+    }
   }
 
   /*
@@ -144,20 +152,24 @@ class Communication {
    * updated. Think of it as a heartbeat.
   */
   tick() {
-    const now = Date.now();
-    const diff = now - this.tickTimer;
-    if (diff > 1000 / this.pingrate) {
+    const currentTime = Date.now();
+    const sendPing = currentTime >= this.pingTime;
+    if(sendPing)
+    {
+      let self = this;
       this.pingInstance(this.instance, () => {
-        this.currentPing = Date.now() - now;
+        self.currentPing = Date.now() - currentTime;
+        self.shouldFlushData = true;
       });
-      this.tickTimer += 1000 / this.pingrate;
+      this.setPingTime();
     }
-
-    this.dataBuffer.ping = this.currentPing;
-    this.dataBuffer.id = this.id;
-    this.client.event.emit(`${this.serviceName}/data/${this.instance}`, this.dataBuffer);
-    this.dataBuffer = {};
-    this.dataBuffer.bnum = [];
+    if (this.shouldFlushData || sendPing) {
+      this.dataBuffer.id = this.id;
+      this.dataBuffer.ping = this.currentPing;
+      this.shouldFlushData = false;
+      this.client.event.emit(`${this.serviceName}/data/${this.instance}`, this.dataBuffer);
+      this.dataBuffer.bnum = [];
+    }
   }
 
   /*
@@ -173,6 +185,14 @@ class Communication {
    */
   sendButtonPress(buttonNumber) {
     this.dataBuffer.bnum.push(buttonNumber);
+    this.shouldFlushData = true;
+  }
+
+  /**
+   * Sets the ping time correctly
+   */
+  setPingTime() {
+    this.pingTime = Date.now() + 1000 * (1 / this.pingrate);
   }
 }
 export default Communication;

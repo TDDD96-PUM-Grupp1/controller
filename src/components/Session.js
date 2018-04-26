@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { ListItem, ListItemText } from 'material-ui/List';
-import { withStyles } from 'material-ui/styles';
+import { Grid, Cell } from 'react-md';
+import './stylesheets/Component.css';
 
 /**
  * A session of an active game, saves:
@@ -10,8 +10,6 @@ import { withStyles } from 'material-ui/styles';
  * 3 : IP, not sure if it should be displayed
  *
  */
-
-const styles = () => {};
 
 class Session extends React.Component {
   constructor(props) {
@@ -25,6 +23,10 @@ class Session extends React.Component {
     this.props.sessionObj.pingTime = '...';
   }
 
+  shouldComponentUpdate() {
+    return true;
+  }
+
   /**
    * Clicking a session takes you to the detailed screen of said session and also changes the
    * state of the variable keeping track of the amount of buttons each session has.
@@ -36,16 +38,15 @@ class Session extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
     return (
-      <ListItem divider className={classes.root} button onClick={this.handleClick}>
-        <ListItemText primary={this.props.sessionName} />
-        <ListItemText primary={this.props.sessionObj.gamemode} />
-        <ListItemText
-          primary={`${this.props.sessionObj.currentlyPlaying}/${this.props.sessionObj.maxPlayers}`}
-        />
-        <ListItemText primary={`${this.props.sessionObj.pingTime} ms`} />
-      </ListItem>
+      <Grid onClick={this.handleClick} className="md-grid sessionContainer">
+        <Cell className="md-cell--2">{this.props.sessionName}</Cell>
+        <Cell className="md-cell--1">{this.props.sessionObj.gamemode}</Cell>
+        <Cell className="md-cell--1">{`${this.props.sessionObj.currentlyPlaying}/${
+          this.props.sessionObj.maxPlayers
+        }`}</Cell>
+        <Cell className="md-cell--1">{`${this.props.sessionObj.pingTime} ms`}</Cell>
+      </Grid>
     );
   }
 }
@@ -55,11 +56,10 @@ Session.propTypes = {
   sessionObj: PropTypes.object.isRequired,
   sessionName: PropTypes.string.isRequired,
   enterSessionWindow: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
   /* eslint-disable */
   communication: PropTypes.object.isRequired,
   /* eslint-enable */
 };
 /* eslint-enable react/forbid-prop-types */
 
-export default withStyles(styles)(Session);
+export default Session;
