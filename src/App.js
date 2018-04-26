@@ -1,7 +1,4 @@
 import React from 'react';
-import blue from 'material-ui/colors/blue';
-import red from 'material-ui/colors/red';
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import PropTypes from 'prop-types';
 import './components/css/App.css';
 import SessionList from './components/SessionList';
@@ -10,13 +7,6 @@ import UsernameInput from './components/UsernameInput';
 import Communication from './components/Communication';
 import settings from './config';
 import GameScreen from './components/GameScreen';
-
-const theme = createMuiTheme({
-  palette: {
-    primary: blue,
-    error: red
-  }
-});
 
 class App extends React.Component {
   constructor(props) {
@@ -28,7 +18,7 @@ class App extends React.Component {
       windowState: 'default',
       numberOfGameButtons: 0,
       username: '',
-      instanceName: ''
+      instanceName: '',
     };
 
     // Make sure to not create communication when we're running as a test.
@@ -91,7 +81,7 @@ class App extends React.Component {
       iconID,
       backgroundColor,
       iconColor,
-      (err, result) => {}
+      () => {}
     );
   }
 
@@ -167,21 +157,16 @@ class App extends React.Component {
       return <div className="App">no state is selected to show!</div>;
     }
 
-    return (
-      <MuiThemeProvider theme={theme}>
-        {' '}
-        <div className="App">{stateRender}</div>{' '}
-      </MuiThemeProvider>
-    );
+    return <div className="App">{stateRender}</div>;
   }
 }
 
 App.defaultProps = {
-  test: false
+  test: false,
 };
 
 App.propTypes = {
-  test: PropTypes.bool
+  test: PropTypes.bool,
 };
 
 export default App;
