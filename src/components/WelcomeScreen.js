@@ -9,7 +9,6 @@ import './stylesheets/Component.css';
  * This class is reused heavily in multiple screens
  */
 /* eslint-disable react/prefer-stateless-function */
-// asdasd
 class WelcomeScreen extends React.Component {
   render() {
     return (
