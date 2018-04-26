@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Cell } from 'react-md';
+import './stylesheets/Component.css';
 
 /**
  * A session of an active game, saves:
@@ -23,10 +24,11 @@ class Session extends React.Component {
     const current = Date.now();
     this.props.communication.pingInstance(this.props.sessionObj.name, () => {
       this.setState({ pingTime: `${Date.now() - current} ms` });
+      this.forceUpdate();
     });
   }
 
-  shouldComponentUpdate() {
+  shouldComponentUpdate(e) {
     return false;
   }
 
@@ -42,13 +44,13 @@ class Session extends React.Component {
 
   render() {
     return (
-      <Grid onClick={this.handleClick} className="md-grid">
-        <Cell size={1}>{this.props.sessionName}</Cell>
-        <Cell size={1}>{this.props.sessionObj.gamemode}</Cell>
-        <Cell size={1}>{`${this.props.sessionObj.currentlyPlaying}/${
+      <Grid onClick={this.handleClick} className="md-grid sessionContainer">
+        <Cell className="md-cell--2">{this.props.sessionName}</Cell>
+        <Cell className="md-cell--1">{this.props.sessionObj.gamemode}</Cell>
+        <Cell className="md-cell--1">{`${this.props.sessionObj.currentlyPlaying}/${
           this.props.sessionObj.maxPlayers
         }`}</Cell>
-        <Cell size={1}>{this.state.pingTime}</Cell>
+        <Cell className="md-cell--1">{this.state.pingTime}</Cell>
       </Grid>
     );
   }
@@ -61,7 +63,7 @@ Session.propTypes = {
   /* eslint-disable */
   communication: PropTypes.object.isRequired,
   /* eslint-enable */
-  sessionName: PropTypes.string.isRequired
+  sessionName: PropTypes.string.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 

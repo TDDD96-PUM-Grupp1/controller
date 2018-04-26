@@ -1,8 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Subheader, Divider, Paper } from 'react-md';
+import { Grid, Cell, Divider, Paper } from 'react-md';
 import Session from './Session';
 import FilterSession from './FilterSession';
+import './stylesheets/Component.css';
 
 /**
  * The list the sessions live within, responsible for updating the list
@@ -126,8 +127,14 @@ class SessionList extends React.Component {
       <div>
         <FilterSession onInputChange={this.filterList} />
         <Paper>
-          <Subheader primary primaryText="Sessions" />
-          <Divider />
+          <Grid className="md-grid sessionHeader">
+            <Cell className="md-cell--2">Session Name</Cell>
+            <Cell className="md-cell--1">Gamemode</Cell>
+            <Cell className="md-cell--1">Players</Cell>
+            <Cell className="md-cell--1">Latency</Cell>
+          </Grid>
+        </Paper>
+        <Paper>
           {Object.keys(this.state.instances).map(sessionKey => (
             <div key={sessionKey}>
               <Session

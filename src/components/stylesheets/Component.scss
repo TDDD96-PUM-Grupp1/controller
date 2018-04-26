@@ -1,3 +1,4 @@
+@import 'react-md/src/scss/react-md';
 .mainScreen{
     width: 100%;
     font-size: 30px;
@@ -64,3 +65,17 @@
     width: 100%;
 }
 
+.sessionContainer{
+    flex-wrap: nowrap;
+    margin: 'auto';
+    width: '100%';
+    margin-top: 0px;
+}
+
+.sessionHeader{
+    flex-wrap: nowrap;
+    margin: 'auto';
+    width: '100%';
+    margin-top: 0px;
+    background-color: $md-blue-500;
+}

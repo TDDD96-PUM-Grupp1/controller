@@ -33,7 +33,6 @@ class ColorPicker extends Component {
     }
   }
 
-  // asdsa
   render() {
     return (
       <div>

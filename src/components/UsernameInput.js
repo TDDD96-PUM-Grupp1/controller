@@ -7,6 +7,7 @@ import IconPreview from './IconPreview';
 import iconData from './iconData';
 import ColorPicker from './ColorPicker';
 import Colors from './Colors';
+import './stylesheets/Component.css';
 
 function setSVGColor(color) {
   document
@@ -25,7 +26,11 @@ class UsernameInput extends Component {
 
     const randomIconNumber = randomIntFromInterval(iconData.length);
     const randomIconColor = randomIntFromInterval(Colors.length);
-    const randomBackgroundColor = randomIntFromInterval(Colors.length);
+    let randomBackgroundColor = randomIntFromInterval(Colors.length);
+
+    while (randomIconColor === randomBackgroundColor) {
+      randomBackgroundColor = randomIntFromInterval(Colors.length);
+    }
 
     this.state = {
       username: getRandomName(),

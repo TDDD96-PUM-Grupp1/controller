@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Paper, Subheader, Button } from 'react-md';
+import { Paper, Button } from 'react-md';
 import PropTypes from 'prop-types';
 import iconData from './iconData';
 import './stylesheets/Component.css';
@@ -31,7 +31,6 @@ class IconList extends Component {
     return (
       <div>
         <Paper>
-          <Subheader primaryText="Sessions" />
           <div className="fluidGridList">
             {iconData.map(tile => (
               <Button
