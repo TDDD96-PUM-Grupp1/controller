@@ -113,7 +113,7 @@ const nouns = [
   'Whisper',
   'Wish',
   'Witch',
-  'Youth'
+  'Youth',
 ];
 
 const adjectives = [
@@ -190,7 +190,7 @@ const adjectives = [
   'Whimsical',
   'Wicked',
   'Wise',
-  'Wrinkled'
+  'Wrinkled',
 ];
 
 /**

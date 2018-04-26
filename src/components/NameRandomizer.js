@@ -115,7 +115,7 @@ class NameRandomizer {
       'Whisper',
       'Wish',
       'Witch',
-      'Youth'
+      'Youth',
     ];
 
     this.adjectives = [
@@ -192,7 +192,7 @@ class NameRandomizer {
       'Whimsical',
       'Wicked',
       'Wise',
-      'Wrinkled'
+      'Wrinkled',
     ];
 
     this.getRandomName = this.getRandomName.bind(this);

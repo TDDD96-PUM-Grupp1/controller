@@ -154,9 +154,8 @@ class Communication {
   tick() {
     const currentTime = Date.now();
     const sendPing = currentTime >= this.pingTime;
-    if(sendPing)
-    {
-      let self = this;
+    if (sendPing) {
+      const self = this;
       this.pingInstance(this.instance, () => {
         self.currentPing = Date.now() - currentTime;
         self.shouldFlushData = true;

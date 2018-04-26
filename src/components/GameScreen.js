@@ -60,7 +60,7 @@ class GameScreen extends Component {
     for (let i = 0; i < this.props.numberOfButtons; i += 1) {
       this.buttonList.push(i);
     }
-    this.state = {ping: '-'};
+    this.state = { ping: '-' };
     this.sensorManager = new SensorManager(props.onSensorChange);
     this.sensorManager.calibrate = this.sensorManager.calibrate.bind(this);
 
@@ -119,6 +119,7 @@ GameScreen.propTypes = {
   gameButtonPressed: PropTypes.func.isRequired,
   onSensorChange: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
+  com: PropTypes.object.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 
