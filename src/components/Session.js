@@ -24,7 +24,7 @@ class Session extends React.Component {
     this.props.sessionObj.buttonAmount = 3;
     this.state = { pingTime: '...' };
     const current = Date.now();
-    this.props.communication.pingInstance(this.props.sessionObj.name, (data, err) => {
+    this.props.communication.pingInstance(this.props.sessionObj.name, () => {
       this.setState({ pingTime: `${Date.now() - current} ms` });
     });
   }

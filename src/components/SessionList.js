@@ -46,7 +46,6 @@ class SessionList extends React.Component {
   onInstancesReceived(err, result) {
     if (!err) {
       this.instances = result;
-      console.log(result);
       this.setState({ instances: result });
     } else {
       // TODO: handle error
