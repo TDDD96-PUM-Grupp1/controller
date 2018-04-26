@@ -26,6 +26,10 @@ class Session extends React.Component {
     });
   }
 
+  shouldComponentUpdate() {
+    return false;
+  }
+
   /**
    * Clicking a session takes you to the detailed screen of said session and also changes the
    * state of the variable keeping track of the amount of buttons each session has.
