@@ -1,7 +1,4 @@
 import React from 'react';
-import blue from 'material-ui/colors/blue';
-import red from 'material-ui/colors/red';
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
 import PropTypes from 'prop-types';
 import './components/css/App.css';
 import SessionList from './components/SessionList';
@@ -10,13 +7,6 @@ import UsernameInput from './components/UsernameInput';
 import Communication from './components/Communication';
 import settings from './config';
 import GameScreen from './components/GameScreen';
-
-const theme = createMuiTheme({
-  palette: {
-    primary: blue,
-    error: red,
-  },
-});
 
 class App extends React.Component {
   constructor(props) {
@@ -167,12 +157,7 @@ class App extends React.Component {
       return <div className="App">no state is selected to show!</div>;
     }
 
-    return (
-      <MuiThemeProvider theme={theme}>
-        {' '}
-        <div className="App">{stateRender}</div>{' '}
-      </MuiThemeProvider>
-    );
+    return <div className="App">{stateRender}</div>;
   }
 }
 
