@@ -81,12 +81,13 @@ class SessionList extends React.Component {
   /*
    * Adds the instance to the list when it is started.
    */
-  onInstanceCreated(instanceName, maxPlayers, gamemode) {
+  onInstanceCreated(instanceName, maxPlayers, gamemode, buttons) {
     const instance = {
       name: instanceName,
       currentlyPlaying: 0,
       maxPlayers,
-      gamemode
+      gamemode,
+      buttons
     };
 
     if (!this.isFiltered(instanceName)) {
@@ -177,7 +178,7 @@ SessionList.propTypes = {
   enterSessionWindow: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   /* eslint-disable */
-  communication: PropTypes.object.isRequired,
+  communication: PropTypes.object.isRequired
   /* eslint-enable */
 };
 /* eslint-enable react/forbid-prop-types, react/require-default-props */

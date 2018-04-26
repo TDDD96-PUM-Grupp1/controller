@@ -22,7 +22,7 @@ class GameScreenButton extends Component {
     return (
       <div>
         <button className="GameButton" onClick={this.handleClick}>
-          {'Button '.concat(this.props.buttonName)}
+          {this.props.buttonName}
         </button>
       </div>
     );

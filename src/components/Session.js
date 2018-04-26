@@ -21,7 +21,6 @@ class Session extends React.Component {
     if (this.props.sessionObj.currentlyPlaying === undefined) {
       this.props.sessionObj.currentlyPlaying = 0;
     }
-    this.props.sessionObj.buttonAmount = 3;
     this.state = { pingTime: '...' };
     const current = Date.now();
     this.props.communication.pingInstance(this.props.sessionObj.name, (data, err) => {
@@ -31,11 +30,10 @@ class Session extends React.Component {
 
   /**
    * Clicking a session takes you to the detailed screen of said session and also changes the
-   * state of the variable keeping track of the amount of buttons each session has.
+   * state of the variable keeping track of the buttons the session's game-mode
    */
   handleClick() {
-    const buttonAmount = parseInt(Number(this.props.sessionObj.buttonAmount), 10);
-    this.props.enterSessionWindow(this.props.sessionObj.name, buttonAmount);
+    this.props.enterSessionWindow(this.props.sessionObj.name, this.props.sessionObj.buttons);
     this.props.communication.stopRequestInstances();
   }
 
@@ -60,7 +58,7 @@ Session.propTypes = {
   enterSessionWindow: PropTypes.func.isRequired,
   classes: PropTypes.object.isRequired,
   /* eslint-disable */
-  communication: PropTypes.object.isRequired,
+  communication: PropTypes.object.isRequired
   /* eslint-enable */
 };
 /* eslint-enable react/forbid-prop-types */

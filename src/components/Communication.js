@@ -70,7 +70,7 @@ class Communication {
       instanceListener.onPlayerRemoved(data.playerName, data.instanceName);
     });
     this.client.event.subscribe(`${this.serviceName}/instanceCreated`, data => {
-      instanceListener.onInstanceCreated(data.name, data.maxPlayers, data.gamemode);
+      instanceListener.onInstanceCreated(data.name, data.maxPlayers, data.gamemode, data.buttons);
     });
     this.client.event.subscribe(`${this.serviceName}/instanceRemoved`, data => {
       instanceListener.onInstanceRemoved(data.name);
@@ -99,15 +99,6 @@ class Communication {
     this.iconID = iconID;
     this.iconColor = iconColor;
     this.backgroundColor = backgroundColor;
-
-    console.log({
-      id: this.id,
-      name: this.name,
-      iconID: this.iconID,
-      backgroundColor: this.backgroundColor,
-      iconColor: this.iconColor,
-      sensor: { beta: 0, gamma: 0 }
-    });
 
     this.client.rpc.make(
       `${this.serviceName}/addPlayer/${this.instance}`,

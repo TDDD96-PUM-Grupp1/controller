@@ -26,7 +26,7 @@ class App extends React.Component {
     // and then reuse it through multiple game sessions
     this.state = {
       windowState: 'default',
-      numberOfGameButtons: 0,
+      gameButtons: [],
       username: '',
       instanceName: ''
     };
@@ -54,15 +54,13 @@ class App extends React.Component {
   }
 
   /**
-   * Used to switch to the window where detailed information
-   * regarding a session is displayed and to send data
-   * from the session to the main application
+   * Enters the detailed-session-window and passes information from Session.js to App.js
+   * @param instanceName The name of the instance to join
+   * @param buttons An array containing the names of the buttons used in
+   * the session's gamemode
    */
-  enterSessionWindow(instanceName, nrButtons) {
-    if (!Number.isNaN(nrButtons) && parseInt(Number(nrButtons), 10) === nrButtons) {
-      this.setState({ numberOfGameButtons: nrButtons });
-    }
-    this.setState({ instanceName, windowState: 'session' });
+  enterSessionWindow(instanceName, buttons) {
+    this.setState({ gameButtons: buttons, instanceName, windowState: 'session' });
   }
 
   /**
@@ -141,7 +139,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <GameScreen
-          numberOfButtons={this.state.numberOfGameButtons}
+          buttons={this.state.gameButtons}
           gameButtonPressed={this.gameButtonPressed}
           onSensorChange={this.com.updateSensorData}
           username={this.username}
