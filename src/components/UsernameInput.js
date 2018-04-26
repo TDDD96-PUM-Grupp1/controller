@@ -8,8 +8,11 @@ import iconData from './iconData';
 import ColorPicker from './ColorPicker';
 import Colors from './Colors';
 import './stylesheets/Component.css';
+<<<<<<< HEAD
 
 const MAX_NAME_LENGTH = 20;
+=======
+>>>>>>> 6227798c09fc8603d906bc8bdd3ec586e9fbd325
 
 function setSVGColor(color) {
   document
@@ -40,8 +43,11 @@ class UsernameInput extends Component {
       currentIcon: iconData[randomIconNumber].img,
       iconColor: Colors[randomIconColor].hex,
       backgroundColor: Colors[randomBackgroundColor].hex,
+<<<<<<< HEAD
       errorNameLength: false,
       errorHelpText: '',
+=======
+>>>>>>> 6227798c09fc8603d906bc8bdd3ec586e9fbd325
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -144,11 +150,14 @@ class UsernameInput extends Component {
           placeholder="Enter a name..."
           label="Enter playername"
           fullWidth
+<<<<<<< HEAD
           error={this.state.errorNameLength}
           errorText={`${this.state.username.length}/${MAX_NAME_LENGTH} Please enter a ${
             this.state.errorHelpText
           } name!`}
           helpText={`${this.state.username.length}/${MAX_NAME_LENGTH}`}
+=======
+>>>>>>> 6227798c09fc8603d906bc8bdd3ec586e9fbd325
           id="2" // required by react-md
         />
         <Grid className="md-grid buttonContainer">
@@ -163,6 +172,7 @@ class UsernameInput extends Component {
             </Button>
           </Cell>
           <Cell size={4}>
+<<<<<<< HEAD
             <Button
               disabled={this.state.errorNameLength}
               className="button"
@@ -170,6 +180,9 @@ class UsernameInput extends Component {
               primary
               onClick={this.handleSubmit}
             >
+=======
+            <Button className="button" raised primary onClick={this.handleSubmit}>
+>>>>>>> 6227798c09fc8603d906bc8bdd3ec586e9fbd325
               Join
             </Button>
           </Cell>
