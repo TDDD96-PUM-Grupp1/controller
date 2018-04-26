@@ -81,7 +81,7 @@ class SessionList extends React.Component {
       currentlyPlaying: 0,
       maxPlayers,
       gamemode,
-      buttons
+      buttons,
     };
 
     if (!this.isFiltered(instanceName)) {
