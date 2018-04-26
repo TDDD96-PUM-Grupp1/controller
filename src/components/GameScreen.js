@@ -64,7 +64,7 @@ class GameScreen extends Component {
   constructor(props) {
     super(props);
     this.buttonList = [];
-    for (let i = 0; i < this.props.numberOfButtons; i += 1) {
+    for (let i = 0; i < this.props.buttons.length; i += 1) {
       this.buttonList.push(i);
     }
 
@@ -115,7 +115,8 @@ class GameScreen extends Component {
             <div key={button}>
               <GameScreenButtons
                 gameButtonPressed={this.props.gameButtonPressed}
-                buttonName={''.concat(button)}
+                buttonName={this.props.buttons[button]}
+                buttonPos={button}
               />
             </div>
           ))}
@@ -127,7 +128,7 @@ class GameScreen extends Component {
 // classes: PropTypes.object.isRequired
 /* eslint-disable react/forbid-prop-types */
 GameScreen.propTypes = {
-  numberOfButtons: PropTypes.number.isRequired,
+  buttons: PropTypes.array.isRequired,
   gameButtonPressed: PropTypes.func.isRequired,
   onSensorChange: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
