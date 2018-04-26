@@ -52,8 +52,8 @@ function unlockScreen() {
 const styles = () => ({
   root: {
     width: '100%',
-    maxWidth: 360
-  }
+    maxWidth: 360,
+  },
 });
 
 /**
@@ -126,7 +126,7 @@ GameScreen.propTypes = {
   gameButtonPressed: PropTypes.func.isRequired,
   onSensorChange: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 

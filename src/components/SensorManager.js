@@ -47,7 +47,7 @@ class SensorManager {
   getSensorValues() {
     return {
       beta: this.beta,
-      gamma: this.gamma
+      gamma: this.gamma,
     };
   }
 

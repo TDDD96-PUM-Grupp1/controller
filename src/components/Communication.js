@@ -100,15 +100,6 @@ class Communication {
     this.iconColor = iconColor;
     this.backgroundColor = backgroundColor;
 
-    console.log({
-      id: this.id,
-      name: this.name,
-      iconID: this.iconID,
-      backgroundColor: this.backgroundColor,
-      iconColor: this.iconColor,
-      sensor: { beta: 0, gamma: 0 }
-    });
-
     this.client.rpc.make(
       `${this.serviceName}/addPlayer/${this.instance}`,
       {
@@ -117,7 +108,7 @@ class Communication {
         iconID: this.iconID,
         backgroundColor: this.backgroundColor,
         iconColor: this.iconColor,
-        sensor: { beta: 0, gamma: 0 }
+        sensor: { beta: 0, gamma: 0 },
       },
       (err, result) => {
         if (!err) {
