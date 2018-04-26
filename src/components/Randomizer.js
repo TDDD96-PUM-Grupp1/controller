@@ -3,7 +3,6 @@
  */
 
 const nouns = [
-<<<<<<< HEAD
   'Amulet',
   'Beast',
   'Beauty',
@@ -14,25 +13,6 @@ const nouns = [
   'Crow',
   'Curse',
   'Demon',
-=======
-  'Alchemist',
-  'Amulet',
-  'Apprentice',
-  'Beast',
-  'Beauty',
-  'Bersek',
-  'Bogeyman',
-  'Brew',
-  'Castle',
-  'Cauldron',
-  'Cave',
-  'Chalice',
-  'Creature',
-  'Crow',
-  'Curse',
-  'Demon',
-  'Detective',
->>>>>>> 6227798c09fc8603d906bc8bdd3ec586e9fbd325
   'Dragon',
   'Dream',
   'Dwarf',
@@ -44,34 +24,17 @@ const nouns = [
   'Gifts',
   'Gnome',
   'Goblin',
-<<<<<<< HEAD
   'Gowns',
   'Hag',
   'Herbs',
   'Horror',
   'Imp',
-=======
-  'Godmother',
-  'Gowns',
-  'Graveyard',
-  'Hag',
-  'Harbinger',
-  'Herbs',
-  'Horror',
-  'Illusion',
-  'Imp',
-  'Incantation',
->>>>>>> 6227798c09fc8603d906bc8bdd3ec586e9fbd325
   'Joker',
   'Kettle',
   'King',
   'Kingdom',
   'Lands',
   'Legend',
-<<<<<<< HEAD
-=======
-  'Leprechauns',
->>>>>>> 6227798c09fc8603d906bc8bdd3ec586e9fbd325
   'Lore',
   'Magic',
   'Magician',
@@ -85,11 +48,6 @@ const nouns = [
   'Mystery',
   'Myth',
   'Nature',
-<<<<<<< HEAD
-=======
-  'Necromancer',
-  'Necromancy',
->>>>>>> 6227798c09fc8603d906bc8bdd3ec586e9fbd325
   'Nemesis',
   'Newt',
   'Ogre',
@@ -114,10 +72,6 @@ const nouns = [
   'Scroll',
   'Seer',
   'Shaman',
-<<<<<<< HEAD
-=======
-  'Soothsayer',
->>>>>>> 6227798c09fc8603d906bc8bdd3ec586e9fbd325
   'Sorcerer',
   'Sorcery',
   'Specter',
@@ -126,11 +80,6 @@ const nouns = [
   'Spirit',
   'Star',
   'Story',
-<<<<<<< HEAD
-=======
-  'Superstition',
-  'Talisman',
->>>>>>> 6227798c09fc8603d906bc8bdd3ec586e9fbd325
   'Theory',
   'Torch',
   'Trick',
@@ -139,21 +88,13 @@ const nouns = [
   'Vampire',
   'Vanguard',
   'Victim',
-<<<<<<< HEAD
-=======
-  'Visionary',
->>>>>>> 6227798c09fc8603d906bc8bdd3ec586e9fbd325
   'Wand',
   'Ward',
   'Werewolf',
   'Whisper',
   'Wish',
   'Witch',
-<<<<<<< HEAD
   'Youth',
-=======
-  'Youth'
->>>>>>> 6227798c09fc8603d906bc8bdd3ec586e9fbd325
 ];
 
 const adjectives = [
@@ -230,11 +171,7 @@ const adjectives = [
   'Whimsical',
   'Wicked',
   'Wise',
-<<<<<<< HEAD
   'Wrinkled',
-=======
-  'Wrinkled'
->>>>>>> 6227798c09fc8603d906bc8bdd3ec586e9fbd325
 ];
 
 /**
