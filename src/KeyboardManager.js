@@ -1,5 +1,8 @@
 const MAX_ANGLE = 90;
 
+/*
+Manages keyboard input for playing the game when no sensor is present
+*/
 class KeyboardManager {
   constructor(onSensorChange, onButtonPress) {
     // Bind functions to be called
@@ -20,25 +23,34 @@ class KeyboardManager {
     this.calcSensorChange = this.calcSensorChange.bind(this);
   }
 
+  /*
+  Bind event listening to keys
+  */
   bindEventListener() {
     // Event listener for device orientation
     window.addEventListener('keydown', this.handleKeyboardInput);
     window.addEventListener('keyup', this.handleKeyboardInput);
   }
 
+  /*
+  Remove binds for key-events
+  */
   unbindEventListener() {
     // Make sure to unbind the event listener when component unmounts
     window.removeEventListener('keydown', this.handleKeyboardInput);
     window.removeEventListener('keyup', this.handleKeyboardInput);
   }
 
+  /*
+  Perform actions appropiate for the given key event
+  */
   handleKeyboardInput(event) {
     const { key } = event;
 
     // true if event is keyDown
     const downFlag = event.type === 'keydown';
-
     let updateSensorValues = false;
+
     // Movement
     if (key === 'w' || key === 'ArrowUp') {
       this.directions.up = downFlag;
@@ -54,6 +66,7 @@ class KeyboardManager {
       updateSensorValues = true;
     }
 
+    // Update sensor values if applicable, else check for game button presses
     if (updateSensorValues) {
       this.calcSensorChange();
     } else if (key === '1') {
@@ -67,6 +80,7 @@ class KeyboardManager {
     }
   }
 
+  // Translate keys pressed to an angle similair to if sensor-controls were used
   calcSensorChange() {
     let beta = 0;
     let gamma = 0;
@@ -87,4 +101,5 @@ class KeyboardManager {
     this.onSensorChange(beta, gamma);
   }
 }
+
 export default KeyboardManager;
