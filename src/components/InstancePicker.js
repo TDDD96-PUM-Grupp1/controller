@@ -172,13 +172,10 @@ class InstancePicker extends Component {
     );
   }
 }
-/* eslint-disable react/forbid-prop-types, react/require-default-props */
 InstancePicker.propTypes = {
   enterCharacterSelection: PropTypes.func.isRequired,
-  /* eslint-disable */
+  // eslint-disable-next-line
   communication: PropTypes.object.isRequired,
-  /* eslint-enable */
 };
-/* eslint-enable react/forbid-prop-types, react/require-default-props */
 
 export default InstancePicker;

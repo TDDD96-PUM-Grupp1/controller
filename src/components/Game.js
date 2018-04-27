@@ -4,8 +4,12 @@ import PropTypes from 'prop-types';
 import { Button } from 'react-md';
 
 import GameButton from './GameButton';
+<<<<<<< HEAD
 import SensorManager from './SensorManager';
 import KeyboardManager from '../KeyboardManager';
+=======
+import SensorManager from '../SensorManager';
+>>>>>>> 143d2026ddca2017deefc2ab3d5207b33ff5acfe
 
 /*
 Try to make screen fullscreen and lock orientation.
@@ -120,7 +124,6 @@ class Game extends Component {
   }
 }
 // classes: PropTypes.object.isRequired
-/* eslint-disable react/forbid-prop-types */
 Game.propTypes = {
   numberOfButtons: PropTypes.number.isRequired,
   gameButtonPressed: PropTypes.func.isRequired,
@@ -128,6 +131,5 @@ Game.propTypes = {
   goBack: PropTypes.func.isRequired,
   com: PropTypes.object.isRequired,
 };
-/* eslint-enable react/forbid-prop-types */
 
 export default Game;

@@ -51,15 +51,12 @@ class InstanceItem extends Component {
   }
 }
 
-/* eslint-disable react/forbid-prop-types */
 InstanceItem.propTypes = {
   instanceObj: PropTypes.object.isRequired,
   instanceName: PropTypes.string.isRequired,
   enterCharacterSelection: PropTypes.func.isRequired,
-  /* eslint-disable */
+  // eslint-disable-next-line
   communication: PropTypes.object.isRequired,
-  /* eslint-enable */
 };
-/* eslint-enable react/forbid-prop-types */
 
 export default InstanceItem;

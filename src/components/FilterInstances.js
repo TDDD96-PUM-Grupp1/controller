@@ -33,10 +33,8 @@ class FilterInstances extends Component {
   }
 }
 
-/* eslint-disable react/forbid-prop-types */
 FilterInstances.propTypes = {
   onInputChange: PropTypes.func.isRequired,
 };
-/* eslint-enable react/forbid-prop-types */
 
 export default FilterInstances;
