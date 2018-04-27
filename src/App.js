@@ -31,6 +31,13 @@ class App extends Component {
       this.com = new Communication(settings.communication);
     }
 
+    // Double check when back button is used
+    window.addEventListener("beforeunload", function (e) {
+      let confirmationMessage = 'No leave';
+      e.returnValue = confirmationMessage;
+      return confirmationMessage;
+    });
+
     // Bind
     this.enterCharacterSelection = this.enterCharacterSelection.bind(this);
     this.enterGame = this.enterGame.bind(this);
