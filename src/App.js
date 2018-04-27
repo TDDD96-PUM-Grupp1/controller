@@ -32,8 +32,8 @@ class App extends Component {
     }
 
     // Double check when back button is used
-    window.addEventListener("beforeunload", function (e) {
-      let confirmationMessage = 'No leave';
+    window.addEventListener('beforeunload', e => {
+      const confirmationMessage = 'No leave';
       e.returnValue = confirmationMessage;
       return confirmationMessage;
     });
