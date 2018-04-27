@@ -10,9 +10,6 @@ import Game from './components/Game';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    // username is not currently used but is expected to be added later in development,
-    // it allows for the user to only give their username once
-    // and then reuse it through multiple game instances
     this.state = {
       windowState: 'splashScreen',
       numberOfGameButtons: 0,
