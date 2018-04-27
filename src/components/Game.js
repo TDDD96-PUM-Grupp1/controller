@@ -4,12 +4,8 @@ import PropTypes from 'prop-types';
 import { Button } from 'react-md';
 
 import GameButton from './GameButton';
-<<<<<<< HEAD
-import SensorManager from './SensorManager';
-import KeyboardManager from '../KeyboardManager';
-=======
 import SensorManager from '../SensorManager';
->>>>>>> 143d2026ddca2017deefc2ab3d5207b33ff5acfe
+import KeyboardManager from '../KeyboardManager';
 
 /*
 Try to make screen fullscreen and lock orientation.
