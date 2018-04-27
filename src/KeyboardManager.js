@@ -1,60 +1,72 @@
-const ANGLE_CHANGE = 10;
+const MAX_ANGLE = 90;
 
 class KeyboardManager {
   constructor(onSensorChange) {
-    this.onSensorChange = onSensorChange;
+    this.onSensorChange = onSensorChange.bind(this);
 
-    this.getSensorValues = this.getSensorValues.bind(this);
-    this.changeSensorValues = this.changeSensorValues.bind(this);
-    this.onSensorChange = this.onSensorChange.bind(this);
+    this.directions = {
+      up: false,
+      down: false,
+      right: false,
+      left: false,
+    }
 
     this.bindEventListener = this.bindEventListener.bind(this);
     this.unbindEventListener = this.unbindEventListener.bind(this);
     this.handleKeyboardInput = this.handleKeyboardInput.bind(this);
+    this.calcSensorChange = this.calcSensorChange.bind(this);
   }
 
   bindEventListener() {
     // Event listener for device orientation
-    window.addEventListener('keypress', this.handleKeyboardInput);
+    window.addEventListener('keydown', this.handleKeyboardInput);
+    window.addEventListener('keyup', this.handleKeyboardInput);
   }
 
   unbindEventListener() {
     // Make sure to unbind the event listener when component unmounts
-    window.removeEventListener('keypress', this.handleKeyboardInput);
+    window.removeEventListener('keydown', this.handleKeyboardInput);
+    window.removeEventListener('keyup', this.handleKeyboardInput);
   }
 
-  handleKeyboardInput(event) {
+  handleKeyboardInput(event, down) {
     const { key } = event;
-
-    console.log("KEY");
+    let downFlag = (event.type === "keydown");
 
     if (key === 'w') {
-      this.changeSensorValues(0, ANGLE_CHANGE);
+      this.directions.up = downFlag;
     }
     if (key === 's') {
-      this.changeSensorValues(0, -ANGLE_CHANGE);
-    }
-    if (key === 'a') {
-      this.changeSensorValues(-ANGLE_CHANGE, 0);
+      this.directions.down = downFlag;
     }
     if (key === 'd') {
-      this.changeSensorValues(ANGLE_CHANGE, 0);
+      this.directions.right = downFlag;
+    }
+    if (key === 'a') {
+      this.directions.left = downFlag;
     }
 
-    //this.onSensorChange(this.beta, this.gamma);
+    calcSensorChange();
   }
 
-  changeSensorValues(beta, gamma) {
-    this.beta += beta;
-    this.gamma += gamma;
-  }
+  calcSensorChange(){
+    let beta = 0;
+    let gamma = 0;
 
-  getSensorValues() {
-    return {
-      beta: this.beta,
-      gamma: this.gamma,
-    };
+    if(this.directions.up){
+      gamma += MAX_ANGLE
+    }
+    if(this.directions.down){
+      gamma += -MAX_ANGLE
+    }
+    if(this.directions.right){
+      beta += MAX_ANGLE
+    }
+    if(this.directions.left){
+      beta += -MAX_ANGLE
+    }
+
+    this.onSensorChange(beta, gamma);
   }
 }
-
 export default KeyboardManager;
