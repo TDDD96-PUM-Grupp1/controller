@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Cell } from 'react-md';
 import './stylesheets/Component.css';
@@ -11,7 +11,7 @@ import './stylesheets/Component.css';
  *
  */
 
-class InstanceItem extends Component {
+class InstanceItem extends React.Component {
   constructor(props) {
     super(props);
     // This binding is necessary to make `this` work in the callback
@@ -52,6 +52,7 @@ class InstanceItem extends Component {
 }
 
 InstanceItem.propTypes = {
+  // eslint-disable-next-line
   instanceObj: PropTypes.object.isRequired,
   instanceName: PropTypes.string.isRequired,
   enterCharacterSelection: PropTypes.func.isRequired,

@@ -118,6 +118,7 @@ Game.propTypes = {
   gameButtonPressed: PropTypes.func.isRequired,
   onSensorChange: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
+  // eslint-disable-next-line
   com: PropTypes.object.isRequired,
 };
 
