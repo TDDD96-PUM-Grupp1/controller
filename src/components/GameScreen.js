@@ -61,7 +61,7 @@ class GameScreen extends Component {
     for (let i = 0; i < this.props.numberOfButtons; i += 1) {
       this.buttonList.push(i);
     }
-
+    this.state = { ping: '-' };
     this.sensorManager = new SensorManager(props.onSensorChange);
     this.sensorManager.calibrate = this.sensorManager.calibrate.bind(this);
 
@@ -78,14 +78,19 @@ class GameScreen extends Component {
   componentDidMount() {
     this.sensorManager.bindEventListener();
     this.keyboardManager.bindEventListener();
+
+    this.intervalId = setInterval(() => {
+      this.setState({ ping: this.props.com.currentPing });
+    }, 1000);
   }
 
   componentWillUnmount() {
     unlockScreen();
     this.wakeLock.disable();
-
     this.sensorManager.unbindEventListener();
     this.keyboardManager.unbindEventListener();
+
+    clearInterval(this.intervalId);
   }
 
   render() {
@@ -107,6 +112,9 @@ class GameScreen extends Component {
             </div>
           ))}
         </div>
+        <div className="pingTime" style={{ textAlign: 'center', fontSize: '200%' }}>
+          {`${this.state.ping} ms`}
+        </div>
       </div>
     );
   }
@@ -118,6 +126,7 @@ GameScreen.propTypes = {
   gameButtonPressed: PropTypes.func.isRequired,
   onSensorChange: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
+  com: PropTypes.object.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 

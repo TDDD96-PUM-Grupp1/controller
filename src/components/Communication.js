@@ -5,8 +5,7 @@ class Communication {
      * Constructor for Communication.
      * This initialized the network communication to the deepstream server.
      * It will also send an rpc-call to the UI to connect to it.
-     *
-     */
+     * */
   constructor(options) {
     this.instance = '';
     this.dataBuffer = { sensor: { beta: 0, gamma: 0 } };
@@ -14,6 +13,7 @@ class Communication {
     this.tickrate = options.tickrate;
     this.pingrate = options.pingrate;
     this.serviceName = options.service_name;
+    this.currentPing = '-';
     // Creates and logs in a user to the server.
     this.ds = createDeepstream(options.host_ip);
     this.id = this.ds.getUid();
@@ -22,6 +22,7 @@ class Communication {
     this.client = this.ds.login(auth, this.onLoggedIn.bind(this));
     this.name = '';
     this.intervalid = 0;
+    this.tickTimer = undefined;
 
     this.shouldFlushData = true;
     this.setPingTime();
@@ -153,20 +154,28 @@ class Communication {
   tick() {
     const currentTime = Date.now();
     const sendPing = currentTime >= this.pingTime;
+    if (sendPing) {
+      const self = this;
+      this.pingInstance(this.instance, () => {
+        self.currentPing = Date.now() - currentTime;
+        self.shouldFlushData = true;
+      });
+      this.setPingTime();
+    }
     if (this.shouldFlushData || sendPing) {
       this.dataBuffer.id = this.id;
+      this.dataBuffer.ping = this.currentPing;
       this.shouldFlushData = false;
-      this.setPingTime();
       this.client.event.emit(`${this.serviceName}/data/${this.instance}`, this.dataBuffer);
       this.dataBuffer.bnum = [];
-      // this.dataBuffer = {};
     }
   }
+
   /*
    * Sends a ping message to the given instance.
    */
   pingInstance(instanceName, pingCallback) {
-    this.client.rpc.make(`${this.serviceName}/pingTime/${this.instance}`, {}, pingCallback);
+    this.client.rpc.make(`${this.serviceName}/pingTime/${instanceName}`, {}, pingCallback);
   }
 
   /**
@@ -182,7 +191,6 @@ class Communication {
    * Sets the ping time correctly
    */
   setPingTime() {
-    /* eslint-disable-next-line */
     this.pingTime = Date.now() + 1000 * (1 / this.pingrate);
   }
 }

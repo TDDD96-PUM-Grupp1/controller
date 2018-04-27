@@ -22,6 +22,7 @@ class SessionList extends React.Component {
     this.onInstanceRemoved = this.onInstanceRemoved.bind(this);
     this.filterList = this.filterList.bind(this);
     this.isFiltered = this.isFiltered.bind(this);
+    this.pingAllSessions = this.pingAllSessions.bind(this);
     // this.state = { instances: this.props.testSessions};
   }
   /*
@@ -31,6 +32,10 @@ class SessionList extends React.Component {
     this.initList();
   }
 
+  componentWillUnmount() {
+    clearInterval(this.pingLoop);
+  }
+
   /*
    * Callback for when the RPC call returns the instances.
    */
@@ -38,6 +43,7 @@ class SessionList extends React.Component {
     if (!err) {
       this.instances = result;
       this.setState({ instances: result });
+      this.pingLoop = setInterval(this.pingAllSessions, 1000);
     } else {
       // TODO: handle error
     }
@@ -48,9 +54,10 @@ class SessionList extends React.Component {
    * player connects.
    */
   onPlayerAdded(playerName, instanceName) {
-    const { instances } = this.state;
-    instances[instanceName].currentlyPlaying += 1;
-    this.setState({ instances });
+    if (this.instances[instanceName] === undefined) {
+      return;
+    }
+    this.instances[instanceName].currentlyPlaying += 1;
   }
 
   /*
@@ -58,9 +65,10 @@ class SessionList extends React.Component {
    * player disconnects.
    */
   onPlayerRemoved(playerName, instanceName) {
-    const { instances } = this.state;
-    instances[instanceName].currentlyPlaying -= 1;
-    this.setState({ instances });
+    if (this.instances[instanceName] === undefined) {
+      return;
+    }
+    this.instances[instanceName].currentlyPlaying -= 1;
   }
 
   /*
@@ -93,6 +101,20 @@ class SessionList extends React.Component {
       this.setState({ instances });
     }
     delete this.instances[instanceName];
+  }
+
+  pingAllSessions() {
+    const { instances } = this.state;
+    const keys = Object.keys(instances);
+    for (let i = 0; i < keys.length; i += 1) {
+      const current = Date.now();
+      this.props.communication.pingInstance(keys[i], () => {
+        const ping = Date.now() - current;
+        instances[keys[i]].pingTime = ping;
+        this.setState({ instances });
+        this.forceUpdate();
+      });
+    }
   }
 
   /**
