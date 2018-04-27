@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, TextField, Grid, Cell } from 'react-md';
 import IconList from './IconList';
-import { getRandomName, randomIntFromInterval } from './Randomizer';
+import { getRandomName, randomIntFromInterval } from './datamanagers/Randomizer';
 import IconPreview from './IconPreview';
-import iconData from './iconData';
+import iconData from './datamanagers/iconData';
 import ColorPicker from './ColorPicker';
-import Colors from './Colors';
+import Colors from './datamanagers/Colors';
 import './stylesheets/Component.css';
 
 const MAX_NAME_LENGTH = 20;
