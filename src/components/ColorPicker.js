@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Paper, TabsContainer, Tabs, Tab } from 'react-md';
 import PropTypes from 'prop-types';
-import Colors from './datamanagers/Colors';
+import Colors from '../datamanagers/Colors';
+import './stylesheets/Component.css';
 
 class ColorPicker extends Component {
   constructor(props) {

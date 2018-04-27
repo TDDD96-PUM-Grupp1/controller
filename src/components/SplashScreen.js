@@ -8,20 +8,18 @@ import './stylesheets/Component.css';
  * logo, username and the name of the game.
  * This class is reused heavily in multiple screens
  */
-/* eslint-disable react/prefer-stateless-function */
-class WelcomeScreen extends React.Component {
-  render() {
-    return (
-      <Button className="mainScreen" onClick={this.props.buttonPressed} primary raised>
-        This should be a splashscreen!
-      </Button>
-    );
-  }
+function SplashScreen(props) {
+  return (
+    <Button className="mainScreen" onClick={props.buttonPressed} primary raised>
+      This should be a splashscreen!
+    </Button>
+  );
 }
+
 /* eslint-disable react/forbid-prop-types */
-WelcomeScreen.propTypes = {
+SplashScreen.propTypes = {
   buttonPressed: PropTypes.func.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 
-export default WelcomeScreen;
+export default SplashScreen;

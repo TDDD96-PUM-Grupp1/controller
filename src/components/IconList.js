@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Paper, Button } from 'react-md';
 import PropTypes from 'prop-types';
-import iconData from './datamanagers/iconData';
+import iconData from '../datamanagers/iconData';
 import './stylesheets/Component.css';
 
 /**
