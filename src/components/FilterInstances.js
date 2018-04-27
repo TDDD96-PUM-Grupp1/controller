@@ -5,7 +5,7 @@ import { TextField } from 'react-md';
 /**
  * The button and text field used to get userinput to sort the sessionslist
  */
-class FilterSession extends Component {
+class FilterInstances extends Component {
   constructor(props) {
     super(props);
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -34,9 +34,9 @@ class FilterSession extends Component {
 }
 
 /* eslint-disable react/forbid-prop-types */
-FilterSession.propTypes = {
+FilterInstances.propTypes = {
   onInputChange: PropTypes.func.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 
-export default FilterSession;
+export default FilterInstances;
