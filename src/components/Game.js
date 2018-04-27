@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import NoSleep from 'nosleep.js';
 import PropTypes from 'prop-types';
-import { Button } from 'react-md';
 
-import GameButton from './GameButton';
+import { DrawOneButton, DrawTwoButtons, DrawThreeButtons, DrawFourButtons } from './GameButton';
 import SensorManager from '../SensorManager';
 import KeyboardManager from '../KeyboardManager';
+import GameHeader from './GameHeader';
+import IconPreview from './IconPreview';
 
 /*
 Try to make screen fullscreen and lock orientation.
@@ -57,10 +58,6 @@ function unlockScreen() {
 class Game extends Component {
   constructor(props) {
     super(props);
-    this.buttonList = [];
-    for (let i = 0; i < this.props.numberOfButtons; i += 1) {
-      this.buttonList.push(i);
-    }
     this.state = { ping: '-' };
     this.sensorManager = new SensorManager(props.onSensorChange);
     this.sensorManager.calibrate = this.sensorManager.calibrate.bind(this);
@@ -94,26 +91,36 @@ class Game extends Component {
   }
 
   render() {
+    let renderHelper;
+
+    if (this.props.numberOfButtons === 0) {
+      renderHelper = <div />;
+    } else if (this.props.numberOfButtons === 1) {
+      renderHelper = <DrawOneButton gameButtonPressed={this.props.gameButtonPressed} />;
+    } else if (this.props.numberOfButtons === 2) {
+      renderHelper = <DrawTwoButtons gameButtonPressed={this.props.gameButtonPressed} />;
+    } else if (this.props.numberOfButtons === 4) {
+      renderHelper = <DrawThreeButtons gameButtonPressed={this.props.gameButtonPressed} />;
+    } else if (this.props.numberOfButtons === 3) {
+      renderHelper = <DrawFourButtons gameButtonPressed={this.props.gameButtonPressed} />;
+    } else {
+      renderHelper = <div>Invaild amount of buttons requested </div>;
+    }
+
     return (
-      <div className="GameScreen">
-        <Button primary raised onClick={this.props.goBack}>
-          Leave
-        </Button>
-        <Button primary raised onClick={this.sensorManager.calibrate}>
-          Recallibrate Sensors
-        </Button>
-        <div className="GameButtonContainer">
-          {this.buttonList.map(button => (
-            <div key={button}>
-              <GameButton
-                gameButtonPressed={this.props.gameButtonPressed}
-                buttonName={''.concat(button)}
-              />
-            </div>
-          ))}
-        </div>
-        <div className="pingTime" style={{ textAlign: 'center', fontSize: '200%' }}>
-          {`${this.state.ping} ms`}
+      <div>
+        <GameHeader
+          goBack={this.props.goBack}
+          ping={this.state.ping}
+          calibrate={this.sensorManager.calibrate}
+        />
+        {renderHelper}
+        <div className="gameIcon">
+          <IconPreview
+            iconID={this.props.iconID}
+            iconColor={this.props.iconColor}
+            backgroundColor={this.props.backgroundColor}
+          />
         </div>
       </div>
     );
@@ -127,6 +134,9 @@ Game.propTypes = {
   goBack: PropTypes.func.isRequired,
   // eslint-disable-next-line
   com: PropTypes.object.isRequired,
+  iconID: PropTypes.number.isRequired,
+  iconColor: PropTypes.string.isRequired,
+  backgroundColor: PropTypes.string.isRequired,
 };
 
 export default Game;
