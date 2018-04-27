@@ -52,6 +52,9 @@ class Communication {
     */
 
   /* eslint-disable */
+  /**
+   * Used for error handling in the future.
+   */
   onLoggedIn(success, data) {}
 
   /* eslint-enable */
