@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import NoSleep from 'nosleep.js';
 import PropTypes from 'prop-types';
-import { Button } from 'material-ui';
-import { withStyles } from 'material-ui/styles';
-import GameScreenButtons from './GameScreenButton';
-import SensorManager from './SensorManager';
+import { Button } from 'react-md';
+
+import GameButton from './GameButton';
+import SensorManager from '../SensorManager';
+import KeyboardManager from '../KeyboardManager';
 
 /*
 Try to make screen fullscreen and lock orientation.
@@ -50,26 +51,21 @@ function unlockScreen() {
   }
 }
 
-const styles = () => ({
-  root: {
-    width: '100%',
-    maxWidth: 360,
-  },
-});
-
 /**
  * This class handles all the element being displayed while a game is in progress
  */
-class GameScreen extends Component {
+class Game extends Component {
   constructor(props) {
     super(props);
     this.buttonList = [];
     for (let i = 0; i < this.props.buttons.length; i += 1) {
       this.buttonList.push(i);
     }
-
+    this.state = { ping: '-' };
     this.sensorManager = new SensorManager(props.onSensorChange);
     this.sensorManager.calibrate = this.sensorManager.calibrate.bind(this);
+
+    this.keyboardManager = new KeyboardManager(props.onSensorChange, props.gameButtonPressed);
 
     this.wakeLock = new NoSleep();
   }
@@ -81,39 +77,35 @@ class GameScreen extends Component {
 
   componentDidMount() {
     this.sensorManager.bindEventListener();
+    this.keyboardManager.bindEventListener();
+
+    this.intervalId = setInterval(() => {
+      this.setState({ ping: this.props.com.currentPing });
+    }, 1000);
   }
 
   componentWillUnmount() {
     unlockScreen();
     this.wakeLock.disable();
-
     this.sensorManager.unbindEventListener();
+    this.keyboardManager.unbindEventListener();
+
+    clearInterval(this.intervalId);
   }
 
   render() {
-    const { classes } = this.props;
     return (
       <div className="GameScreen">
-        <Button
-          className={classes.backButton}
-          variant="raised"
-          color="primary"
-          onClick={this.props.goBack}
-        >
+        <Button primary raised onClick={this.props.goBack}>
           Leave
         </Button>
-        <Button
-          className={classes.backButton}
-          variant="raised"
-          color="primary"
-          onClick={this.sensorManager.calibrate}
-        >
+        <Button primary raised onClick={this.sensorManager.calibrate}>
           Recallibrate Sensors
         </Button>
         <div className="GameButtonContainer">
           {this.buttonList.map(button => (
             <div key={button}>
-              <GameScreenButtons
+              <GameButton
                 gameButtonPressed={this.props.gameButtonPressed}
                 buttonName={this.props.buttons[button]}
                 buttonPos={button}
@@ -121,19 +113,23 @@ class GameScreen extends Component {
             </div>
           ))}
         </div>
+        <div className="pingTime" style={{ textAlign: 'center', fontSize: '200%' }}>
+          {`${this.state.ping} ms`}
+        </div>
       </div>
     );
   }
 }
 // classes: PropTypes.object.isRequired
 /* eslint-disable react/forbid-prop-types */
-GameScreen.propTypes = {
+Game.propTypes = {
   buttons: PropTypes.array.isRequired,
   gameButtonPressed: PropTypes.func.isRequired,
   onSensorChange: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
+  // eslint-disable-next-line
+  com: PropTypes.object.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 
-export default withStyles(styles)(GameScreen);
+export default Game;

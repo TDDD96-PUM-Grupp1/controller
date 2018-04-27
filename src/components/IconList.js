@@ -1,37 +1,8 @@
 import React, { Component } from 'react';
-import GridList, { GridListTile } from 'material-ui/GridList';
-import Paper from 'material-ui/Paper';
-import { withStyles } from 'material-ui/styles';
-import Subheader from 'material-ui/List/ListSubheader';
+import { Paper, Button } from 'react-md';
 import PropTypes from 'prop-types';
-import iconData from './iconData';
-
-const styles = () => ({
-  root: {
-    flexGrow: 1,
-    marginTop: 5,
-  },
-  gridList: {
-    flexWrap: 'nowrap',
-    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-    transform: 'translateZ(0)',
-  },
-
-  currentIcon: {
-    marginTop: 125,
-    width: 200,
-    textAlign: 'center',
-    margin: 'auto',
-  },
-  currentItem: {
-    width: '100%',
-  },
-
-  alternatives: {
-    textAlign: 'center',
-    width: '100%',
-  },
-});
+import iconData from '../datamanagers/iconData';
+import './stylesheets/Component.css';
 
 /**
  * Component that shows selected icon and provides a scrollable bar
@@ -45,53 +16,43 @@ class IconList extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
+  shouldComponentUpdate() {
+    return false;
+  }
+
   /**
    * Sets the current icon given a user has clicked on a icon.
    */
-  handleClick(e) {
-    // Error check, for index in list.
-    if (!e.target.id) {
-      return;
-    }
-
-    this.props.onIconSelect(
-      iconData[e.target.id].id,
-      iconData[e.target.id].img,
-      iconData[e.target.id].name
-    );
+  handleClick(id) {
+    this.props.onIconSelect(iconData[id].id, iconData[id].img);
   }
 
   render() {
-    const { classes } = this.props;
     return (
-      <div className={classes.root}>
-        <Paper className={classes.alternatives}>
-          <Subheader> Icons </Subheader>
-          <GridList className={classes.gridList}>
+      <div>
+        <Paper>
+          <div className="fluidGridList">
             {iconData.map(tile => (
-              <GridListTile
+              <Button
+                flat
                 key={tile.id}
-                style={{
-                  height: 64,
-                  width: 64,
+                onClick={() => {
+                  this.handleClick(tile.id);
                 }}
-                onClick={this.handleClick}
+                className="iconListItemSize"
               >
-                <img src={tile.img} alt={tile.name} id={tile.id} />
-              </GridListTile>
+                <img src={tile.img} alt="" id={tile.id} />
+              </Button>
             ))}
-          </GridList>
+          </div>
         </Paper>
       </div>
     );
   }
 }
 
-/* eslint-disable react/forbid-prop-types */
 IconList.propTypes = {
-  classes: PropTypes.object.isRequired,
   onIconSelect: PropTypes.func.isRequired,
 };
-/* eslint-enable react/forbid-prop-types */
 
-export default withStyles(styles)(IconList);
+export default IconList;

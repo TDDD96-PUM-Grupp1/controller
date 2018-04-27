@@ -1,24 +1,15 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import List from 'material-ui/List';
-import ListSubheader from 'material-ui/List/ListSubheader';
-import { withStyles } from 'material-ui/styles';
-import Session from './Session';
-import FilterSession from './FilterSession';
-
-const styles = theme => ({
-  root: {
-    width: '100%',
-    maxWidth: 400,
-    backgroundColor: theme.palette.common.white,
-  },
-});
+import { Grid, Cell, Divider, Paper } from 'react-md';
+import InstanceItem from './InstanceItem';
+import FilterInstances from './FilterInstances';
+import './stylesheets/Component.css';
 
 /**
- * The list the sessions live within, responsible for updating the list
- * eg finding new sessions and removing old
+ * The list the instances live within, responsible for updating the list
+ * eg finding new instances and removing old
  */
-class SessionList extends React.Component {
+class InstancePicker extends Component {
   constructor(props) {
     super(props);
     this.instances = [];
@@ -31,13 +22,17 @@ class SessionList extends React.Component {
     this.onInstanceRemoved = this.onInstanceRemoved.bind(this);
     this.filterList = this.filterList.bind(this);
     this.isFiltered = this.isFiltered.bind(this);
-    // this.state = { instances: this.props.testSessions};
+    this.pingAllInstances = this.pingAllInstances.bind(this);
   }
   /*
    * Initialize the list when this component gets mounted
    */
   componentDidMount() {
     this.initList();
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.pingLoop);
   }
 
   /*
@@ -47,6 +42,7 @@ class SessionList extends React.Component {
     if (!err) {
       this.instances = result;
       this.setState({ instances: result });
+      this.pingLoop = setInterval(this.pingAllInstances, 1000);
     } else {
       // TODO: handle error
     }
@@ -57,9 +53,10 @@ class SessionList extends React.Component {
    * player connects.
    */
   onPlayerAdded(playerName, instanceName) {
-    const { instances } = this.state;
-    instances[instanceName].currentlyPlaying += 1;
-    this.setState({ instances });
+    if (this.instances[instanceName] === undefined) {
+      return;
+    }
+    this.instances[instanceName].currentlyPlaying += 1;
   }
 
   /*
@@ -67,9 +64,10 @@ class SessionList extends React.Component {
    * player disconnects.
    */
   onPlayerRemoved(playerName, instanceName) {
-    const { instances } = this.state;
-    instances[instanceName].currentlyPlaying -= 1;
-    this.setState({ instances });
+    if (this.instances[instanceName] === undefined) {
+      return;
+    }
+    this.instances[instanceName].currentlyPlaying -= 1;
   }
 
   /*
@@ -105,6 +103,20 @@ class SessionList extends React.Component {
     delete this.instances[instanceName];
   }
 
+  pingAllInstances() {
+    const { instances } = this.state;
+    const keys = Object.keys(instances);
+    for (let i = 0; i < keys.length; i += 1) {
+      const current = Date.now();
+      this.props.communication.pingInstance(keys[i], () => {
+        const ping = Date.now() - current;
+        instances[keys[i]].pingTime = ping;
+        this.setState({ instances });
+        this.forceUpdate();
+      });
+    }
+  }
+
   /**
    * Update the list of active instances
    */
@@ -133,40 +145,38 @@ class SessionList extends React.Component {
   }
 
   render() {
-    const { classes } = this.props;
     return (
       <div>
-        <FilterSession onInputChange={this.filterList} />
-        <List
-          subheader={
-            <ListSubheader color="primary" className={classes.root}>
-              Sessions
-            </ListSubheader>
-          }
-        >
-          {Object.keys(this.state.instances).map(sessionKey => (
-            <div key={sessionKey}>
-              <Session
-                sessionObj={this.state.instances[sessionKey]}
-                sessionName={sessionKey}
-                enterSessionWindow={this.props.enterSessionWindow}
+        <FilterInstances onInputChange={this.filterList} />
+        <Paper>
+          <Grid className="md-grid instanceHeader">
+            <Cell className="md-cell--2">Instance Name</Cell>
+            <Cell className="md-cell--1">Gamemode</Cell>
+            <Cell className="md-cell--1">Players</Cell>
+            <Cell className="md-cell--1">Latency</Cell>
+          </Grid>
+        </Paper>
+        <Paper>
+          {Object.keys(this.state.instances).map(instanceKey => (
+            <div key={instanceKey}>
+              <InstanceItem
+                instanceObj={this.state.instances[instanceKey]}
+                instanceName={instanceKey}
+                enterCharacterSelection={this.props.enterCharacterSelection}
                 communication={this.props.communication}
               />
+              <Divider />
             </div>
           ))}
-        </List>
+        </Paper>
       </div>
     );
   }
 }
-/* eslint-disable react/forbid-prop-types, react/require-default-props */
-SessionList.propTypes = {
-  enterSessionWindow: PropTypes.func.isRequired,
-  classes: PropTypes.object.isRequired,
-  /* eslint-disable */
-  communication: PropTypes.object.isRequired
-  /* eslint-enable */
+InstancePicker.propTypes = {
+  enterCharacterSelection: PropTypes.func.isRequired,
+  // eslint-disable-next-line
+  communication: PropTypes.object.isRequired,
 };
-/* eslint-enable react/forbid-prop-types, react/require-default-props */
 
-export default withStyles(styles)(SessionList);
+export default InstancePicker;

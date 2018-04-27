@@ -1,31 +1,17 @@
-import React from 'react';
-import blue from 'material-ui/colors/blue';
-import red from 'material-ui/colors/red';
-import { MuiThemeProvider, createMuiTheme } from 'material-ui/styles';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import './components/css/App.css';
-import SessionList from './components/SessionList';
-import WelcomeScreen from './components/WelcomeScreen';
-import UsernameInput from './components/UsernameInput';
-import Communication from './components/Communication';
+import InstancePicker from './components/InstancePicker';
+import SplashScreen from './components/SplashScreen';
+import CharacterSelection from './components/CharacterSelection';
+import Communication from './networking/Communication';
 import settings from './config';
-import GameScreen from './components/GameScreen';
+import Game from './components/Game';
 
-const theme = createMuiTheme({
-  palette: {
-    primary: blue,
-    error: red,
-  },
-});
-
-class App extends React.Component {
+class App extends Component {
   constructor(props) {
     super(props);
-    // username is not currently used but is expected to be added later in development,
-    // it allows for the user to only give their username once
-    // and then reuse it through multiple game sessions
     this.state = {
-      windowState: 'default',
+      windowState: 'splashScreen',
       gameButtons: [],
       username: '',
       instanceName: '',
@@ -46,40 +32,38 @@ class App extends React.Component {
     }
 
     // Bind
-    this.enterSessionWindow = this.enterSessionWindow.bind(this);
-    this.enterGameWindow = this.enterGameWindow.bind(this);
-    this.enterMainWindow = this.enterMainWindow.bind(this);
+    this.enterCharacterSelection = this.enterCharacterSelection.bind(this);
+    this.enterGame = this.enterGame.bind(this);
+    this.enterInstancePicker = this.enterInstancePicker.bind(this);
     this.gameButtonPressed = this.gameButtonPressed.bind(this);
+    this.renderInstancePicker = this.renderInstancePicker.bind(this);
+    this.renderGame = this.renderGame.bind(this);
     this.leaveGame = this.leaveGame.bind(this);
   }
 
   /**
-   * Enters the detailed-session-window and passes information from Session.js to App.js
+   * Enters the detailed-session-window and passes information to App.js
    * @param instanceName The name of the instance to join
    * @param buttons An array containing the names of the buttons used in
    * the session's gamemode
    */
-  enterSessionWindow(instanceName, buttons) {
-    this.setState({ gameButtons: buttons, instanceName, windowState: 'session' });
+  enterCharacterSelection(instanceName, buttons) {
+    this.setState({ instanceName, windowState: 'characterSelection', gameButtons: buttons });
   }
 
   /**
-   * Used to switch to the main window where all sessions
+   * Used to switch to the main window where all Instances
    * are being displayed.
-   * @param username is an optional variable for setting the username
    */
-  enterMainWindow(username) {
-    if (typeof username === 'string') {
-      this.setState({ username });
-    }
-    this.setState({ windowState: 'sessionList' });
+  enterInstancePicker() {
+    this.setState({ windowState: 'instancePicker' });
   }
 
   /**
-   * Used to switch to the game window where all sessions
-   * are being displayed. Automatically tries to connect to the game session.
+   * Used to switch to the game window where all instances
+   * are being displayed. Automatically tries to connect to the game instace.
    */
-  enterGameWindow(username, iconID, backgroundColor, iconColor) {
+  enterGame(username, iconID, backgroundColor, iconColor) {
     /* eslint-disable-next-line */
     this.setState({ username, windowState: 'game' });
     // eslint-disable-next-line
@@ -106,71 +90,64 @@ class App extends React.Component {
    */
   leaveGame() {
     this.com.stopTick();
-    this.setState({ windowState: 'sessionList' });
+    this.setState({ windowState: 'instancePicker' });
   }
 
-  renderDefault() {
-    return <WelcomeScreen buttonPressed={this.enterMainWindow} />;
+  renderSplashScreen() {
+    return <SplashScreen buttonPressed={this.enterInstancePicker} />;
   }
 
-  renderSessionList() {
+  renderInstancePicker() {
     return (
-      <div>
-        <SessionList enterSessionWindow={this.enterSessionWindow} communication={this.com} />
-      </div>
+      <InstancePicker
+        enterCharacterSelection={this.enterCharacterSelection}
+        communication={this.com}
+      />
     );
   }
 
-  renderSession() {
+  renderCharacterSelection() {
     return (
-      <div>
-        <UsernameInput
-          instanceName={this.state.instanceName}
-          showGameWindow={this.enterGameWindow}
-          onInputSubmit={this.com.joinInstance}
-          goBack={this.enterMainWindow}
-          username={this.state.username}
-        />
-      </div>
+      <CharacterSelection
+        instanceName={this.state.instanceName}
+        enterGame={this.enterGame}
+        onInputSubmit={this.com.joinInstance}
+        goBack={this.enterInstancePicker}
+        username={this.state.username}
+      />
     );
   }
 
   renderGame() {
     return (
-      <div className="App">
-        <GameScreen
-          buttons={this.state.gameButtons}
-          gameButtonPressed={this.gameButtonPressed}
-          onSensorChange={this.com.updateSensorData}
-          username={this.username}
-          instanceName={this.state.instanceName}
-          goBack={this.leaveGame}
-        />
-      </div>
+      <Game
+        buttons={this.state.gameButtons}
+        gameButtonPressed={this.gameButtonPressed}
+        onSensorChange={this.com.updateSensorData}
+        username={this.username}
+        instanceName={this.state.instanceName}
+        goBack={this.leaveGame}
+        com={this.com}
+      />
     );
   }
 
   render() {
     let stateRender;
 
-    if (this.state.windowState === 'default') {
-      stateRender = this.renderDefault();
-    } else if (this.state.windowState === 'sessionList') {
-      stateRender = this.renderSessionList();
-    } else if (this.state.windowState === 'session') {
-      stateRender = this.renderSession();
+    if (this.state.windowState === 'splashScreen') {
+      stateRender = this.renderSplashScreen();
+    } else if (this.state.windowState === 'instancePicker') {
+      stateRender = this.renderInstancePicker();
+    } else if (this.state.windowState === 'characterSelection') {
+      stateRender = this.renderCharacterSelection();
     } else if (this.state.windowState === 'game') {
       stateRender = this.renderGame();
     } else {
-      return <div className="App">no state is selected to show!</div>;
+      return <div>no state is selected to show!</div>;
     }
 
-    return (
-      <MuiThemeProvider theme={theme}>
-        {' '}
-        <div className="App">{stateRender}</div>{' '}
-      </MuiThemeProvider>
-    );
+    return <div>{stateRender}</div>;
   }
 }
 

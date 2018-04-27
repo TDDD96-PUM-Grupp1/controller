@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
+import { Button } from 'react-md';
 import PropTypes from 'prop-types';
+import './stylesheets/Component.css';
 
 /**
  * A generic gamebutton displayed while playing a game, will be reused for different game modes.
  */
-class GameScreenButton extends Component {
+class GameButton extends Component {
   constructor(props) {
     super(props);
     this.handleClick = this.handleClick.bind(this);
@@ -21,18 +23,18 @@ class GameScreenButton extends Component {
   render() {
     return (
       <div>
-        <button className="GameButton" onClick={this.handleClick}>
+        <Button raised className="GameButton" onClick={this.handleClick}>
           {this.props.buttonName}
-        </button>
+        </Button>
       </div>
     );
   }
 }
 
-GameScreenButton.propTypes = {
+GameButton.propTypes = {
   buttonName: PropTypes.string.isRequired,
   gameButtonPressed: PropTypes.func.isRequired,
   buttonPos: PropTypes.number.isRequired,
 };
 
-export default GameScreenButton;
+export default GameButton;
