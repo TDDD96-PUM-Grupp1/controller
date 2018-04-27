@@ -2,15 +2,18 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Button, TextField, Grid, Cell } from 'react-md';
 import IconList from './IconList';
-import { getRandomName, randomIntFromInterval } from './Randomizer';
+import { getRandomName, randomIntFromInterval } from '../datamanagers/Randomizer';
 import IconPreview from './IconPreview';
-import iconData from './iconData';
+import iconData from '../datamanagers/iconData';
 import ColorPicker from './ColorPicker';
-import Colors from './Colors';
+import Colors from '../datamanagers/Colors';
 import './stylesheets/Component.css';
 
-const MAX_NAME_LENGTH = 20;
+const MAX_NAME_LENGTH = 21;
 
+/**
+ * Method for setting a color on a SVG icon.
+ */
 function setSVGColor(color) {
   document
     .querySelector('.svgClass')
@@ -22,7 +25,7 @@ function setSVGColor(color) {
  * The class responsible to handle the username input through a text field
  * and a button to send it to the server.
  */
-class UsernameInput extends Component {
+class CharacterSelection extends Component {
   constructor(props) {
     super(props);
 
@@ -60,14 +63,14 @@ class UsernameInput extends Component {
    */
   handleSubmit() {
     if (this.state.username === '') {
-      this.props.showGameWindow(
+      this.props.enterGame(
         getRandomName(),
         this.state.currentIconID,
         this.state.backgroundColor,
         this.state.iconColor
       );
     } else {
-      this.props.showGameWindow(
+      this.props.enterGame(
         this.state.username,
         this.state.currentIconID,
         this.state.backgroundColor,
@@ -190,11 +193,9 @@ class UsernameInput extends Component {
   }
 }
 
-/* eslint-disable react/forbid-prop-types */
-UsernameInput.propTypes = {
-  showGameWindow: PropTypes.func.isRequired,
+CharacterSelection.propTypes = {
+  enterGame: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
 };
-/* eslint-enable react/forbid-prop-types */
 
-export default UsernameInput;
+export default CharacterSelection;

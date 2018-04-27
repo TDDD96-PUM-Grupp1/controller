@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Paper, Button } from 'react-md';
 import PropTypes from 'prop-types';
-import iconData from './iconData';
+import iconData from '../datamanagers/iconData';
 import './stylesheets/Component.css';
 
 /**
@@ -51,10 +51,8 @@ class IconList extends Component {
   }
 }
 
-/* eslint-disable react/forbid-prop-types */
 IconList.propTypes = {
   onIconSelect: PropTypes.func.isRequired,
 };
-/* eslint-enable react/forbid-prop-types */
 
 export default IconList;

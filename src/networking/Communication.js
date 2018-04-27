@@ -4,7 +4,6 @@ class Communication {
   /*
      * Constructor for Communication.
      * This initialized the network communication to the deepstream server.
-     * It will also send an rpc-call to the UI to connect to it.
      * */
   constructor(options) {
     this.instance = '';
@@ -52,10 +51,11 @@ class Communication {
      * Will be used later for exception handling
     */
 
-  /* eslint-disable */
+  /**
+   * Used for error handling in the future.
+   */
+  // eslint-disable-next-line
   onLoggedIn(success, data) {}
-
-  /* eslint-enable */
 
   /*
    * Request the instances that are currently running.
@@ -148,7 +148,7 @@ class Communication {
   }
 
   /*
-   * Sends all the updated data to the UI. It will send data even if none has been
+   * Sends all the updated data to the UI. It will send a ping even if no data has been
    * updated. Think of it as a heartbeat.
   */
   tick() {

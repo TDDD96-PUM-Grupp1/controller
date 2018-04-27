@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Button, Paper, TabsContainer, Tabs, Tab } from 'react-md';
 import PropTypes from 'prop-types';
-import Colors from './Colors';
+import Colors from '../datamanagers/Colors';
+import './stylesheets/Component.css';
 
 class ColorPicker extends Component {
   constructor(props) {
@@ -62,11 +63,9 @@ class ColorPicker extends Component {
   }
 }
 
-/* eslint-disable react/forbid-prop-types */
 ColorPicker.propTypes = {
   onIconColorSelect: PropTypes.func.isRequired,
   onBackgroundColorSelect: PropTypes.func.isRequired,
 };
-/* eslint-enable react/forbid-prop-types */
 
 export default ColorPicker;

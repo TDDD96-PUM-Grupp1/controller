@@ -3,8 +3,8 @@ import NoSleep from 'nosleep.js';
 import PropTypes from 'prop-types';
 import { Button } from 'react-md';
 
-import GameScreenButtons from './GameScreenButton';
-import SensorManager from './SensorManager';
+import GameButton from './GameButton';
+import SensorManager from '../SensorManager';
 import KeyboardManager from '../KeyboardManager';
 
 /*
@@ -54,7 +54,7 @@ function unlockScreen() {
 /**
  * This class handles all the element being displayed while a game is in progress
  */
-class GameScreen extends Component {
+class Game extends Component {
   constructor(props) {
     super(props);
     this.buttonList = [];
@@ -105,7 +105,7 @@ class GameScreen extends Component {
         <div className="GameButtonContainer">
           {this.buttonList.map(button => (
             <div key={button}>
-              <GameScreenButtons
+              <GameButton
                 gameButtonPressed={this.props.gameButtonPressed}
                 buttonName={''.concat(button)}
               />
@@ -120,14 +120,13 @@ class GameScreen extends Component {
   }
 }
 // classes: PropTypes.object.isRequired
-/* eslint-disable react/forbid-prop-types */
-GameScreen.propTypes = {
+Game.propTypes = {
   numberOfButtons: PropTypes.number.isRequired,
   gameButtonPressed: PropTypes.func.isRequired,
   onSensorChange: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
+  // eslint-disable-next-line
   com: PropTypes.object.isRequired,
 };
-/* eslint-enable react/forbid-prop-types */
 
-export default GameScreen;
+export default Game;
