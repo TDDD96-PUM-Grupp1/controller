@@ -193,11 +193,9 @@ class CharacterSelection extends Component {
   }
 }
 
-/* eslint-disable react/forbid-prop-types */
 CharacterSelection.propTypes = {
   enterGame: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
 };
-/* eslint-enable react/forbid-prop-types */
 
 export default CharacterSelection;

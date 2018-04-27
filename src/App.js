@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import InstancePicker from './components/InstancePicker';
 import SplashScreen from './components/SplashScreen';
@@ -7,7 +7,7 @@ import Communication from './networking/Communication';
 import settings from './config';
 import Game from './components/Game';
 
-class App extends React.Component {
+class App extends Component {
   constructor(props) {
     super(props);
     this.state = {

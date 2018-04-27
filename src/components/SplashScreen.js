@@ -16,10 +16,8 @@ function SplashScreen(props) {
   );
 }
 
-/* eslint-disable react/forbid-prop-types */
 SplashScreen.propTypes = {
   buttonPressed: PropTypes.func.isRequired,
 };
-/* eslint-enable react/forbid-prop-types */
 
 export default SplashScreen;

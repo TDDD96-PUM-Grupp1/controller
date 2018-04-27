@@ -63,11 +63,9 @@ class ColorPicker extends Component {
   }
 }
 
-/* eslint-disable react/forbid-prop-types */
 ColorPicker.propTypes = {
   onIconColorSelect: PropTypes.func.isRequired,
   onBackgroundColorSelect: PropTypes.func.isRequired,
 };
-/* eslint-enable react/forbid-prop-types */
 
 export default ColorPicker;

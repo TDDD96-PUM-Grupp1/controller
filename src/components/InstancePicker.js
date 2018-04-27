@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Cell, Divider, Paper } from 'react-md';
 import InstanceItem from './InstanceItem';
@@ -9,7 +9,7 @@ import './stylesheets/Component.css';
  * The list the instances live within, responsible for updating the list
  * eg finding new instances and removing old
  */
-class InstancePicker extends React.Component {
+class InstancePicker extends Component {
   constructor(props) {
     super(props);
     this.instances = [];
@@ -172,13 +172,10 @@ class InstancePicker extends React.Component {
     );
   }
 }
-/* eslint-disable react/forbid-prop-types, react/require-default-props */
 InstancePicker.propTypes = {
   enterCharacterSelection: PropTypes.func.isRequired,
-  /* eslint-disable */
+  // eslint-disable-next-line
   communication: PropTypes.object.isRequired,
-  /* eslint-enable */
 };
-/* eslint-enable react/forbid-prop-types, react/require-default-props */
 
 export default InstancePicker;
