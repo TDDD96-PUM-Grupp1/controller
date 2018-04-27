@@ -9,7 +9,7 @@ class KeyboardManager {
       down: false,
       right: false,
       left: false,
-    }
+    };
 
     this.bindEventListener = this.bindEventListener.bind(this);
     this.unbindEventListener = this.unbindEventListener.bind(this);
@@ -29,41 +29,43 @@ class KeyboardManager {
     window.removeEventListener('keyup', this.handleKeyboardInput);
   }
 
-  handleKeyboardInput(event, down) {
+  handleKeyboardInput(event) {
     const { key } = event;
-    let downFlag = (event.type === "keydown");
 
-    if (key === 'w') {
+    // true if event is keyDown
+    const downFlag = event.type === 'keydown';
+
+    if (key === 'w' || key === 'ArrowUp') {
       this.directions.up = downFlag;
     }
-    if (key === 's') {
+    if (key === 's' || key === 'ArrowDown') {
       this.directions.down = downFlag;
     }
-    if (key === 'd') {
+    if (key === 'd' || key === 'ArrowRight') {
       this.directions.right = downFlag;
     }
-    if (key === 'a') {
+    if (key === 'a' || key === 'ArrowLeft') {
       this.directions.left = downFlag;
     }
 
-    calcSensorChange();
+    this.calcSensorChange();
   }
 
-  calcSensorChange(){
+  calcSensorChange() {
     let beta = 0;
     let gamma = 0;
 
-    if(this.directions.up){
-      gamma += MAX_ANGLE
+    if (this.directions.up) {
+      gamma += MAX_ANGLE;
     }
-    if(this.directions.down){
-      gamma += -MAX_ANGLE
+    if (this.directions.down) {
+      gamma += -MAX_ANGLE;
     }
-    if(this.directions.right){
-      beta += MAX_ANGLE
+    if (this.directions.right) {
+      beta += MAX_ANGLE;
     }
-    if(this.directions.left){
-      beta += -MAX_ANGLE
+    if (this.directions.left) {
+      beta += -MAX_ANGLE;
     }
 
     this.onSensorChange(beta, gamma);
