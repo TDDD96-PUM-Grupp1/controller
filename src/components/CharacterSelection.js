@@ -9,7 +9,7 @@ import ColorPicker from './ColorPicker';
 import Colors from '../datamanagers/Colors';
 import './stylesheets/Component.css';
 
-const MAX_NAME_LENGTH = 20;
+const MAX_NAME_LENGTH = 21;
 
 /**
  * Method for setting a color on a SVG icon.
