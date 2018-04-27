@@ -40,13 +40,11 @@ function IconPreview(props) {
   );
 }
 
-/* eslint-disable react/forbid-prop-types */
 IconPreview.propTypes = {
   currentIconID: PropTypes.number.isRequired,
   currentIcon: PropTypes.string.isRequired,
   iconColor: PropTypes.string.isRequired,
   backgroundColor: PropTypes.string.isRequired,
 };
-/* eslint-enable react/forbid-prop-types */
 
 export default IconPreview;

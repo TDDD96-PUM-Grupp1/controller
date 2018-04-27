@@ -113,7 +113,6 @@ class Game extends Component {
   }
 }
 // classes: PropTypes.object.isRequired
-/* eslint-disable react/forbid-prop-types */
 Game.propTypes = {
   numberOfButtons: PropTypes.number.isRequired,
   gameButtonPressed: PropTypes.func.isRequired,
@@ -121,6 +120,5 @@ Game.propTypes = {
   goBack: PropTypes.func.isRequired,
   com: PropTypes.object.isRequired,
 };
-/* eslint-enable react/forbid-prop-types */
 
 export default Game;
