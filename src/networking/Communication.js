@@ -4,7 +4,6 @@ class Communication {
   /*
      * Constructor for Communication.
      * This initialized the network communication to the deepstream server.
-     * It will also send an rpc-call to the UI to connect to it.
      * */
   constructor(options) {
     this.instance = '';
