@@ -1,9 +1,11 @@
+const ANGLE_CHANGE = 10;
+
 class KeyboardManager {
   constructor(onSensorChange) {
     this.onSensorChange = onSensorChange;
 
     this.getSensorValues = this.getSensorValues.bind(this);
-    this.setSensorValues = this.setSensorValues.bind(this);
+    this.changeSensorValues = this.changeSensorValues.bind(this);
     this.onSensorChange = this.onSensorChange.bind(this);
 
     this.bindEventListener = this.bindEventListener.bind(this);
@@ -24,25 +26,27 @@ class KeyboardManager {
   handleKeyboardInput(event) {
     const { key } = event;
 
+    console.log("KEY");
+
     if (key === 'w') {
-      this.setSensorValues(0, 90);
+      this.changeSensorValues(0, ANGLE_CHANGE);
     }
     if (key === 's') {
-      this.setSensorValues(0, -90);
+      this.changeSensorValues(0, -ANGLE_CHANGE);
     }
     if (key === 'a') {
-      this.setSensorValues(-90, 0);
+      this.changeSensorValues(-ANGLE_CHANGE, 0);
     }
     if (key === 'd') {
-      this.setSensorValues(90, 0);
+      this.changeSensorValues(ANGLE_CHANGE, 0);
     }
 
-    this.onSensorChange(this.beta, this.gamma);
+    //this.onSensorChange(this.beta, this.gamma);
   }
 
-  setSensorValues(beta, gamma) {
-    this.beta = beta;
-    this.gamma = gamma;
+  changeSensorValues(beta, gamma) {
+    this.beta += beta;
+    this.gamma += gamma;
   }
 
   getSensorValues() {
