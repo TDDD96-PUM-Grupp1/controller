@@ -1,9 +1,12 @@
 const MAX_ANGLE = 90;
 
 class KeyboardManager {
-  constructor(onSensorChange) {
+  constructor(onSensorChange, onButtonPress) {
+    // Bind functions to be called
     this.onSensorChange = onSensorChange.bind(this);
+    this.onButtonPress = onButtonPress;
 
+    // Which directions are currently held
     this.directions = {
       up: false,
       down: false,
@@ -35,20 +38,33 @@ class KeyboardManager {
     // true if event is keyDown
     const downFlag = event.type === 'keydown';
 
+    let updateSensorValues = false;
+    // Movement
     if (key === 'w' || key === 'ArrowUp') {
       this.directions.up = downFlag;
-    }
-    if (key === 's' || key === 'ArrowDown') {
+      updateSensorValues = true;
+    } else if (key === 's' || key === 'ArrowDown') {
       this.directions.down = downFlag;
-    }
-    if (key === 'd' || key === 'ArrowRight') {
+      updateSensorValues = true;
+    } else if (key === 'd' || key === 'ArrowRight') {
       this.directions.right = downFlag;
-    }
-    if (key === 'a' || key === 'ArrowLeft') {
+      updateSensorValues = true;
+    } else if (key === 'a' || key === 'ArrowLeft') {
       this.directions.left = downFlag;
+      updateSensorValues = true;
     }
 
-    this.calcSensorChange();
+    if (updateSensorValues) {
+      this.calcSensorChange();
+    } else if (key === '1') {
+      this.onButtonPress(1);
+    } else if (key === '2') {
+      this.onButtonPress(2);
+    } else if (key === '3') {
+      this.onButtonPress(3);
+    } else if (key === '4') {
+      this.onButtonPress(4);
+    }
   }
 
   calcSensorChange() {

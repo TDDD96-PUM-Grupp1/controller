@@ -65,7 +65,7 @@ class GameScreen extends Component {
     this.sensorManager = new SensorManager(props.onSensorChange);
     this.sensorManager.calibrate = this.sensorManager.calibrate.bind(this);
 
-    this.keyboardManager = new KeyboardManager(props.onSensorChange);
+    this.keyboardManager = new KeyboardManager(props.onSensorChange, props.gameButtonPressed);
 
     this.wakeLock = new NoSleep();
   }
