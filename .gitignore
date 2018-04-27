@@ -9,7 +9,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # build artifacts
-src/**/*.css
+*.css
 
 # Runtime data
 pids
