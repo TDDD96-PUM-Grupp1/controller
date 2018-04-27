@@ -150,7 +150,7 @@ class Communication {
   }
 
   /*
-   * Sends all the updated data to the UI. It will send data even if none has been
+   * Sends all the updated data to the UI. It will send a ping even if no data has been
    * updated. Think of it as a heartbeat.
   */
   tick() {
