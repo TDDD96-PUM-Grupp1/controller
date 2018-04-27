@@ -59,7 +59,6 @@ class App extends React.Component {
   /**
    * Used to switch to the main window where all Instances
    * are being displayed.
-   * @param username is an optional variable for setting the username
    */
   enterInstancePicker() {
     this.setState({ windowState: 'instancePicker' });
