@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import InstancePicker from './components/InstancePicker';
 import SplashScreen from './components/SplashScreen';
@@ -7,12 +7,9 @@ import Communication from './networking/Communication';
 import settings from './config';
 import Game from './components/Game';
 
-class App extends React.Component {
+class App extends Component {
   constructor(props) {
     super(props);
-    // username is not currently used but is expected to be added later in development,
-    // it allows for the user to only give their username once
-    // and then reuse it through multiple game instances
     this.state = {
       windowState: 'splashScreen',
       numberOfGameButtons: 0,
@@ -59,7 +56,6 @@ class App extends React.Component {
   /**
    * Used to switch to the main window where all Instances
    * are being displayed.
-   * @param username is an optional variable for setting the username
    */
   enterInstancePicker() {
     this.setState({ windowState: 'instancePicker' });

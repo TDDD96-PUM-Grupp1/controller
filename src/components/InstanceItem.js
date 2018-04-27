@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Grid, Cell } from 'react-md';
 import './stylesheets/Component.css';
@@ -11,7 +11,7 @@ import './stylesheets/Component.css';
  *
  */
 
-class InstanceItem extends React.Component {
+class InstanceItem extends Component {
   constructor(props) {
     super(props);
     // This binding is necessary to make `this` work in the callback

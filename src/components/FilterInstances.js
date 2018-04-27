@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { TextField } from 'react-md';
 
 /**
- * The button and text field used to get userinput to sort the sessionslist
+ * The button and text field used to get userinput to sort the Instancelist
  */
 class FilterInstances extends Component {
   constructor(props) {

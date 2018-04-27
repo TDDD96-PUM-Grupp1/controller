@@ -175,8 +175,7 @@ const adjectives = [
 ];
 
 /**
- * Gives a random number between min and max,
- * credit to Francisc from Stackoverflow for this one
+ * Gives a random number between 0 and length
  */
 export function randomIntFromInterval(length) {
   return Math.floor(Math.random() * length);
