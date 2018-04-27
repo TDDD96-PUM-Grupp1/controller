@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import WebFontLoader from 'webfontloader';
-import './components/css/reset.css';
+import './components/stylesheets/reset.css';
 import './index.css';
 import App from './App';
 import registerServiceWorker from './registerServiceWorker';

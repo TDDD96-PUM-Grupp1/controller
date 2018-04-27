@@ -80,3 +80,24 @@
     background-color: $md-blue-500;
     color: antiquewhite;
 }
+
+.GameScreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    overflow: auto;
+}
+
+.GameButton {
+    height: 100%;
+    width: 100%;
+    min-height: 50px;
+}
+
+.GameButtonContainer {
+    height: auto;
+    width: auto;
+
+}

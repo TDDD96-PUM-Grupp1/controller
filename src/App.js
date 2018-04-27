@@ -1,10 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './components/css/App.css';
 import SessionList from './components/SessionList';
 import WelcomeScreen from './components/WelcomeScreen';
 import UsernameInput from './components/UsernameInput';
-import Communication from './components/Communication';
+import Communication from './networking/Communication';
 import settings from './config';
 import GameScreen from './components/GameScreen';
 
