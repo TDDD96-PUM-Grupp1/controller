@@ -99,9 +99,9 @@ class Game extends Component {
       renderHelper = <DrawOneButton gameButtonPressed={this.props.gameButtonPressed} />;
     } else if (this.props.numberOfButtons === 2) {
       renderHelper = <DrawTwoButtons gameButtonPressed={this.props.gameButtonPressed} />;
-    } else if (this.props.numberOfButtons === 4) {
-      renderHelper = <DrawThreeButtons gameButtonPressed={this.props.gameButtonPressed} />;
     } else if (this.props.numberOfButtons === 3) {
+      renderHelper = <DrawThreeButtons gameButtonPressed={this.props.gameButtonPressed} />;
+    } else if (this.props.numberOfButtons === 4) {
       renderHelper = <DrawFourButtons gameButtonPressed={this.props.gameButtonPressed} />;
     } else {
       renderHelper = <div>Invaild amount of buttons requested </div>;
