@@ -18,7 +18,7 @@ function GameHeader(props) {
       </Cell>
       <Cell size={6}>
         <Button className="button" primary raised onClick={props.calibrate}>
-          Recallibrate Sensors
+          Recalibrate Sensors
         </Button>
       </Cell>
     </Grid>
