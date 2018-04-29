@@ -4735,9 +4735,9 @@ normalize-url@^1.4.0:
     query-string "^4.1.0"
     sort-keys "^1.0.0"
 
-nosleep.js@^0.7.0:
+"nosleep.js@https://github.com/joelnir/NoSleep.js":
   version "0.7.0"
-  resolved "https://registry.yarnpkg.com/nosleep.js/-/nosleep.js-0.7.0.tgz#cfd919c25523ca0d0f4a69fb3305c083adaee289"
+  resolved "https://github.com/joelnir/NoSleep.js#83ba34486cbbe05e9cf017f8f17e8310412c2775"
 
 npm-run-all@^4.1.2:
   version "4.1.2"

@@ -24,7 +24,7 @@ class IconList extends Component {
    * Sets the current icon given a user has clicked on a icon.
    */
   handleClick(id) {
-    this.props.onIconSelect(iconData[id].id, iconData[id].img);
+    this.props.onIconSelect(iconData[id].id);
   }
 
   render() {
