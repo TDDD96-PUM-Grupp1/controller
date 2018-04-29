@@ -10,10 +10,10 @@ class SensorOutput extends Component {
       gamma: 0,
     };
 
-    this.handleDeviceOrientation = this.handleDeviceOrientation.bind(this);
-    this.sensorManager = new SensorManager(this.handleDeviceOrientation);
-
     // Make event-based callbacks bind correctly
+    this.handleDeviceOrientation = this.handleDeviceOrientation.bind(this);
+
+    this.sensorManager = new SensorManager(this.handleDeviceOrientation);
   }
 
   componentDidMount() {
