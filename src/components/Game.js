@@ -96,7 +96,7 @@ class Game extends Component {
       <div>
         <GameHeader
           goBack={this.props.goBack}
-          ping={this.state.ping}
+          ping={this.state.ping.toString()}
           calibrate={this.sensorManager.calibrate}
         />
         <GameButtonHandler
