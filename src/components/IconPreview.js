@@ -1,6 +1,7 @@
 import React from 'react';
 import { Grid, Paper } from 'react-md';
 import PropTypes from 'prop-types';
+import iconData from '../datamanagers/iconData';
 
 function setSVGColor(color) {
   document
@@ -24,8 +25,8 @@ function IconPreview(props) {
           }}
           className="svgClass center"
           type="image/svg+xml"
-          data={props.currentIcon}
-          alt={props.currentIconID}
+          data={iconData[props.iconID].img}
+          alt={props.iconID}
           width="128"
           height="128"
           style={{
@@ -41,8 +42,7 @@ function IconPreview(props) {
 }
 
 IconPreview.propTypes = {
-  currentIconID: PropTypes.number.isRequired,
-  currentIcon: PropTypes.string.isRequired,
+  iconID: PropTypes.number.isRequired,
   iconColor: PropTypes.string.isRequired,
   backgroundColor: PropTypes.string.isRequired,
 };

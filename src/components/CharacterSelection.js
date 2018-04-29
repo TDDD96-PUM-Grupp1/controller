@@ -40,7 +40,6 @@ class CharacterSelection extends Component {
     this.state = {
       username: getRandomName(),
       currentIconID: iconData[randomIconNumber].id,
-      currentIcon: iconData[randomIconNumber].img,
       iconColor: Colors[randomIconColor].hex,
       backgroundColor: Colors[randomBackgroundColor].hex,
       errorNameLength: false,
@@ -79,10 +78,9 @@ class CharacterSelection extends Component {
     }
   }
 
-  handleIconSelect(iconID, icon) {
+  handleIconSelect(iconID) {
     this.setState({
       currentIconID: iconID,
-      currentIcon: icon,
     });
   }
 
@@ -178,8 +176,7 @@ class CharacterSelection extends Component {
           </Cell>
         </Grid>
         <IconPreview
-          currentIcon={this.state.currentIcon}
-          currentIconID={this.state.currentIconID}
+          iconID={this.state.currentIconID}
           iconColor={this.state.iconColor}
           backgroundColor={this.state.backgroundColor}
         />
