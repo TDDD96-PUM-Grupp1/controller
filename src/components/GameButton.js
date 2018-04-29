@@ -26,7 +26,9 @@ export function DrawOneButton(props) {
     <div className="md-grid gameButtonContainer">
       <Button
         style={{ backgroundColor: colors[0] }}
-        onClick={props.gameButtonPressed(1)}
+        onClick={() => {
+          props.gameButtonPressed(1);
+        }}
         className="gameButton2x1"
         flat
       >
@@ -34,7 +36,9 @@ export function DrawOneButton(props) {
       </Button>
       <Button
         style={{ backgroundColor: colors[1] }}
-        onClick={props.gameButtonPressed(1)}
+        onClick={() => {
+          props.gameButtonPressed(1);
+        }}
         className="gameButton2x1"
         flat
       >
@@ -54,7 +58,9 @@ export function DrawTwoButtons(props) {
     <div className="md-grid gameButtonContainer">
       <Button
         style={{ backgroundColor: colors[0] }}
-        onClick={props.gameButtonPressed(1)}
+        onClick={() => {
+          props.gameButtonPressed(1);
+        }}
         className="gameButton2x1"
         flat
       >
@@ -62,7 +68,9 @@ export function DrawTwoButtons(props) {
       </Button>
       <Button
         style={{ backgroundColor: colors[1] }}
-        onClick={props.gameButtonPressed(2)}
+        onClick={() => {
+          props.gameButtonPressed(2);
+        }}
         className="gameButton2x1"
         flat
       >
@@ -82,7 +90,9 @@ export function DrawThreeButtons(props) {
     <div className="md-grid gameButtonContainer">
       <Button
         style={{ backgroundColor: colors[0] }}
-        onClick={props.gameButtonPressed(1)}
+        onClick={() => {
+          props.gameButtonPressed(1);
+        }}
         className="gameButton2x2"
         flat
       >
@@ -91,7 +101,9 @@ export function DrawThreeButtons(props) {
       <div>
         <Button
           style={{ backgroundColor: colors[1] }}
-          onClick={props.gameButtonPressed(2)}
+          onClick={() => {
+            props.gameButtonPressed(2);
+          }}
           className="gameButton2x2"
           flat
         >
@@ -99,7 +111,9 @@ export function DrawThreeButtons(props) {
         </Button>
         <Button
           style={{ backgroundColor: colors[2] }}
-          onClick={props.gameButtonPressed(3)}
+          onClick={() => {
+            props.gameButtonPressed(3);
+          }}
           className="gameButton2x2"
           flat
         >
@@ -121,7 +135,9 @@ export function DrawFourButtons(props) {
       <div>
         <Button
           style={{ backgroundColor: colors[0] }}
-          onClick={props.gameButtonPressed(1)}
+          onClick={() => {
+            props.gameButtonPressed(1);
+          }}
           className="gameButton2x2"
           flat
         >
@@ -129,7 +145,9 @@ export function DrawFourButtons(props) {
         </Button>
         <Button
           style={{ backgroundColor: colors[1] }}
-          onClick={props.gameButtonPressed(2)}
+          onClick={() => {
+            props.gameButtonPressed(2);
+          }}
           className="gameButton2x2"
           flat
         >
@@ -139,7 +157,9 @@ export function DrawFourButtons(props) {
       <div>
         <Button
           style={{ backgroundColor: colors[2] }}
-          onClick={props.gameButtonPressed(3)}
+          onClick={() => {
+            props.gameButtonPressed(3);
+          }}
           className="gameButton2x2"
           flat
         >
@@ -147,7 +167,9 @@ export function DrawFourButtons(props) {
         </Button>
         <Button
           style={{ backgroundColor: colors[3] }}
-          onClick={props.gameButtonPressed(4)}
+          onClick={() => {
+            props.gameButtonPressed(4);
+          }}
           className="gameButton2x2"
           flat
         >

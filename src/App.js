@@ -12,7 +12,7 @@ class App extends Component {
     super(props);
     this.state = {
       windowState: 'splashScreen',
-      numberOfGameButtons: 1,
+      numberOfGameButtons: 0,
       username: '',
       instanceName: '',
       iconID: 0,
