@@ -15,6 +15,9 @@ class App extends Component {
       numberOfGameButtons: 0,
       username: '',
       instanceName: '',
+      iconID: 0,
+      iconColor: '#FFFFFF',
+      backgroundColor: '#000000',
     };
 
     // Make sure to not create communication when we're running as a test.
@@ -30,6 +33,13 @@ class App extends Component {
       }
       this.com = new Communication(settings.communication);
     }
+
+    // Double check when back button is used
+    window.addEventListener('beforeunload', e => {
+      const confirmationMessage = 'No leave';
+      e.returnValue = confirmationMessage;
+      return confirmationMessage;
+    });
 
     // Bind
     this.enterCharacterSelection = this.enterCharacterSelection.bind(this);
@@ -67,7 +77,13 @@ class App extends Component {
    */
   enterGame(username, iconID, backgroundColor, iconColor) {
     /* eslint-disable-next-line */
-    this.setState({ username, windowState: 'game' });
+    this.setState({
+      username,
+      windowState: 'game',
+      iconID,
+      backgroundColor,
+      iconColor,
+    });
     // eslint-disable-next-line
     this.com.joinInstance(
       this.state.instanceName,
@@ -115,7 +131,6 @@ class App extends Component {
         enterGame={this.enterGame}
         onInputSubmit={this.com.joinInstance}
         goBack={this.enterInstancePicker}
-        username={this.state.username}
       />
     );
   }
@@ -126,10 +141,13 @@ class App extends Component {
         numberOfButtons={this.state.numberOfGameButtons}
         gameButtonPressed={this.gameButtonPressed}
         onSensorChange={this.com.updateSensorData}
-        username={this.username}
+        username={this.state.username}
         instanceName={this.state.instanceName}
         goBack={this.leaveGame}
         com={this.com}
+        iconID={this.state.iconID}
+        iconColor={this.state.iconColor}
+        backgroundColor={this.state.backgroundColor}
       />
     );
   }
@@ -147,7 +165,6 @@ class App extends Component {
     } else {
       return <div>no state is selected to show!</div>;
     }
-
     return <div>{stateRender}</div>;
   }
 }
