@@ -136,7 +136,6 @@ class App extends Component {
 
   render() {
     let stateRender;
-
     if (this.state.windowState === 'splashScreen') {
       stateRender = this.renderSplashScreen();
     } else if (this.state.windowState === 'instancePicker') {
