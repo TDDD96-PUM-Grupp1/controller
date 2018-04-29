@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import NoSleep from 'nosleep.js';
 import PropTypes from 'prop-types';
 
-import { DrawOneButton, DrawTwoButtons, DrawThreeButtons, DrawFourButtons } from './GameButton';
 import SensorManager from '../SensorManager';
 import KeyboardManager from '../KeyboardManager';
 import GameHeader from './GameHeader';
+import GameButtonHandler from './GameButtonHandler';
 import IconPreview from './IconPreview';
+import CharacterNamePreview from './CharacterNamePreview';
 
 /*
 Try to make screen fullscreen and lock orientation.
@@ -91,22 +92,6 @@ class Game extends Component {
   }
 
   render() {
-    let renderHelper;
-
-    if (this.props.numberOfButtons === 0) {
-      renderHelper = <div />;
-    } else if (this.props.numberOfButtons === 1) {
-      renderHelper = <DrawOneButton gameButtonPressed={this.props.gameButtonPressed} />;
-    } else if (this.props.numberOfButtons === 2) {
-      renderHelper = <DrawTwoButtons gameButtonPressed={this.props.gameButtonPressed} />;
-    } else if (this.props.numberOfButtons === 4) {
-      renderHelper = <DrawThreeButtons gameButtonPressed={this.props.gameButtonPressed} />;
-    } else if (this.props.numberOfButtons === 3) {
-      renderHelper = <DrawFourButtons gameButtonPressed={this.props.gameButtonPressed} />;
-    } else {
-      renderHelper = <div>Invaild amount of buttons requested </div>;
-    }
-
     return (
       <div>
         <GameHeader
@@ -114,7 +99,11 @@ class Game extends Component {
           ping={this.state.ping}
           calibrate={this.sensorManager.calibrate}
         />
-        {renderHelper}
+        <GameButtonHandler
+          numberOfButtons={this.props.numberOfButtons}
+          gameButtonPressed={this.props.gameButtonPressed}
+          username={this.props.username}
+        />
         <div className="gameIcon">
           <IconPreview
             iconID={this.props.iconID}
@@ -122,6 +111,7 @@ class Game extends Component {
             backgroundColor={this.props.backgroundColor}
           />
         </div>
+        <CharacterNamePreview username={this.props.username} />
       </div>
     );
   }
@@ -137,6 +127,7 @@ Game.propTypes = {
   iconID: PropTypes.number.isRequired,
   iconColor: PropTypes.string.isRequired,
   backgroundColor: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
 };
 
 export default Game;

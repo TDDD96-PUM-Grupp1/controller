@@ -94,7 +94,7 @@
 
 .gameButton2x2 {
     display: block;
-    width: 50vw;
+    width: 49vw;
     height: 30vh;
     padding: 0 auto;
     margin: 0 auto;
@@ -102,7 +102,7 @@
 
 .gameButton2x1 {
     display: block;
-    width: 50vw;
+    width: 49vw;
     height: 60vh;
     padding: 0 auto;
     margin: 0 auto;
@@ -134,6 +134,12 @@
     position: absolute;
     top: 50%;
     left: 50%;
-    margin: -70px 0 0 -95px;
+    margin: -80px 0 0 -85px;
     z-index: 100;
+}
+
+.namePreviewBox{
+    width: 100%;
+    font-size: 26px;
+    text-align: center;
 }

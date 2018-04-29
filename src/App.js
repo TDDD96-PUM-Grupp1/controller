@@ -124,7 +124,6 @@ class App extends Component {
         enterGame={this.enterGame}
         onInputSubmit={this.com.joinInstance}
         goBack={this.enterInstancePicker}
-        username={this.state.username}
       />
     );
   }
@@ -135,7 +134,7 @@ class App extends Component {
         numberOfButtons={this.state.numberOfGameButtons}
         gameButtonPressed={this.gameButtonPressed}
         onSensorChange={this.com.updateSensorData}
-        username={this.username}
+        username={this.state.username}
         instanceName={this.state.instanceName}
         goBack={this.leaveGame}
         com={this.com}
