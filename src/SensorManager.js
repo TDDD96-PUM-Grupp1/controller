@@ -17,8 +17,8 @@ class SensorManager {
     // to use 'this'.
     this.setSensorValues = this.setSensorValues.bind(this);
     this.getSensorValues = this.getSensorValues.bind(this);
+    this.getCalibratedValues = this.getCalibratedValues.bind(this);
     this.calibrate = this.calibrate.bind(this);
-    this.onSensorChange = this.onSensorChange.bind(this);
     this.handleDeviceOrientation = this.handleDeviceOrientation.bind(this);
 
     this.bindEventListener = this.bindEventListener.bind(this);
@@ -54,8 +54,7 @@ class SensorManager {
     // Update old values
     this.lastBeta = event.beta;
     this.lastGamma = event.gamma;
-    let { beta } = event.beta;
-    let { gamma } = event.gamma;
+    let { beta, gamma } = event;
 
     // If it is flipped recalculate beta, gamma
     if (this.flip) {
@@ -99,6 +98,13 @@ class SensorManager {
     return {
       beta: this.beta,
       gamma: this.gamma,
+    };
+  }
+
+  getCalibratedValues() {
+    return {
+      betaBase: this.betaBase,
+      gammaBase: this.gammaBase,
     };
   }
 
