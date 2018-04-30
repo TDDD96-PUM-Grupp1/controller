@@ -28,6 +28,7 @@ class Communication {
 
     // Bind functions.
     this.updateSensorData = this.updateSensorData.bind(this);
+    this.getInstances = this.getInstances.bind(this);
     this.requestInstances = this.requestInstances.bind(this);
     this.stopRequestInstances = this.stopRequestInstances.bind(this);
     this.joinInstance = this.joinInstance.bind(this);
@@ -57,17 +58,22 @@ class Communication {
   // eslint-disable-next-line
   onLoggedIn(success, data) {}
 
+  getInstances(instanceListener)
+  {
+    this.client.rpc.make(
+      `${this.serviceName}/getInstances`,
+      {},
+      instanceListener.onInstancesReceived
+    );
+  }
+
   /*
    * Request the instances that are currently running.
    * Also start listening for the different instance changes.
    * @param instanceListener listener for the different instance changes.
    */
   requestInstances(instanceListener) {
-    this.client.rpc.make(
-      `${this.serviceName}/getInstances`,
-      {},
-      instanceListener.onInstancesReceived
-    );
+    this.getInstances(instanceListener);
     this.client.event.subscribe(`${this.serviceName}/playerAdded`, data => {
       instanceListener.onPlayerAdded(data.playerName, data.instanceName);
     });

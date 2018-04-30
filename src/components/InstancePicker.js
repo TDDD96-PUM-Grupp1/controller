@@ -1,9 +1,15 @@
 import React, { Component } from 'react';
+import deepstream from 'deepstream.io-client-js';
 import PropTypes from 'prop-types';
-import { Grid, Cell, Divider, Paper } from 'react-md';
+import { Button, Grid, Cell, Divider, Paper } from 'react-md';
+import MDSpinner from 'react-md-spinner';
 import InstanceItem from './InstanceItem';
 import FilterInstances from './FilterInstances';
 import './stylesheets/Component.css';
+
+const STATE_LOADING = 0;
+const STATE_ERROR = 1;
+const STATE_OK = 2;
 
 /**
  * The list the instances live within, responsible for updating the list
@@ -12,9 +18,10 @@ import './stylesheets/Component.css';
 class InstancePicker extends Component {
   constructor(props) {
     super(props);
+    this.error = '';
     this.instances = [];
     this.filter = '';
-    this.state = { instances: {} };
+    this.state = { instances: {}, state: STATE_LOADING };
     this.onInstancesReceived = this.onInstancesReceived.bind(this);
     this.onPlayerAdded = this.onPlayerAdded.bind(this);
     this.onPlayerRemoved = this.onPlayerRemoved.bind(this);
@@ -23,16 +30,23 @@ class InstancePicker extends Component {
     this.filterList = this.filterList.bind(this);
     this.isFiltered = this.isFiltered.bind(this);
     this.pingAllInstances = this.pingAllInstances.bind(this);
+    this.initList = this.initList.bind(this);
+    this.onRetry = this.onRetry.bind(this);
   }
-  /*
-   * Initialize the list when this component gets mounted
-   */
-  componentDidMount() {
+
+  componentWillMount() {
+    this.setState({ state: STATE_LOADING });
     this.initList();
   }
 
   componentWillUnmount() {
     clearInterval(this.pingLoop);
+  }
+
+  onRetry()
+  {
+    this.setState({ state: STATE_LOADING });
+    this.props.communication.getInstances(this); 
   }
 
   /*
@@ -43,8 +57,14 @@ class InstancePicker extends Component {
       this.instances = result;
       this.setState({ instances: result });
       this.pingLoop = setInterval(this.pingAllInstances, 1000);
+      this.setState({ state: STATE_OK });
     } else {
-      // TODO: handle error
+      if (err === deepstream.CONSTANTS.EVENT.NO_RPC_PROVIDER) {
+        this.error = 'Service is not responding';
+      } else {
+        this.error = err;
+      }
+      this.setState({ state: STATE_ERROR });
     }
   }
 
@@ -143,6 +163,37 @@ class InstancePicker extends Component {
     this.setState({ instances: stateInstances });
   }
 
+  renderLoading() {
+    // #2196F3 -> md-blue-500
+    return (
+      <div className="instancesSpinner">
+        <MDSpinner singleColor="#2196F3"/>
+      </div>
+    );
+  }
+
+  renderError() {
+    return (<div className="instancesError" onClick={this.onRetry}>{this.error}. Press to retry.</div>);
+  }
+
+  renderInstances() {
+    if (Object.keys(this.state.instances).length === 0) {
+      return <div className="instancesError">There are no instances running</div>;
+    } else {
+      return Object.keys(this.state.instances).map(instanceKey => (
+        <div key={instanceKey}>
+          <InstanceItem
+            instanceObj={this.state.instances[instanceKey]}
+            instanceName={instanceKey}
+            enterCharacterSelection={this.props.enterCharacterSelection}
+            communication={this.props.communication}
+          />
+          <Divider />
+        </div>
+      ));
+    }
+  }
+
   render() {
     return (
       <div>
@@ -156,17 +207,18 @@ class InstancePicker extends Component {
           </Grid>
         </Paper>
         <Paper>
-          {Object.keys(this.state.instances).map(instanceKey => (
-            <div key={instanceKey}>
-              <InstanceItem
-                instanceObj={this.state.instances[instanceKey]}
-                instanceName={instanceKey}
-                enterCharacterSelection={this.props.enterCharacterSelection}
-                communication={this.props.communication}
-              />
-              <Divider />
-            </div>
-          ))}
+          {(() => {
+            switch (this.state.state) {
+              case STATE_LOADING:
+                return this.renderLoading();
+              case STATE_ERROR:
+                return this.renderError();
+              case STATE_OK:
+                return this.renderInstances();
+              default:
+                return <div>Invalid state: {this.state.state}</div>;
+            }
+          })()}
         </Paper>
       </div>
     );
