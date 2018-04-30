@@ -90,8 +90,7 @@
 .instancesSpinner {
   display: flex;
   justify-content: center;
-  padding-top: 10px;
-  padding-bottom: 10px;
+  padding-top: 20px;
 }
 
 .instancesError{
@@ -99,6 +98,21 @@
   text-align: center;
   padding-top: 10px;
   padding-bottom: 10px;
+}
+
+.characterSpinner{
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.characterError{
+  font-size: 16px; 
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: $md-red-500;
 }
 
 

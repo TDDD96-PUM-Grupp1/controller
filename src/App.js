@@ -85,14 +85,6 @@ class App extends Component {
       iconColor,
     });
     // eslint-disable-next-line
-    this.com.joinInstance(
-      this.state.instanceName,
-      username,
-      iconID,
-      backgroundColor,
-      iconColor,
-      () => {}
-    );
   }
 
   /**
@@ -128,6 +120,7 @@ class App extends Component {
     return (
       <CharacterSelection
         instanceName={this.state.instanceName}
+        communication={this.com}
         enterGame={this.enterGame}
         onInputSubmit={this.com.joinInstance}
         goBack={this.enterInstancePicker}
