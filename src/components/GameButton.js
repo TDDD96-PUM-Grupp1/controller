@@ -28,7 +28,7 @@ export function DrawOneButton(props) {
         onClick={() => {
           props.gameButtonPressed(0);
         }}
-        className="gameButton2x1"
+        className="gameButton1x1"
         flat
       >
         {props.buttons[0]}
