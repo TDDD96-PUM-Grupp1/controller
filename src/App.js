@@ -76,7 +76,6 @@ class App extends Component {
    * are being displayed. Automatically tries to connect to the game instace.
    */
   enterGame(username, iconID, backgroundColor, iconColor) {
-    /* eslint-disable-next-line */
     this.setState({
       username,
       windowState: 'game',
@@ -84,7 +83,6 @@ class App extends Component {
       backgroundColor,
       iconColor,
     });
-    // eslint-disable-next-line
   }
 
   /**
@@ -122,7 +120,6 @@ class App extends Component {
         instanceName={this.state.instanceName}
         communication={this.com}
         enterGame={this.enterGame}
-        onInputSubmit={this.com.joinInstance}
         goBack={this.enterInstancePicker}
       />
     );

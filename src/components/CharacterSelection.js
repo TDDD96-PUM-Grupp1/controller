@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import deepstream from 'deepstream.io-client-js';
 import PropTypes from 'prop-types';
 import { Button, TextField, Grid, Cell } from 'react-md';
+import MDSpinner from 'react-md-spinner';
 import IconList from './IconList';
 import { getRandomName, randomIntFromInterval } from '../datamanagers/Randomizer';
-import MDSpinner from 'react-md-spinner';
 import IconPreview from './IconPreview';
 import iconData from '../datamanagers/iconData';
 import ColorPicker from './ColorPicker';
@@ -12,7 +12,7 @@ import Colors from '../datamanagers/Colors';
 import './stylesheets/Component.css';
 
 const MAX_NAME_LENGTH = 21;
-const STATE_OK = 0
+const STATE_OK = 0;
 const STATE_VALIDATING = 1;
 const STATE_ERROR = 2;
 /**
@@ -49,7 +49,7 @@ class CharacterSelection extends Component {
       errorNameLength: false,
       errorHelpText: '',
       state: STATE_OK,
-      startError: '',
+      stateError: '',
     };
 
     this.handleInputChange = this.handleInputChange.bind(this);
@@ -67,7 +67,7 @@ class CharacterSelection extends Component {
    * If no username is specified the game generates a random one for the player.
    */
   handleSubmit() {
-    this.setState({state: STATE_VALIDATING});
+    this.setState({ state: STATE_VALIDATING });
     let { username } = this.state;
     if (username === '') {
       username = getRandomName();
@@ -91,7 +91,7 @@ class CharacterSelection extends Component {
           if (err === deepstream.CONSTANTS.EVENT.NO_RPC_PROVIDER) {
             error = 'UI is no longer online.';
           }
-          this.setState({state: STATE_ERROR, stateError: error});
+          this.setState({ state: STATE_ERROR, stateError: error });
         }
       }
     );
@@ -110,7 +110,6 @@ class CharacterSelection extends Component {
     this.setState({
       username: value,
     });
-    return;
     if (value.length > MAX_NAME_LENGTH) {
       this.setState({
         errorNameLength: true,
@@ -204,17 +203,22 @@ class CharacterSelection extends Component {
           onIconColorSelect={this.handleIconColor}
           onBackgroundColorSelect={this.handleBackgroundColor}
         />
-        {(() =>{
-          switch(this.state.state){
+        {(() => {
+          switch (this.state.state) {
             case STATE_VALIDATING:
               return (
-              <div className="characterSpinner">
-                <MDSpinner singleColor="#2196F3" size="100px"/>
-              </div>);
-              case STATE_ERROR:
-                return (<div className="characterError">{this.state.stateError}</div>)
-          } 
-        })()} 
+                <div className="characterSpinner">
+                  <MDSpinner singleColor="#2196F3" size="100px" />
+                </div>
+              );
+            case STATE_ERROR:
+              return <div className="characterError">{this.state.stateError}</div>;
+            case STATE_OK:
+              break;
+            default:
+              return <div className="characterError">Invalid state: {this.state.state}</div>;
+          }
+        })()}
       </div>
     );
   }
@@ -222,6 +226,7 @@ class CharacterSelection extends Component {
 
 CharacterSelection.propTypes = {
   enterGame: PropTypes.func.isRequired,
+  // eslint-disable-next-line
   communication: PropTypes.object.isRequired,
   instanceName: PropTypes.string.isRequired,
   goBack: PropTypes.func.isRequired,

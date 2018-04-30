@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import deepstream from 'deepstream.io-client-js';
 import PropTypes from 'prop-types';
-import { Button, Grid, Cell, Divider, Paper } from 'react-md';
+import { Grid, Cell, Divider, Paper } from 'react-md';
 import MDSpinner from 'react-md-spinner';
 import InstanceItem from './InstanceItem';
 import FilterInstances from './FilterInstances';
@@ -43,10 +43,9 @@ class InstancePicker extends Component {
     clearInterval(this.pingLoop);
   }
 
-  onRetry()
-  {
+  onRetry() {
     this.setState({ state: STATE_LOADING });
-    this.props.communication.getInstances(this); 
+    this.props.communication.getInstances(this);
   }
 
   /*
@@ -163,35 +162,40 @@ class InstancePicker extends Component {
     this.setState({ instances: stateInstances });
   }
 
+  // Seems wrong to put this outside the class
+  // eslint-disable-next-line
   renderLoading() {
     // #2196F3 -> md-blue-500
     return (
       <div className="instancesSpinner">
-        <MDSpinner singleColor="#2196F3"/>
+        <MDSpinner singleColor="#2196F3" />
       </div>
     );
   }
 
   renderError() {
-    return (<div className="instancesError" onClick={this.onRetry}>{this.error}. Press to retry.</div>);
+    return (
+      <div className="instancesError" onClick={this.onRetry} role="button" tabIndex={0}>
+        {this.error}. Press to retry.
+      </div>
+    );
   }
 
   renderInstances() {
     if (Object.keys(this.state.instances).length === 0) {
       return <div className="instancesError">There are no instances running</div>;
-    } else {
-      return Object.keys(this.state.instances).map(instanceKey => (
-        <div key={instanceKey}>
-          <InstanceItem
-            instanceObj={this.state.instances[instanceKey]}
-            instanceName={instanceKey}
-            enterCharacterSelection={this.props.enterCharacterSelection}
-            communication={this.props.communication}
-          />
-          <Divider />
-        </div>
-      ));
     }
+    return Object.keys(this.state.instances).map(instanceKey => (
+      <div key={instanceKey}>
+        <InstanceItem
+          instanceObj={this.state.instances[instanceKey]}
+          instanceName={instanceKey}
+          enterCharacterSelection={this.props.enterCharacterSelection}
+          communication={this.props.communication}
+        />
+        <Divider />
+      </div>
+    ));
   }
 
   render() {

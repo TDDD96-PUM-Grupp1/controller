@@ -58,8 +58,7 @@ class Communication {
   // eslint-disable-next-line
   onLoggedIn(success, data) {}
 
-  getInstances(instanceListener)
-  {
+  getInstances(instanceListener) {
     this.client.rpc.make(
       `${this.serviceName}/getInstances`,
       {},
