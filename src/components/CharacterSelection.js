@@ -28,20 +28,11 @@ function setSVGColor(color) {
 class CharacterSelection extends Component {
   constructor(props) {
     super(props);
-
-    const randomIconNumber = randomIntFromInterval(iconData.length);
-    const randomIconColor = randomIntFromInterval(Colors.length);
-    let randomBackgroundColor = randomIntFromInterval(Colors.length);
-
-    while (randomIconColor === randomBackgroundColor) {
-      randomBackgroundColor = randomIntFromInterval(Colors.length);
-    }
-
     this.state = {
-      username: getRandomName(),
-      currentIconID: iconData[randomIconNumber].id,
-      iconColor: Colors[randomIconColor].hex,
-      backgroundColor: Colors[randomBackgroundColor].hex,
+      username: this.props.username,
+      currentIconID: this.props.iconID,
+      iconColor: this.props.iconColor,
+      backgroundColor: this.props.backgroundColor,
       errorNameLength: false,
       errorHelpText: '',
     };
@@ -49,10 +40,17 @@ class CharacterSelection extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.goBack = this.goBack.bind(this);
-    this.randomizeName = this.randomizeName.bind(this);
+    this.randomize = this.randomize.bind(this);
     this.handleIconSelect = this.handleIconSelect.bind(this);
     this.handleIconColor = this.handleIconColor.bind(this);
     this.handleBackgroundColor = this.handleBackgroundColor.bind(this);
+  }
+
+  componentWillMount() {
+    // Generate random name, icon and colors if they do not exist
+    if (this.props.iconID === -1) {
+      this.randomize();
+    }
   }
 
   /**
@@ -61,21 +59,13 @@ class CharacterSelection extends Component {
    * If no username is specified the game generates a random one for the player.
    */
   handleSubmit() {
-    if (this.state.username === '') {
-      this.props.enterGame(
-        getRandomName(),
-        this.state.currentIconID,
-        this.state.backgroundColor,
-        this.state.iconColor
-      );
-    } else {
-      this.props.enterGame(
-        this.state.username,
-        this.state.currentIconID,
-        this.state.backgroundColor,
-        this.state.iconColor
-      );
-    }
+    this.props.updatePlayerInfo(
+      this.state.username,
+      this.state.currentIconID,
+      this.state.backgroundColor,
+      this.state.iconColor
+    );
+    this.props.enterGame();
   }
 
   handleIconSelect(iconID) {
@@ -110,17 +100,42 @@ class CharacterSelection extends Component {
   }
 
   /**
-   * Leaves this window and saves the username
+   * Leave this window and store the current presets in App.js
    */
   goBack() {
-    this.props.goBack(this.state.username);
+    this.props.updatePlayerInfo(
+      this.state.username,
+      this.state.currentIconID,
+      this.state.backgroundColor,
+      this.state.iconColor
+    );
+
+    this.props.goBack();
   }
 
   /**
-   * Changes the current username to a random one
+   * Randomizes the username, icon, icon color and background color and send the new data to App.js
    */
-  randomizeName() {
-    this.setState({ username: getRandomName() });
+  randomize() {
+    const randomIconNumber = randomIntFromInterval(iconData.length);
+    const randomIconColor = randomIntFromInterval(Colors.length);
+    const username = getRandomName();
+    let randomBackgroundColor = randomIntFromInterval(Colors.length);
+
+    while (randomIconColor === randomBackgroundColor) {
+      randomBackgroundColor = randomIntFromInterval(Colors.length);
+    }
+
+    const iconColor = Colors[randomIconColor].hex;
+    const backgroundColor = Colors[randomBackgroundColor].hex;
+    const currentIconID = iconData[randomIconNumber].id;
+
+    this.setState({
+      username,
+      iconColor,
+      backgroundColor,
+      currentIconID,
+    });
   }
 
   handleIconColor(color) {
@@ -159,7 +174,7 @@ class CharacterSelection extends Component {
             </Button>
           </Cell>
           <Cell size={4}>
-            <Button className="button" raised primary onClick={this.randomizeName}>
+            <Button className="button" raised primary onClick={this.randomize}>
               Random
             </Button>
           </Cell>
@@ -193,6 +208,11 @@ class CharacterSelection extends Component {
 CharacterSelection.propTypes = {
   enterGame: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
+  username: PropTypes.string.isRequired,
+  iconID: PropTypes.number.isRequired,
+  iconColor: PropTypes.string.isRequired,
+  backgroundColor: PropTypes.string.isRequired,
+  updatePlayerInfo: PropTypes.func.isRequired,
 };
 
 export default CharacterSelection;
