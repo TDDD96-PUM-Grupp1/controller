@@ -32,8 +32,7 @@ class InstanceItem extends React.Component {
    * state of the variable keeping track of the amount of buttons each instance has.
    */
   handleClick() {
-    const buttonAmount = parseInt(Number(this.props.instanceObj.buttonAmount), 10);
-    this.props.enterCharacterSelection(this.props.instanceName, buttonAmount);
+    this.props.enterCharacterSelection(this.props.instanceName, this.props.instanceObj.buttons);
     this.props.communication.stopRequestInstances();
   }
 

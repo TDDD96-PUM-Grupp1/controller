@@ -12,7 +12,7 @@ class App extends Component {
     super(props);
     this.state = {
       windowState: 'splashScreen',
-      numberOfGameButtons: 0,
+      gameButtons: [],
       username: '',
       instanceName: '',
       iconID: 0,
@@ -52,15 +52,13 @@ class App extends Component {
   }
 
   /**
-   * Used to switch to the window where detailed information
-   * regarding a instance is displayed and to send data
-   * from the instance to the main application
+   * Enters the detailed-session-window and passes information to App.js
+   * @param instanceName The name of the instance to join
+   * @param buttons An array containing the names of the buttons used in
+   * the session's gamemode
    */
-  enterCharacterSelection(instanceName, nrButtons) {
-    if (!Number.isNaN(nrButtons) && parseInt(Number(nrButtons), 10) === nrButtons) {
-      this.setState({ numberOfGameButtons: nrButtons });
-    }
-    this.setState({ instanceName, windowState: 'characterSelection' });
+  enterCharacterSelection(instanceName, buttons) {
+    this.setState({ instanceName, windowState: 'characterSelection', gameButtons: buttons });
   }
 
   /**
@@ -128,7 +126,7 @@ class App extends Component {
   renderGame() {
     return (
       <Game
-        numberOfButtons={this.state.numberOfGameButtons}
+        buttons={this.state.gameButtons}
         gameButtonPressed={this.gameButtonPressed}
         onSensorChange={this.com.updateSensorData}
         username={this.state.username}

@@ -161,10 +161,20 @@
     padding: 0 auto;
     margin: 0 auto;
 }
+.gameButton1x1 {
+    text-align: center;
+    font-size: large;
+    display: block;
+    width: 50%;
+    height: 60vw;
+    padding: 0 auto; 
+  }
 }
 
 @media only screen and (orientation:landscape){
 .gameButton2x2 {
+    text-align: center;
+    font-size: large;
     display: block;
     width: 49vw;
     height: 30vh;
@@ -173,13 +183,25 @@
 }
 
 .gameButton2x1 {
+    text-align: center;
+    font-size: large;
     display: block;
     width: 49vw;
     height: 60vh;
     padding: 0 auto;
     margin: 0 auto;
 }
+
+.gameButton1x1 {
+    text-align: center;
+    font-size: large;
+    display: block;
+    width: 50%;
+    height: 60vh;
+    padding: 0 auto; 
+  }
 }
+
 .gameButtonContainer {
     flex-wrap: nowrap;
     margin: 0 auto;
@@ -208,6 +230,10 @@
     left: 50%;
     margin: -80px 0 0 -85px;
     z-index: 100;
+}
+
+.fullscreenButton{
+  width: 100%;
 }
 
 .namePreviewBox{

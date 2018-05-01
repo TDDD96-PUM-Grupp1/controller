@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import NoSleep from 'nosleep.js';
 import PropTypes from 'prop-types';
-
+import { Button } from 'react-md';
 import SensorManager from '../SensorManager';
 import KeyboardManager from '../KeyboardManager';
 import GameHeader from './GameHeader';
@@ -32,7 +32,7 @@ function lockScreen() {
     document.documentElement.mozRequestFullScreen();
   }
 
-  if (Document.fullscreenElement !== null) {
+  if (document.fullscreenElement !== null) {
     // Is in fullscreen mode
     // Screen orientation lock currently only works properly in chrome
     // https://developer.mozilla.org/en-US/docs/Web/API/Screen/lockOrientation
@@ -59,19 +59,25 @@ function unlockScreen() {
 class Game extends Component {
   constructor(props) {
     super(props);
-    this.state = { ping: '-' };
+    this.state = { ping: '-', fullscreen: false };
     this.sensorManager = new SensorManager(props.onSensorChange);
     this.sensorManager.calibrate = this.sensorManager.calibrate.bind(this);
 
     this.keyboardManager = new KeyboardManager(props.onSensorChange, props.gameButtonPressed);
 
     this.wakeLock = new NoSleep();
+    this.goFullscreen = this.goFullscreen.bind(this);
+    this.onFullScreenChange = this.onFullScreenChange.bind(this);
   }
 
   componentWillMount() {
-    lockScreen();
-    this.wakeLock.enable();
     this.props.com.startListeningForInstance(this);
+    // Bind fullscreen listener
+    if (typeof document.webkitCancelFullScreen !== 'undefined') {
+      document.addEventListener('webkitfullscreenchange', this.onFullScreenChange);
+    } else if (typeof document.mozCancelFullScreen !== 'undefined') {
+      document.addEventListener('mozfullscreenchange', this.onFullScreenChange);
+    }
   }
 
   componentDidMount() {
@@ -89,11 +95,33 @@ class Game extends Component {
     this.sensorManager.unbindEventListener();
     this.keyboardManager.unbindEventListener();
 
+    // Unbind fullscreen listener
+    if (typeof document.webkitCancelFullScreen !== 'undefined') {
+      document.removeEventListener('webkitfullscreenchange', this.onFullScreenChange);
+    } else if (typeof document.mozCancelFullScreen !== 'undefined') {
+      document.removeEventListener('mozfullscreenchange', this.onFullScreenChange);
+    }
+
     clearInterval(this.intervalId);
   }
 
-  onInstancesClosed()
-  {
+  onFullScreenChange(event) {
+    var fullscreenElement =
+      document.fullscreenElement ||
+      document.mozFullScreenElement ||
+      document.webkitFullscreenElement ||
+      document.msFullscreenElement;
+    console.log(fullscreenElement);
+    this.setState({ fullscreen: fullscreenElement !== undefined });
+    console.log(document);
+  }
+
+  goFullscreen() {
+    lockScreen();
+    this.wakeLock.enable();
+  }
+
+  onInstancesClosed() {
     this.props.goBack();
   }
 
@@ -106,7 +134,7 @@ class Game extends Component {
           calibrate={this.sensorManager.calibrate}
         />
         <GameButtonHandler
-          numberOfButtons={this.props.numberOfButtons}
+          buttons={this.props.buttons}
           gameButtonPressed={this.props.gameButtonPressed}
           username={this.props.username}
         />
@@ -118,13 +146,25 @@ class Game extends Component {
           />
         </div>
         <CharacterNamePreview username={this.props.username} />
+        {(() => {
+          if (!this.state.fullscreen) {
+            return (
+              <Button className="fullscreenButton" raised primary onClick={this.goFullscreen}>
+                Go Fullscreen!
+              </Button>
+            );
+          } else {
+            return <div />;
+          }
+        })()}
       </div>
     );
   }
 }
 // classes: PropTypes.object.isRequired
+/* eslint-disable react/forbid-prop-types */
 Game.propTypes = {
-  numberOfButtons: PropTypes.number.isRequired,
+  buttons: PropTypes.array.isRequired,
   gameButtonPressed: PropTypes.func.isRequired,
   onSensorChange: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
@@ -135,5 +175,6 @@ Game.propTypes = {
   backgroundColor: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
 };
+/* eslint-enable react/forbid-prop-types */
 
 export default Game;
