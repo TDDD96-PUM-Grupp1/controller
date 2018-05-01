@@ -59,9 +59,6 @@ class CharacterSelection extends Component {
    * If no username is specified the game generates a random one for the player.
    */
   handleSubmit() {
-    if (this.state.username === '') {
-      this.randomize();
-    }
     this.props.updatePlayerInfo(
       this.state.username,
       this.state.currentIconID,
@@ -103,7 +100,7 @@ class CharacterSelection extends Component {
   }
 
   /**
-   * Leaves this window and saves the username
+   * Leave this window and store the current presets in App.js
    */
   goBack() {
     this.props.updatePlayerInfo(
