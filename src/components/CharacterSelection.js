@@ -56,16 +56,14 @@ class CharacterSelection extends Component {
   /**
    * Is called when the Join button is pressed, callbacks to enterGameWindow in App.js
    * with the argument of what is written in the text field.
-   * If no username is specified the game generates a random one for the player.
    */
   handleSubmit() {
-    this.props.updatePlayerInfo(
+    this.props.enterGame(
       this.state.username,
       this.state.currentIconID,
-      this.state.backgroundColor,
-      this.state.iconColor
+      this.state.iconColor,
+      this.state.backgroundColor
     );
-    this.props.enterGame();
   }
 
   handleIconSelect(iconID) {

@@ -72,20 +72,28 @@ class App extends Component {
 
   /**
    * Used to switch to the game window where all instances
-   * are being displayed. Automatically tries to connect to the game instace.
+   * are being displayed. Automatically tries to connect to the gameinstance.
+   * The params are the users preset for how their character should look.
+   *
+   * Note: This function takes argument rather than using updatePlayerInfo since
+   * setState() only queues a change and is not fast enough for our needs here.
    */
-  enterGame() {
+  enterGame(username, iconID, iconColor, backgroundColor) {
     /* eslint-disable-next-line */
     this.setState({
       windowState: 'game',
+      username,
+      iconID,
+      iconColor,
+      backgroundColor,
     });
-    // eslint-disable-next-line
+
     this.com.joinInstance(
       this.state.instanceName,
-      this.state.username,
-      this.state.iconID,
-      this.state.backgroundColor,
-      this.state.iconColor,
+      username,
+      iconID,
+      backgroundColor,
+      iconColor,
       () => {}
     );
   }
