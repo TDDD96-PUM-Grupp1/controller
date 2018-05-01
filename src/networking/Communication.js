@@ -104,24 +104,27 @@ class Communication {
    * @param callback will get called when the user has connected to the instance.
    */
   joinInstance(instanceName, name, iconID, backgroundColor, iconColor, callback) {
-    this.instance = instanceName;
-    this.name = name;
-    this.iconID = iconID;
-    this.iconColor = iconColor;
-    this.backgroundColor = backgroundColor;
 
     this.client.rpc.make(
-      `${this.serviceName}/addPlayer/${this.instance}`,
+      `${this.serviceName}/addPlayer/${instanceName}`,
       {
         id: this.id,
-        name: this.name,
-        iconID: this.iconID,
-        backgroundColor: this.backgroundColor,
-        iconColor: this.iconColor,
+        name,
+        iconID,
+        backgroundColor,
+        iconColor,
         sensor: { beta: 0, gamma: 0 },
       },
       (err, result) => {
         if (!err) {
+          // Set values
+          this.instance = instanceName;
+          this.name = name;
+          this.iconID = iconID;
+          this.iconColor = iconColor;
+          this.backgroundColor = backgroundColor;
+
+          // Start network loop
           this.onJoined(err, result);
         }
         callback(err, result);
@@ -129,10 +132,33 @@ class Communication {
     );
   }
 
+  startListeningForInstance(listener)
+  {
+    if(this.instance === undefined)
+    {
+      // THIS CODE SHOULD NEVER RUN. UNLESS A DEV HAS DONE SOMETHING WRONG
+      // THIS FUNCTION CAN ONLY BE CALLED WHEN A USER HAS JOINED AN INSTANCE.
+      return;
+    }
+    
+    const self = this;
+    this.client.event.subscribe(`${this.serviceName}/instanceRemoved`, data => {
+      if(data.name === self.instance)
+        if(listener !== undefined)
+        {
+          listener.onInstancesClosed(data.name);
+        }
+    });
+    
+  }
+
+
   /**
    * Stops the transmission of ticks to the UI
    */
-  stopTick() {
+  leaveInstance() {
+    this.instance = undefined;
+    this.client.event.unsubscribe(`${this.serviceName}/instanceRemoved`);
     clearInterval(this.intervalid);
   }
 

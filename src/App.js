@@ -97,7 +97,7 @@ class App extends Component {
    * Leaves the gamescreen and disconnects the player
    */
   leaveGame() {
-    this.com.stopTick();
+    this.com.leaveInstance();
     this.setState({ windowState: 'instancePicker' });
   }
 

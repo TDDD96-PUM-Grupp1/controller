@@ -71,6 +71,7 @@ class Game extends Component {
   componentWillMount() {
     lockScreen();
     this.wakeLock.enable();
+    this.props.com.startListeningForInstance(this);
   }
 
   componentDidMount() {
@@ -89,6 +90,11 @@ class Game extends Component {
     this.keyboardManager.unbindEventListener();
 
     clearInterval(this.intervalId);
+  }
+
+  onInstancesClosed()
+  {
+    this.props.goBack();
   }
 
   render() {
