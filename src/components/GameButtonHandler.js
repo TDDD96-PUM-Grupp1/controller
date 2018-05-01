@@ -15,7 +15,6 @@ class GameButtonHandler extends Component {
     }
 
     this.state = {
-      numberOfButtons: this.props.numberOfButtons,
       partymode: partyMode,
     };
   }
@@ -26,28 +25,48 @@ class GameButtonHandler extends Component {
 
   render() {
     let renderHelper;
-
-    if (this.state.numberOfButtons === 0) {
+    const buttonAmount = this.props.buttons.length;
+    if (buttonAmount === 0) {
       renderHelper = <div />;
-    } else if (this.state.numberOfButtons === 1) {
-      renderHelper = <DrawOneButton gameButtonPressed={this.props.gameButtonPressed} />;
-    } else if (this.state.numberOfButtons === 2) {
-      renderHelper = <DrawTwoButtons gameButtonPressed={this.props.gameButtonPressed} />;
-    } else if (this.state.numberOfButtons === 3) {
-      renderHelper = <DrawThreeButtons gameButtonPressed={this.props.gameButtonPressed} />;
-    } else if (this.state.numberOfButtons === 4) {
-      renderHelper = <DrawFourButtons gameButtonPressed={this.props.gameButtonPressed} />;
+    } else if (buttonAmount === 1) {
+      renderHelper = (
+        <DrawOneButton
+          gameButtonPressed={this.props.gameButtonPressed}
+          buttons={this.props.buttons}
+        />
+      );
+    } else if (buttonAmount === 2) {
+      renderHelper = (
+        <DrawTwoButtons
+          gameButtonPressed={this.props.gameButtonPressed}
+          buttons={this.props.buttons}
+        />
+      );
+    } else if (buttonAmount === 3) {
+      renderHelper = (
+        <DrawThreeButtons
+          gameButtonPressed={this.props.gameButtonPressed}
+          buttons={this.props.buttons}
+        />
+      );
+    } else if (buttonAmount === 4) {
+      renderHelper = (
+        <DrawFourButtons
+          gameButtonPressed={this.props.gameButtonPressed}
+          buttons={this.props.buttons}
+        />
+      );
     } else {
-      renderHelper = <div>Invaild amount of buttons requested </div>;
+      throw Error('Invalid button amount requested');
     }
     return renderHelper;
   }
 }
-
+/* eslint-disable react/forbid-prop-types */
 GameButtonHandler.propTypes = {
   gameButtonPressed: PropTypes.func.isRequired,
-  numberOfButtons: PropTypes.number.isRequired,
+  buttons: PropTypes.array.isRequired,
   username: PropTypes.string.isRequired,
 };
-
+/* eslint-enable react/forbid-prop-types */
 export default GameButtonHandler;
