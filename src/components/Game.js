@@ -100,7 +100,7 @@ class Game extends Component {
           calibrate={this.sensorManager.calibrate}
         />
         <GameButtonHandler
-          numberOfButtons={this.props.numberOfButtons}
+          buttons={this.props.buttons}
           gameButtonPressed={this.props.gameButtonPressed}
           username={this.props.username}
         />
@@ -117,8 +117,9 @@ class Game extends Component {
   }
 }
 // classes: PropTypes.object.isRequired
+/* eslint-disable react/forbid-prop-types */
 Game.propTypes = {
-  numberOfButtons: PropTypes.number.isRequired,
+  buttons: PropTypes.array.isRequired,
   gameButtonPressed: PropTypes.func.isRequired,
   onSensorChange: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
@@ -129,5 +130,6 @@ Game.propTypes = {
   backgroundColor: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
 };
+/* eslint-enable react/forbid-prop-types */
 
 export default Game;
