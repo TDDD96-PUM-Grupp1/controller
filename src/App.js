@@ -15,7 +15,7 @@ class App extends Component {
       numberOfGameButtons: 0,
       username: '',
       instanceName: '',
-      iconID: 0,
+      iconID: -1,
       iconColor: '#FFFFFF',
       backgroundColor: '#000000',
     };
@@ -49,6 +49,7 @@ class App extends Component {
     this.renderInstancePicker = this.renderInstancePicker.bind(this);
     this.renderGame = this.renderGame.bind(this);
     this.leaveGame = this.leaveGame.bind(this);
+    this.updatePlayerInfo = this.updatePlayerInfo.bind(this);
   }
 
   /**
@@ -75,24 +76,36 @@ class App extends Component {
    * Used to switch to the game window where all instances
    * are being displayed. Automatically tries to connect to the game instace.
    */
-  enterGame(username, iconID, backgroundColor, iconColor) {
+  enterGame() {
     /* eslint-disable-next-line */
     this.setState({
-      username,
       windowState: 'game',
-      iconID,
-      backgroundColor,
-      iconColor,
     });
     // eslint-disable-next-line
     this.com.joinInstance(
       this.state.instanceName,
+      this.state.username,
+      this.state.iconID,
+      this.state.backgroundColor,
+      this.state.iconColor,
+      () => {}
+    );
+  }
+
+  /** This function is called when leaving the CharacterSelection screen and stores the
+   * players chosen presets.
+   * @param username The players current username
+   * @param iconID The players current icon
+   * @param backgroundColor The players current background color
+   * @param iconColor The players current icon color
+   */
+  updatePlayerInfo(username, iconID, backgroundColor, iconColor) {
+    this.setState({
       username,
       iconID,
       backgroundColor,
       iconColor,
-      () => {}
-    );
+    });
   }
 
   /**
@@ -131,6 +144,11 @@ class App extends Component {
         enterGame={this.enterGame}
         onInputSubmit={this.com.joinInstance}
         goBack={this.enterInstancePicker}
+        username={this.state.username}
+        updatePlayerInfo={this.updatePlayerInfo}
+        iconID={this.state.iconID}
+        iconColor={this.state.iconColor}
+        backgroundColor={this.state.backgroundColor}
       />
     );
   }
