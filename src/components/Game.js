@@ -105,24 +105,22 @@ class Game extends Component {
     clearInterval(this.intervalId);
   }
 
-  onFullScreenChange(event) {
-    var fullscreenElement =
+  onFullScreenChange() {
+    const fullscreenElement =
       document.fullscreenElement ||
       document.mozFullScreenElement ||
       document.webkitFullscreenElement ||
       document.msFullscreenElement;
-    console.log(fullscreenElement);
     this.setState({ fullscreen: fullscreenElement !== undefined });
-    console.log(document);
+  }
+
+  onInstancesClosed() {
+    this.props.goBack();
   }
 
   goFullscreen() {
     lockScreen();
     this.wakeLock.enable();
-  }
-
-  onInstancesClosed() {
-    this.props.goBack();
   }
 
   render() {
@@ -153,9 +151,8 @@ class Game extends Component {
                 Go Fullscreen!
               </Button>
             );
-          } else {
-            return <div />;
           }
+          return <div />;
         })()}
       </div>
     );

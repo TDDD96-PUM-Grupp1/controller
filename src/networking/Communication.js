@@ -104,7 +104,6 @@ class Communication {
    * @param callback will get called when the user has connected to the instance.
    */
   joinInstance(instanceName, name, iconID, backgroundColor, iconColor, callback) {
-
     this.client.rpc.make(
       `${this.serviceName}/addPlayer/${instanceName}`,
       {
@@ -132,26 +131,22 @@ class Communication {
     );
   }
 
-  startListeningForInstance(listener)
-  {
-    if(this.instance === undefined)
-    {
+  startListeningForInstance(listener) {
+    if (this.instance === undefined) {
       // THIS CODE SHOULD NEVER RUN. UNLESS A DEV HAS DONE SOMETHING WRONG
       // THIS FUNCTION CAN ONLY BE CALLED WHEN A USER HAS JOINED AN INSTANCE.
       return;
     }
-    
+
     const self = this;
     this.client.event.subscribe(`${this.serviceName}/instanceRemoved`, data => {
-      if(data.name === self.instance)
-        if(listener !== undefined)
-        {
+      if (data.name === self.instance) {
+        if (listener !== undefined) {
           listener.onInstancesClosed(data.name);
         }
+      }
     });
-    
   }
-
 
   /**
    * Stops the transmission of ticks to the UI
