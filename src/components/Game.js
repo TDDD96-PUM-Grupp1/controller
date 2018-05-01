@@ -93,7 +93,7 @@ class Game extends Component {
 
   render() {
     return (
-      <div>
+      <div id="landscape">
         <GameHeader
           goBack={this.props.goBack}
           ping={this.state.ping.toString()}

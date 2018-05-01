@@ -1,4 +1,27 @@
 @import 'react-md/src/scss/react-md';
+
+#landscape {display: block}
+@media only screen and (orientation:portrait){
+  #landscape {
+    height: 100vw;
+    width: 100vh;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    transform: rotate(90deg);
+    transform-origin: bottom left;
+    position: absolute;
+    top: -100vw;
+  }
+}
+@media only screen and (orientation:landscape){
+  #landscape{
+    height: 100vh;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+}
+
 .mainScreen{
     width: 100%;
     font-size: 30px;
@@ -121,6 +144,25 @@
     overflow: auto;
 }
 
+@media only screen and (orientation:portrait){
+.gameButton2x2 {
+    display: block;
+    width: 49vh;
+    height: 30vw;
+    padding: 0 auto;
+    margin: 0 auto;
+}
+
+.gameButton2x1 {
+    display: block;
+    width: 49vh;
+    height: 60vw;
+    padding: 0 auto;
+    margin: 0 auto;
+}
+}
+
+@media only screen and (orientation:landscape){
 .gameButton2x2 {
     display: block;
     width: 49vw;
@@ -136,7 +178,7 @@
     padding: 0 auto;
     margin: 0 auto;
 }
-
+}
 .gameButtonContainer {
     flex-wrap: nowrap;
     margin: 0 auto;

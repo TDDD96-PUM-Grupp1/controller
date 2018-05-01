@@ -59,6 +59,24 @@ class CharacterSelection extends Component {
     this.handleIconSelect = this.handleIconSelect.bind(this);
     this.handleIconColor = this.handleIconColor.bind(this);
     this.handleBackgroundColor = this.handleBackgroundColor.bind(this);
+    this.onJoined = this.onJoined.bind(this);
+  }
+
+  onJoined(err) {
+    if (!err) {
+      this.props.enterGame(
+        this.state.username,
+        this.state.currentIconID,
+        this.state.backgroundColor,
+        this.state.iconColor
+      );
+    } else {
+      let error = err;
+      if (err === deepstream.CONSTANTS.EVENT.NO_RPC_PROVIDER) {
+        error = 'UI is no longer online.';
+      }
+      this.setState({ state: STATE_ERROR, stateError: error });
+    }
   }
 
   /**
@@ -71,6 +89,7 @@ class CharacterSelection extends Component {
     let { username } = this.state;
     if (username === '') {
       username = getRandomName();
+      this.setState({ username });
     }
     this.props.communication.joinInstance(
       this.props.instanceName,
@@ -78,22 +97,7 @@ class CharacterSelection extends Component {
       this.state.currentIconID,
       this.state.backgroundColor,
       this.state.iconColor,
-      err => {
-        if (!err) {
-          this.props.enterGame(
-            username,
-            this.state.currentIconID,
-            this.state.backgroundColor,
-            this.state.iconColor
-          );
-        } else {
-          let error = err;
-          if (err === deepstream.CONSTANTS.EVENT.NO_RPC_PROVIDER) {
-            error = 'UI is no longer online.';
-          }
-          this.setState({ state: STATE_ERROR, stateError: error });
-        }
-      }
+      this.onJoined
     );
   }
 
@@ -214,7 +218,7 @@ class CharacterSelection extends Component {
             case STATE_ERROR:
               return <div className="characterError">{this.state.stateError}</div>;
             case STATE_OK:
-              break;
+              return <div />;
             default:
               return <div className="characterError">Invalid state: {this.state.state}</div>;
           }
