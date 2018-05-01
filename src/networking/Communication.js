@@ -75,7 +75,7 @@ class Communication {
       instanceListener.onPlayerRemoved(data.playerName, data.instanceName);
     });
     this.client.event.subscribe(`${this.serviceName}/instanceCreated`, data => {
-      instanceListener.onInstanceCreated(data.name, data.maxPlayers, data.gamemode);
+      instanceListener.onInstanceCreated(data.name, data.maxPlayers, data.gamemode, data.buttons);
     });
     this.client.event.subscribe(`${this.serviceName}/instanceRemoved`, data => {
       instanceListener.onInstanceRemoved(data.name);
