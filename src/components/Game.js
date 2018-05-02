@@ -6,7 +6,6 @@ import SensorManager from '../SensorManager';
 import KeyboardManager from '../KeyboardManager';
 import GameHeader from './GameHeader';
 import GameButtonHandler from './GameButtonHandler';
-import IconPreview from './IconPreview';
 import CharacterNamePreview from './CharacterNamePreview';
 
 /*
@@ -131,19 +130,6 @@ class Game extends Component {
           ping={this.state.ping.toString()}
           calibrate={this.sensorManager.calibrate}
         />
-        <GameButtonHandler
-          buttons={this.props.buttons}
-          gameButtonPressed={this.props.gameButtonPressed}
-          username={this.props.username}
-        />
-        <div className="gameIcon">
-          <IconPreview
-            iconID={this.props.iconID}
-            iconColor={this.props.iconColor}
-            backgroundColor={this.props.backgroundColor}
-          />
-        </div>
-        <CharacterNamePreview username={this.props.username} />
         {(() => {
           if (!this.state.fullscreen) {
             return (
@@ -154,6 +140,15 @@ class Game extends Component {
           }
           return <div />;
         })()}
+        <GameButtonHandler
+          buttons={this.props.buttons}
+          gameButtonPressed={this.props.gameButtonPressed}
+          username={this.props.username}
+          iconID={this.props.iconID}
+          iconColor={this.props.iconColor}
+          backgroundColor={this.props.backgroundColor}
+        />
+        <CharacterNamePreview username={this.props.username} />
       </div>
     );
   }

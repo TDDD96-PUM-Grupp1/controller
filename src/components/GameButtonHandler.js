@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import IconPreview from './IconPreview';
 
 import { DrawOneButton, DrawTwoButtons, DrawThreeButtons, DrawFourButtons } from './GameButton';
 
@@ -59,7 +60,18 @@ class GameButtonHandler extends Component {
     } else {
       throw Error('Invalid button amount requested');
     }
-    return renderHelper;
+    return (
+      <div className="gameButtonWrapper">
+        {renderHelper}
+        <div className="gameIcon">
+          <IconPreview
+            iconID={this.props.iconID}
+            iconColor={this.props.iconColor}
+            backgroundColor={this.props.backgroundColor}
+          />
+        </div>
+      </div>
+    );
   }
 }
 /* eslint-disable react/forbid-prop-types */
@@ -67,6 +79,9 @@ GameButtonHandler.propTypes = {
   gameButtonPressed: PropTypes.func.isRequired,
   buttons: PropTypes.array.isRequired,
   username: PropTypes.string.isRequired,
+  iconID: PropTypes.number.isRequired,
+  iconColor: PropTypes.string.isRequired,
+  backgroundColor: PropTypes.string.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 export default GameButtonHandler;
