@@ -59,13 +59,40 @@ function unlockScreen() {
 class Game extends Component {
   constructor(props) {
     super(props);
-    this.state = { ping: '-' };
+
+    let activeButtons = [];
+    this.props.buttons.forEach(btn => {
+      activeButtons.push(true);
+    });
+
+    this.state = {
+      ping: '-',
+      activeButtons
+    };
+
     this.sensorManager = new SensorManager(props.onSensorChange);
     this.sensorManager.calibrate = this.sensorManager.calibrate.bind(this);
+    this.tryButtonPress = this.tryButtonPress.bind(this);
 
-    this.keyboardManager = new KeyboardManager(props.onSensorChange, props.gameButtonPressed);
+    this.keyboardManager = new KeyboardManager(props.onSensorChange, this.tryButtonPress);
 
     this.wakeLock = new NoSleep();
+  }
+
+  tryButtonPress(index){
+    if(!this.state.activeButtons[index]){
+      return;
+    }
+
+    let newState = this.state.activeButtons;
+    newState[index] = false;
+    this.setState({
+      activeButtons: newState
+    });
+
+    console.log("try press");
+    console.log(index);
+    this.props.gameButtonPressed(index);
   }
 
   componentWillMount() {
@@ -101,8 +128,8 @@ class Game extends Component {
         />
         <GameButtonHandler
           buttons={this.props.buttons}
-          gameButtonPressed={this.props.gameButtonPressed}
-          username={this.props.username}
+          activeButtons = {this.state.activeButtons}
+          gameButtonPressed={this.tryButtonPress}
         />
         <div className="gameIcon">
           <IconPreview
