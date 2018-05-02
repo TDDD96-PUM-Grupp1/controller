@@ -22,7 +22,7 @@
     "watch-css": "npm run build-css && npm run build-css -- --watch --recursive",
     "start": "PORT=8080 && npm-run-all -p watch-css start-js",
     "start-local": "npm-run-all -p watch-css start-js-local",
-    "start-pc": "set PORT=3000 && npm-run-all -p watch-css start-js-pc",
+    "start-pc": "set PORT=8080 && npm-run-all -p watch-css start-js-pc",
     "start-pc-local": "set PORT=8080 && set REACT_APP_LOCAL=1 && npm-run-all -p watch-css start-js-pc",
     "build": "npm run build-css && react-scripts build",
     "test": "npm run build-css && react-scripts test --forceExit --env=jsdom && npm run lint",
