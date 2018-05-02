@@ -124,6 +124,12 @@ class Communication {
     );
   }
 
+  requestCooldowns(coolDownListener){
+    this.client.event.subscribe(`${this.serviceName}/cooldown/${this.id}`, data => {
+      coolDownListener.onCoolDownReset();
+    });
+  }
+
   /**
    * Stops the transmission of ticks to the UI
    */

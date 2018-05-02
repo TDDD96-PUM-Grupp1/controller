@@ -3,7 +3,7 @@ import { Button } from 'react-md';
 import PropTypes from 'prop-types';
 import './stylesheets/Component.css';
 
-const DISABLED_COLOR = '#404040';
+const DISABLED_COLOR = '#AAAAAA';
 
 export function DrawOneButton(props) {
   return (

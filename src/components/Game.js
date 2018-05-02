@@ -76,7 +76,17 @@ class Game extends Component {
 
     this.keyboardManager = new KeyboardManager(props.onSensorChange, this.tryButtonPress);
 
+    this.props.com.requestCooldowns(this);
+
     this.wakeLock = new NoSleep();
+  }
+
+  onCoolDownReset(btnIndex){
+    let newActive = this.state.activeButtons;
+    newActive[btnIndex] = true;
+    this.setState({
+      activeButtons: newActive,
+    });
   }
 
   tryButtonPress(index){
