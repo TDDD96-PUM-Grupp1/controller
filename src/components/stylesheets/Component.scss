@@ -69,6 +69,7 @@ $iconBorderSize: $iconSize + 10px;
     display: block;
     margin: 0px auto;
     text-align: center;
+    z-index: 100;
 }
 
 .center{
