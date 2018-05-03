@@ -33,10 +33,13 @@ class App extends Component {
       } else {
         // Use backend deepstream server
         // Remove https, potential backslash page and port after the domain
-        const subdomain = document.location.href.split('://')[1].split('/')[0].split(':')[0];
+        const subdomain = document.location.href
+          .split('://')[1]
+          .split('/')[0]
+          .split(':')[0];
 
         // Remove first subdomain (controller)
-        const domain = subdomain.substring(subdomain.indexOf('.')+1);
+        const domain = subdomain.substring(subdomain.indexOf('.') + 1);
         settings.communication.host_ip = `wss://ds.${domain}:443`;
       }
       this.com = new Communication(settings.communication);
