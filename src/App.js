@@ -20,31 +20,6 @@ class App extends Component {
       backgroundColor: '#000000',
     };
 
-    // Make sure to not create communication when we're running as a test.
-    // This is because of a weird TravisCI error.
-    if (!props.test) {
-      // Use local Deepstream server instead of remote.
-      if (process.env.REACT_APP_LOCAL) {
-        /* eslint-disable-next-line */
-        console.log('Using local Deepstream server');
-        const ip = document.location.href.split('://')[1].split(':')[0];
-        const ipPort = `${ip}:60020`;
-        settings.communication.host_ip = ipPort;
-      } else {
-        // Use backend deepstream server
-        // Remove https, potential backslash page and port after the domain
-        const subdomain = document.location.href
-          .split('://')[1]
-          .split('/')[0]
-          .split(':')[0];
-
-        // Remove first subdomain (controller)
-        const domain = subdomain.substring(subdomain.indexOf('.') + 1);
-        settings.communication.host_ip = `wss://ds.${domain}:443`;
-      }
-      this.com = new Communication(settings.communication);
-    }
-
     // Double check when back button is used
     window.addEventListener('beforeunload', e => {
       const confirmationMessage = 'No leave';
@@ -52,7 +27,16 @@ class App extends Component {
       return confirmationMessage;
     });
 
-    // Bind
+    this.bindCallbackFunctions();
+
+    // Make sure to not create communication when we're running as a test.
+    // This is because of a weird TravisCI error.
+    if (!props.test) {
+      this.initCommunication();
+    }
+  }
+
+  bindCallbackFunctions() {
     this.enterCharacterSelection = this.enterCharacterSelection.bind(this);
     this.enterGame = this.enterGame.bind(this);
     this.enterInstancePicker = this.enterInstancePicker.bind(this);
@@ -61,6 +45,33 @@ class App extends Component {
     this.renderGame = this.renderGame.bind(this);
     this.leaveGame = this.leaveGame.bind(this);
     this.updatePlayerInfo = this.updatePlayerInfo.bind(this);
+  }
+
+  /**
+   * Checks the web browsers url bar go get the correct Deepstream adress and
+   * then connects using that adress.
+   */
+  initCommunication() {
+    // Use local Deepstream server instead of remote.
+    if (process.env.REACT_APP_LOCAL) {
+      /* eslint-disable-next-line */
+      console.log('Using local Deepstream server');
+      const ip = document.location.href.split('://')[1].split(':')[0];
+      const ipPort = `${ip}:60020`;
+      settings.communication.host_ip = ipPort;
+    } else {
+      // Use backend deepstream server
+      // Remove https, potential backslash page and port after the domain
+      const subdomain = document.location.href
+        .split('://')[1]
+        .split('/')[0]
+        .split(':')[0];
+
+      // Remove first subdomain (controller)
+      const domain = subdomain.substring(subdomain.indexOf('.') + 1);
+      settings.communication.host_ip = `wss://ds.${domain}:443`;
+    }
+    this.com = new Communication(settings.communication);
   }
 
   /**
@@ -189,17 +200,27 @@ class App extends Component {
 
   render() {
     let stateRender;
-    if (this.state.windowState === 'splashScreen') {
-      stateRender = this.renderSplashScreen();
-    } else if (this.state.windowState === 'instancePicker') {
-      stateRender = this.renderInstancePicker();
-    } else if (this.state.windowState === 'characterSelection') {
-      stateRender = this.renderCharacterSelection();
-    } else if (this.state.windowState === 'game') {
-      stateRender = this.renderGame();
-    } else {
-      return <div>no state is selected to show!</div>;
+    switch (this.state.windowState) {
+      case 'splashScreen':
+        stateRender = this.renderSplashScreen();
+        break;
+
+      case 'instancePicker':
+        stateRender = this.renderInstancePicker();
+        break;
+
+      case 'characterSelection':
+        stateRender = this.renderCharacterSelection();
+        break;
+
+      case 'game':
+        stateRender = this.renderGame();
+        break;
+
+      default:
+        return <div>no state is selected to show!</div>;
     }
+
     return <div>{stateRender}</div>;
   }
 }
