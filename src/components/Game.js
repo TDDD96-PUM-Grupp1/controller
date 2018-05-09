@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import NoSleep from 'nosleep.js';
 import PropTypes from 'prop-types';
-import { Button } from 'react-md';
 
-import GameButton from './GameButton';
 import SensorManager from '../SensorManager';
 import KeyboardManager from '../KeyboardManager';
+import GameHeader from './GameHeader';
+import GameButtonHandler from './GameButtonHandler';
+import IconPreview from './IconPreview';
+import CharacterNamePreview from './CharacterNamePreview';
 
 /*
 Try to make screen fullscreen and lock orientation.
@@ -57,10 +59,6 @@ function unlockScreen() {
 class Game extends Component {
   constructor(props) {
     super(props);
-    this.buttonList = [];
-    for (let i = 0; i < this.props.numberOfButtons; i += 1) {
-      this.buttonList.push(i);
-    }
     this.state = { ping: '-' };
     this.sensorManager = new SensorManager(props.onSensorChange);
     this.sensorManager.calibrate = this.sensorManager.calibrate.bind(this);
@@ -95,38 +93,43 @@ class Game extends Component {
 
   render() {
     return (
-      <div className="GameScreen">
-        <Button primary raised onClick={this.props.goBack}>
-          Leave
-        </Button>
-        <Button primary raised onClick={this.sensorManager.calibrate}>
-          Recallibrate Sensors
-        </Button>
-        <div className="GameButtonContainer">
-          {this.buttonList.map(button => (
-            <div key={button}>
-              <GameButton
-                gameButtonPressed={this.props.gameButtonPressed}
-                buttonName={''.concat(button)}
-              />
-            </div>
-          ))}
+      <div>
+        <GameHeader
+          goBack={this.props.goBack}
+          ping={this.state.ping.toString()}
+          calibrate={this.sensorManager.calibrate}
+        />
+        <GameButtonHandler
+          buttons={this.props.buttons}
+          gameButtonPressed={this.props.gameButtonPressed}
+          username={this.props.username}
+        />
+        <div className="gameIcon">
+          <IconPreview
+            iconID={this.props.iconID}
+            iconColor={this.props.iconColor}
+            backgroundColor={this.props.backgroundColor}
+          />
         </div>
-        <div className="pingTime" style={{ textAlign: 'center', fontSize: '200%' }}>
-          {`${this.state.ping} ms`}
-        </div>
+        <CharacterNamePreview username={this.props.username} />
       </div>
     );
   }
 }
 // classes: PropTypes.object.isRequired
+/* eslint-disable react/forbid-prop-types */
 Game.propTypes = {
-  numberOfButtons: PropTypes.number.isRequired,
+  buttons: PropTypes.array.isRequired,
   gameButtonPressed: PropTypes.func.isRequired,
   onSensorChange: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
   // eslint-disable-next-line
   com: PropTypes.object.isRequired,
+  iconID: PropTypes.number.isRequired,
+  iconColor: PropTypes.string.isRequired,
+  backgroundColor: PropTypes.string.isRequired,
+  username: PropTypes.string.isRequired,
 };
+/* eslint-enable react/forbid-prop-types */
 
 export default Game;

@@ -12,9 +12,12 @@ class App extends Component {
     super(props);
     this.state = {
       windowState: 'splashScreen',
-      numberOfGameButtons: 0,
+      gameButtons: [],
       username: '',
       instanceName: '',
+      iconID: -1,
+      iconColor: '#FFFFFF',
+      backgroundColor: '#000000',
     };
 
     // Make sure to not create communication when we're running as a test.
@@ -27,9 +30,27 @@ class App extends Component {
         const ip = document.location.href.split('://')[1].split(':')[0];
         const ipPort = `${ip}:60020`;
         settings.communication.host_ip = ipPort;
+      } else {
+        // Use backend deepstream server
+        // Remove https, potential backslash page and port after the domain
+        const subdomain = document.location.href
+          .split('://')[1]
+          .split('/')[0]
+          .split(':')[0];
+
+        // Remove first subdomain (controller)
+        const domain = subdomain.substring(subdomain.indexOf('.') + 1);
+        settings.communication.host_ip = `wss://ds.${domain}:443`;
       }
       this.com = new Communication(settings.communication);
     }
+
+    // Double check when back button is used
+    window.addEventListener('beforeunload', e => {
+      const confirmationMessage = 'No leave';
+      e.returnValue = confirmationMessage;
+      return confirmationMessage;
+    });
 
     // Bind
     this.enterCharacterSelection = this.enterCharacterSelection.bind(this);
@@ -39,18 +60,17 @@ class App extends Component {
     this.renderInstancePicker = this.renderInstancePicker.bind(this);
     this.renderGame = this.renderGame.bind(this);
     this.leaveGame = this.leaveGame.bind(this);
+    this.updatePlayerInfo = this.updatePlayerInfo.bind(this);
   }
 
   /**
-   * Used to switch to the window where detailed information
-   * regarding a instance is displayed and to send data
-   * from the instance to the main application
+   * Enters the detailed-session-window and passes information to App.js
+   * @param instanceName The name of the instance to join
+   * @param buttons An array containing the names of the buttons used in
+   * the session's gamemode
    */
-  enterCharacterSelection(instanceName, nrButtons) {
-    if (!Number.isNaN(nrButtons) && parseInt(Number(nrButtons), 10) === nrButtons) {
-      this.setState({ numberOfGameButtons: nrButtons });
-    }
-    this.setState({ instanceName, windowState: 'characterSelection' });
+  enterCharacterSelection(instanceName, buttons) {
+    this.setState({ instanceName, windowState: 'characterSelection', gameButtons: buttons });
   }
 
   /**
@@ -63,12 +83,22 @@ class App extends Component {
 
   /**
    * Used to switch to the game window where all instances
-   * are being displayed. Automatically tries to connect to the game instace.
+   * are being displayed. Automatically tries to connect to the gameinstance.
+   * The params are the users preset for how their character should look.
+   *
+   * Note: This function takes argument rather than using updatePlayerInfo since
+   * setState() only queues a change and is not fast enough for our needs here.
    */
-  enterGame(username, iconID, backgroundColor, iconColor) {
+  enterGame(username, iconID, iconColor, backgroundColor) {
     /* eslint-disable-next-line */
-    this.setState({ username, windowState: 'game' });
-    // eslint-disable-next-line
+    this.setState({
+      windowState: 'game',
+      username,
+      iconID,
+      iconColor,
+      backgroundColor,
+    });
+
     this.com.joinInstance(
       this.state.instanceName,
       username,
@@ -77,6 +107,22 @@ class App extends Component {
       iconColor,
       () => {}
     );
+  }
+
+  /** This function is called when leaving the CharacterSelection screen and stores the
+   * players chosen presets.
+   * @param username The players current username
+   * @param iconID The players current icon
+   * @param backgroundColor The players current background color
+   * @param iconColor The players current icon color
+   */
+  updatePlayerInfo(username, iconID, backgroundColor, iconColor) {
+    this.setState({
+      username,
+      iconID,
+      backgroundColor,
+      iconColor,
+    });
   }
 
   /**
@@ -116,6 +162,10 @@ class App extends Component {
         onInputSubmit={this.com.joinInstance}
         goBack={this.enterInstancePicker}
         username={this.state.username}
+        updatePlayerInfo={this.updatePlayerInfo}
+        iconID={this.state.iconID}
+        iconColor={this.state.iconColor}
+        backgroundColor={this.state.backgroundColor}
       />
     );
   }
@@ -123,20 +173,22 @@ class App extends Component {
   renderGame() {
     return (
       <Game
-        numberOfButtons={this.state.numberOfGameButtons}
+        buttons={this.state.gameButtons}
         gameButtonPressed={this.gameButtonPressed}
         onSensorChange={this.com.updateSensorData}
-        username={this.username}
+        username={this.state.username}
         instanceName={this.state.instanceName}
         goBack={this.leaveGame}
         com={this.com}
+        iconID={this.state.iconID}
+        iconColor={this.state.iconColor}
+        backgroundColor={this.state.backgroundColor}
       />
     );
   }
 
   render() {
     let stateRender;
-
     if (this.state.windowState === 'splashScreen') {
       stateRender = this.renderSplashScreen();
     } else if (this.state.windowState === 'instancePicker') {
@@ -148,7 +200,6 @@ class App extends Component {
     } else {
       return <div>no state is selected to show!</div>;
     }
-
     return <div>{stateRender}</div>;
   }
 }
