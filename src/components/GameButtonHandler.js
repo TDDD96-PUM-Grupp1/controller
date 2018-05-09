@@ -5,8 +5,6 @@ import { DrawOneButton, DrawTwoButtons, DrawThreeButtons, DrawFourButtons } from
 
 class GameButtonHandler extends Component {
   render() {
-    console.log(this.props.activeButtons);
-
     let renderHelper;
     const buttonAmount = this.props.buttons.length;
     if (buttonAmount === 0) {

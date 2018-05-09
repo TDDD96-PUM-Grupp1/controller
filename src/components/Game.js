@@ -60,49 +60,26 @@ class Game extends Component {
   constructor(props) {
     super(props);
 
-    let activeButtons = [];
-    this.props.buttons.forEach(btn => {
+    const activeButtons = [];
+    this.props.buttons.forEach(() => {
       activeButtons.push(true);
     });
 
     this.state = {
       ping: '-',
-      activeButtons
+      activeButtons,
     };
 
     this.sensorManager = new SensorManager(props.onSensorChange);
     this.sensorManager.calibrate = this.sensorManager.calibrate.bind(this);
     this.tryButtonPress = this.tryButtonPress.bind(this);
+    this.onCoolDownReset = this.onCoolDownReset.bind(this);
 
     this.keyboardManager = new KeyboardManager(props.onSensorChange, this.tryButtonPress);
 
     this.props.com.requestCooldowns(this);
 
     this.wakeLock = new NoSleep();
-  }
-
-  onCoolDownReset(btnIndex){
-    let newActive = this.state.activeButtons;
-    newActive[btnIndex] = true;
-    this.setState({
-      activeButtons: newActive,
-    });
-  }
-
-  tryButtonPress(index){
-    if(!this.state.activeButtons[index]){
-      return;
-    }
-
-    let newState = this.state.activeButtons;
-    newState[index] = false;
-    this.setState({
-      activeButtons: newState
-    });
-
-    console.log("try press");
-    console.log(index);
-    this.props.gameButtonPressed(index);
   }
 
   componentWillMount() {
@@ -125,7 +102,31 @@ class Game extends Component {
     this.sensorManager.unbindEventListener();
     this.keyboardManager.unbindEventListener();
 
+    this.props.com.stopRequestCooldowns();
+
     clearInterval(this.intervalId);
+  }
+
+  onCoolDownReset(btnIndex) {
+    const newActive = this.state.activeButtons;
+    newActive[btnIndex] = true;
+    this.setState({
+      activeButtons: newActive,
+    });
+  }
+
+  tryButtonPress(index) {
+    if (!this.state.activeButtons[index]) {
+      return;
+    }
+
+    const newState = this.state.activeButtons;
+    newState[index] = false;
+    this.setState({
+      activeButtons: newState,
+    });
+
+    this.props.gameButtonPressed(index);
   }
 
   render() {
@@ -138,7 +139,7 @@ class Game extends Component {
         />
         <GameButtonHandler
           buttons={this.props.buttons}
-          activeButtons = {this.state.activeButtons}
+          activeButtons={this.state.activeButtons}
           gameButtonPressed={this.tryButtonPress}
         />
         <div className="gameIcon">

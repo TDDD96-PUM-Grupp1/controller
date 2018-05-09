@@ -9,7 +9,9 @@ export function DrawOneButton(props) {
   return (
     <div className="md-grid gameButtonContainer">
       <Button
-        style={{ backgroundColor: props.activeButtons[0] ? props.buttons[0].color : DISABLED_COLOR }}
+        style={{
+          backgroundColor: props.activeButtons[0] ? props.buttons[0].color : DISABLED_COLOR,
+        }}
         onClick={() => {
           props.gameButtonPressed(0);
         }}
@@ -27,6 +29,7 @@ export function DrawOneButton(props) {
 DrawOneButton.propTypes = {
   buttons: PropTypes.array.isRequired,
   gameButtonPressed: PropTypes.func.isRequired,
+  activeButtons: PropTypes.array.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 
@@ -34,7 +37,9 @@ export function DrawTwoButtons(props) {
   return (
     <div className="md-grid gameButtonContainer">
       <Button
-        style={{ backgroundColor: props.activeButtons[0] ? props.buttons[0].color : DISABLED_COLOR }}
+        style={{
+          backgroundColor: props.activeButtons[0] ? props.buttons[0].color : DISABLED_COLOR,
+        }}
         onClick={() => {
           props.gameButtonPressed(0);
         }}
@@ -44,7 +49,9 @@ export function DrawTwoButtons(props) {
         {props.buttons[0].name}
       </Button>
       <Button
-        style={{ backgroundColor: props.activeButtons[1] ? props.buttons[1].color : DISABLED_COLOR }}
+        style={{
+          backgroundColor: props.activeButtons[1] ? props.buttons[1].color : DISABLED_COLOR,
+        }}
         onClick={() => {
           props.gameButtonPressed(1);
         }}
@@ -61,6 +68,7 @@ export function DrawTwoButtons(props) {
 DrawTwoButtons.propTypes = {
   buttons: PropTypes.array.isRequired,
   gameButtonPressed: PropTypes.func.isRequired,
+  activeButtons: PropTypes.array.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 
@@ -68,7 +76,9 @@ export function DrawThreeButtons(props) {
   return (
     <div className="md-grid gameButtonContainer">
       <Button
-        style={{ backgroundColor: props.activeButtons[0] ? props.buttons[0].color : DISABLED_COLOR }}
+        style={{
+          backgroundColor: props.activeButtons[0] ? props.buttons[0].color : DISABLED_COLOR,
+        }}
         onClick={() => {
           props.gameButtonPressed(0);
         }}
@@ -79,7 +89,9 @@ export function DrawThreeButtons(props) {
       </Button>
       <div>
         <Button
-          style={{ backgroundColor: props.activeButtons[1] ? props.buttons[1].color : DISABLED_COLOR }}
+          style={{
+            backgroundColor: props.activeButtons[1] ? props.buttons[1].color : DISABLED_COLOR,
+          }}
           onClick={() => {
             props.gameButtonPressed(1);
           }}
@@ -89,7 +101,9 @@ export function DrawThreeButtons(props) {
           {props.buttons[1].name}
         </Button>
         <Button
-          style={{ backgroundColor: props.activeButtons[2] ? props.buttons[2].color : DISABLED_COLOR }}
+          style={{
+            backgroundColor: props.activeButtons[2] ? props.buttons[2].color : DISABLED_COLOR,
+          }}
           onClick={() => {
             props.gameButtonPressed(2);
           }}
@@ -107,6 +121,7 @@ export function DrawThreeButtons(props) {
 DrawThreeButtons.propTypes = {
   buttons: PropTypes.array.isRequired,
   gameButtonPressed: PropTypes.func.isRequired,
+  activeButtons: PropTypes.array.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 
@@ -115,7 +130,9 @@ export function DrawFourButtons(props) {
     <div className="md-grid gameButtonContainer">
       <div>
         <Button
-          style={{ backgroundColor: props.activeButtons[0] ? props.buttons[0].color : DISABLED_COLOR }}
+          style={{
+            backgroundColor: props.activeButtons[0] ? props.buttons[0].color : DISABLED_COLOR,
+          }}
           onClick={() => {
             props.gameButtonPressed(0);
           }}
@@ -125,7 +142,9 @@ export function DrawFourButtons(props) {
           {props.buttons[0].name}
         </Button>
         <Button
-          style={{ backgroundColor: props.activeButtons[1] ? props.buttons[1].color : DISABLED_COLOR }}
+          style={{
+            backgroundColor: props.activeButtons[1] ? props.buttons[1].color : DISABLED_COLOR,
+          }}
           onClick={() => {
             props.gameButtonPressed(1);
           }}
@@ -137,7 +156,9 @@ export function DrawFourButtons(props) {
       </div>
       <div>
         <Button
-          style={{ backgroundColor: props.activeButtons[2] ? props.buttons[2].color : DISABLED_COLOR }}
+          style={{
+            backgroundColor: props.activeButtons[2] ? props.buttons[2].color : DISABLED_COLOR,
+          }}
           onClick={() => {
             props.gameButtonPressed(2);
           }}
@@ -147,7 +168,9 @@ export function DrawFourButtons(props) {
           {props.buttons[1].name}
         </Button>
         <Button
-          style={{ backgroundColor: props.activeButtons[3] ? props.buttons[3].color : DISABLED_COLOR }}
+          style={{
+            backgroundColor: props.activeButtons[3] ? props.buttons[3].color : DISABLED_COLOR,
+          }}
           onClick={() => {
             props.gameButtonPressed(3);
           }}
@@ -164,5 +187,6 @@ export function DrawFourButtons(props) {
 DrawFourButtons.propTypes = {
   buttons: PropTypes.array.isRequired,
   gameButtonPressed: PropTypes.func.isRequired,
+  activeButtons: PropTypes.array.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */

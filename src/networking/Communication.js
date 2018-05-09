@@ -124,10 +124,14 @@ class Communication {
     );
   }
 
-  requestCooldowns(coolDownListener){
-    this.client.event.subscribe(`${this.serviceName}/cooldown/${this.id}`, data => {
-      coolDownListener.onCoolDownReset();
+  requestCooldowns(cooldownListener) {
+    this.client.event.subscribe(`${this.serviceName}/resetCooldown/${this.id}`, data => {
+      cooldownListener.onCoolDownReset(data.button);
     });
+  }
+
+  stopRequestCooldowns() {
+    this.client.event.unsubscribe(`${this.serviceName}/resetCooldown/${this.id}`);
   }
 
   /**
