@@ -59,11 +59,25 @@ function unlockScreen() {
 class Game extends Component {
   constructor(props) {
     super(props);
-    this.state = { ping: '-' };
+
+    const activeButtons = [];
+    this.props.buttons.forEach(() => {
+      activeButtons.push(true);
+    });
+
+    this.state = {
+      ping: '-',
+      activeButtons,
+    };
+
     this.sensorManager = new SensorManager(props.onSensorChange);
     this.sensorManager.calibrate = this.sensorManager.calibrate.bind(this);
+    this.tryButtonPress = this.tryButtonPress.bind(this);
+    this.onCoolDownReset = this.onCoolDownReset.bind(this);
 
-    this.keyboardManager = new KeyboardManager(props.onSensorChange, props.gameButtonPressed);
+    this.keyboardManager = new KeyboardManager(props.onSensorChange, this.tryButtonPress);
+
+    this.props.com.requestCooldowns(this);
 
     this.wakeLock = new NoSleep();
   }
@@ -88,7 +102,31 @@ class Game extends Component {
     this.sensorManager.unbindEventListener();
     this.keyboardManager.unbindEventListener();
 
+    this.props.com.stopRequestCooldowns();
+
     clearInterval(this.intervalId);
+  }
+
+  onCoolDownReset(btnIndex) {
+    const newActive = this.state.activeButtons;
+    newActive[btnIndex] = true;
+    this.setState({
+      activeButtons: newActive,
+    });
+  }
+
+  tryButtonPress(index) {
+    if (!this.state.activeButtons[index]) {
+      return;
+    }
+
+    const newState = this.state.activeButtons;
+    newState[index] = false;
+    this.setState({
+      activeButtons: newState,
+    });
+
+    this.props.gameButtonPressed(index);
   }
 
   render() {
@@ -101,8 +139,8 @@ class Game extends Component {
         />
         <GameButtonHandler
           buttons={this.props.buttons}
-          gameButtonPressed={this.props.gameButtonPressed}
-          username={this.props.username}
+          activeButtons={this.state.activeButtons}
+          gameButtonPressed={this.tryButtonPress}
         />
         <div className="gameIcon">
           <IconPreview

@@ -4,25 +4,6 @@ import PropTypes from 'prop-types';
 import { DrawOneButton, DrawTwoButtons, DrawThreeButtons, DrawFourButtons } from './GameButton';
 
 class GameButtonHandler extends Component {
-  constructor(props) {
-    super(props);
-
-    const name = this.props.username.toLowerCase();
-    let partyMode = false;
-
-    if (name.includes('party')) {
-      partyMode = true;
-    }
-
-    this.state = {
-      partymode: partyMode,
-    };
-  }
-
-  shouldComponentUpdate() {
-    return this.state.partymode;
-  }
-
   render() {
     let renderHelper;
     const buttonAmount = this.props.buttons.length;
@@ -33,6 +14,7 @@ class GameButtonHandler extends Component {
         <DrawOneButton
           gameButtonPressed={this.props.gameButtonPressed}
           buttons={this.props.buttons}
+          activeButtons={this.props.activeButtons}
         />
       );
     } else if (buttonAmount === 2) {
@@ -40,6 +22,7 @@ class GameButtonHandler extends Component {
         <DrawTwoButtons
           gameButtonPressed={this.props.gameButtonPressed}
           buttons={this.props.buttons}
+          activeButtons={this.props.activeButtons}
         />
       );
     } else if (buttonAmount === 3) {
@@ -47,6 +30,7 @@ class GameButtonHandler extends Component {
         <DrawThreeButtons
           gameButtonPressed={this.props.gameButtonPressed}
           buttons={this.props.buttons}
+          activeButtons={this.props.activeButtons}
         />
       );
     } else if (buttonAmount === 4) {
@@ -54,6 +38,7 @@ class GameButtonHandler extends Component {
         <DrawFourButtons
           gameButtonPressed={this.props.gameButtonPressed}
           buttons={this.props.buttons}
+          activeButtons={this.props.activeButtons}
         />
       );
     } else {
@@ -66,7 +51,7 @@ class GameButtonHandler extends Component {
 GameButtonHandler.propTypes = {
   gameButtonPressed: PropTypes.func.isRequired,
   buttons: PropTypes.array.isRequired,
-  username: PropTypes.string.isRequired,
+  activeButtons: PropTypes.array.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 export default GameButtonHandler;
