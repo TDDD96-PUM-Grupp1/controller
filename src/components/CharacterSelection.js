@@ -12,16 +12,6 @@ import './stylesheets/Component.css';
 const MAX_NAME_LENGTH = 21;
 
 /**
- * Method for setting a color on a SVG icon.
- */
-function setSVGColor(color) {
-  document
-    .querySelector('.svgClass')
-    .getSVGDocument()
-    .childNodes[0].childNodes[0].setAttribute('fill', color);
-}
-
-/**
  * The class responsible to handle the username input through a text field
  * and a button to send it to the server.
  */
@@ -140,7 +130,6 @@ class CharacterSelection extends Component {
     this.setState({
       iconColor: color,
     });
-    setSVGColor(color);
   }
 
   handleBackgroundColor(color) {
