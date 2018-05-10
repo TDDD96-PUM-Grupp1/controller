@@ -12,13 +12,16 @@ function IconPreview(props) {
           backgroundColor: props.backgroundColor,
         }}
       >
-        <div className="svgClass center" style={{
-          backgroundColor: `${props.iconColor}`,
-          WebkitMask: `url(${iconData[props.iconID].img})`,
-          mask: `url(${iconData[props.iconID].img})`,
-          width: '128',
-          height: '128',
-        }}></div>
+        <div
+          className="svgClass center"
+          style={{
+            backgroundColor: `${props.iconColor}`,
+            WebkitMask: `url(${iconData[props.iconID].img})`,
+            mask: `url(${iconData[props.iconID].img})`,
+            width: '128',
+            height: '128',
+          }}
+        />
       </Paper>
     </Grid>
   );

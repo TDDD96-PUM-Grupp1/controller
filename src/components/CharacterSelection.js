@@ -11,7 +11,6 @@ import './stylesheets/Component.css';
 
 const MAX_NAME_LENGTH = 21;
 
-
 /**
  * The class responsible to handle the username input through a text field
  * and a button to send it to the server.
