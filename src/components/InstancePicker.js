@@ -49,11 +49,6 @@ class InstancePicker extends Component {
     clearInterval(this.pingLoop);
   }
 
-  connectionTimedOut() {
-    this.error = 'Connection timed out';
-    this.setState({ state: STATE_ERROR });
-  }
-
   onRetry() {
     this.setState({ state: STATE_LOADING });
     this.props.communication.getInstances(this);
@@ -153,6 +148,11 @@ class InstancePicker extends Component {
       this.setState({ instances });
     }
     delete this.instances[instanceName];
+  }
+
+  connectionTimedOut() {
+    this.error = 'Connection timed out';
+    this.setState({ state: STATE_ERROR });
   }
 
   pingAllInstances() {

@@ -1,63 +1,61 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import IconPreview from './IconPreview';
 
 import { DrawOneButton, DrawTwoButtons, DrawThreeButtons, DrawFourButtons } from './GameButton';
 
-class GameButtonHandler extends Component {
-  render() {
-    let renderHelper;
-    const buttonAmount = this.props.buttons.length;
-    if (buttonAmount === 0) {
-      renderHelper = <div />;
-    } else if (buttonAmount === 1) {
-      renderHelper = (
-        <DrawOneButton
-          gameButtonPressed={this.props.gameButtonPressed}
-          buttons={this.props.buttons}
-          activeButtons={this.props.activeButtons}
-        />
-      );
-    } else if (buttonAmount === 2) {
-      renderHelper = (
-        <DrawTwoButtons
-          gameButtonPressed={this.props.gameButtonPressed}
-          buttons={this.props.buttons}
-          activeButtons={this.props.activeButtons}
-        />
-      );
-    } else if (buttonAmount === 3) {
-      renderHelper = (
-        <DrawThreeButtons
-          gameButtonPressed={this.props.gameButtonPressed}
-          buttons={this.props.buttons}
-          activeButtons={this.props.activeButtons}
-        />
-      );
-    } else if (buttonAmount === 4) {
-      renderHelper = (
-        <DrawFourButtons
-          gameButtonPressed={this.props.gameButtonPressed}
-          buttons={this.props.buttons}
-          activeButtons={this.props.activeButtons}
-        />
-      );
-    } else {
-      throw Error('Invalid button amount requested');
-    }
-    return (
-      <div className="gameButtonWrapper">
-        {renderHelper}
-        <div className="gameIcon">
-          <IconPreview
-            iconID={this.props.iconID}
-            iconColor={this.props.iconColor}
-            backgroundColor={this.props.backgroundColor}
-          />
-        </div>
-      </div>
+function GameButtonHandler(props) {
+  let renderHelper;
+  const buttonAmount = props.buttons.length;
+  if (buttonAmount === 0) {
+    renderHelper = <div />;
+  } else if (buttonAmount === 1) {
+    renderHelper = (
+      <DrawOneButton
+        gameButtonPressed={props.gameButtonPressed}
+        buttons={props.buttons}
+        activeButtons={props.activeButtons}
+      />
     );
+  } else if (buttonAmount === 2) {
+    renderHelper = (
+      <DrawTwoButtons
+        gameButtonPressed={props.gameButtonPressed}
+        buttons={props.buttons}
+        activeButtons={props.activeButtons}
+      />
+    );
+  } else if (buttonAmount === 3) {
+    renderHelper = (
+      <DrawThreeButtons
+        gameButtonPressed={props.gameButtonPressed}
+        buttons={props.buttons}
+        activeButtons={props.activeButtons}
+      />
+    );
+  } else if (buttonAmount === 4) {
+    renderHelper = (
+      <DrawFourButtons
+        gameButtonPressed={props.gameButtonPressed}
+        buttons={props.buttons}
+        activeButtons={props.activeButtons}
+      />
+    );
+  } else {
+    throw Error('Invalid button amount requested');
   }
+  return (
+    <div className="gameButtonWrapper">
+      {renderHelper}
+      <div className="gameIcon">
+        <IconPreview
+          iconID={props.iconID}
+          iconColor={props.iconColor}
+          backgroundColor={props.backgroundColor}
+        />
+      </div>
+    </div>
+  );
 }
 /* eslint-disable react/forbid-prop-types */
 GameButtonHandler.propTypes = {
