@@ -10,6 +10,8 @@ import './stylesheets/Component.css';
 const STATE_LOADING = 0;
 const STATE_ERROR = 1;
 const STATE_OK = 2;
+const TIME_TIMEOUT = 5000; // ms
+const TIME_MINLOADING = 400; // ms
 
 /**
  * The list the instances live within, responsible for updating the list
@@ -22,6 +24,7 @@ class InstancePicker extends Component {
     this.instances = [];
     this.filter = '';
     this.loadedMinTime = true;
+    this.timeoutId = undefined;
     this.postLoadState = STATE_LOADING;
     this.state = { instances: {}, state: STATE_LOADING };
     this.onInstancesReceived = this.onInstancesReceived.bind(this);
@@ -34,6 +37,7 @@ class InstancePicker extends Component {
     this.pingAllInstances = this.pingAllInstances.bind(this);
     this.initList = this.initList.bind(this);
     this.onRetry = this.onRetry.bind(this);
+    this.connectionTimedOut = this.connectionTimedOut.bind(this);
   }
 
   componentWillMount() {
@@ -45,23 +49,36 @@ class InstancePicker extends Component {
     clearInterval(this.pingLoop);
   }
 
+  connectionTimedOut() {
+    this.error = 'Connection timed out';
+    this.setState({ state: STATE_ERROR });
+  }
+
   onRetry() {
     this.setState({ state: STATE_LOADING });
     this.props.communication.getInstances(this);
     this.loadedMinTime = false;
     this.postLoadState = STATE_LOADING;
+    // Timeout for minimum amount of loading time.
     setTimeout(() => {
       this.loadedMinTime = true;
       if (this.postLoadState !== STATE_LOADING) {
         this.setState({ state: this.postLoadState });
       }
-    }, 400);
+    }, TIME_MINLOADING);
+    // Timeout for maximum amount of loading time.
+    this.timeoutId = setTimeout(this.connectionTimedOut, TIME_TIMEOUT);
   }
 
   /*
    * Callback for when the RPC call returns the instances.
    */
   onInstancesReceived(err, result) {
+    if (this.timeoutId !== undefined) {
+      clearTimeout(this.timeoutId);
+      this.timeoutId = undefined;
+    }
+
     if (!err) {
       this.instances = result;
       this.setState({ instances: result });
@@ -158,6 +175,7 @@ class InstancePicker extends Component {
   initList() {
     this.loadedMinTime = true;
     this.postLoadState = STATE_OK;
+    setTimeout(this.connectionTimedOut, TIME_TIMEOUT);
     this.props.communication.requestInstances(this);
   }
 

@@ -15,6 +15,7 @@ const MAX_NAME_LENGTH = 21;
 const STATE_OK = 0;
 const STATE_VALIDATING = 1;
 const STATE_ERROR = 2;
+const TIME_TIMEOUT = 5000;
 /**
  * The class responsible to handle the username input through a text field
  * and a button to send it to the server.
@@ -32,6 +33,7 @@ class CharacterSelection extends Component {
       state: STATE_OK,
       stateError: '',
     };
+    this.timeout = undefined;
 
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -51,6 +53,10 @@ class CharacterSelection extends Component {
   }
 
   onJoined(err) {
+    if (this.timeout !== undefined) {
+      clearTimeout(this.timeout);
+      this.timeout = undefined;
+    }
     if (!err) {
       this.props.enterGame(
         this.state.username,
@@ -60,7 +66,7 @@ class CharacterSelection extends Component {
       );
     } else {
       let error = err;
-      if (err === deepstream.CONSTANTS.EVENT.NO_RPC_PROVIDER) {
+      if (error === deepstream.CONSTANTS.EVENT.NO_RPC_PROVIDER) {
         error = 'UI is no longer online.';
       }
       this.setState({ state: STATE_ERROR, stateError: error });
@@ -79,6 +85,9 @@ class CharacterSelection extends Component {
       username = getRandomName();
       this.setState({ username });
     }
+    this.timeout = setTimeout(() => {
+      this.setState({ state: STATE_ERROR, stateError: 'Connection timed out' });
+    }, TIME_TIMEOUT);
     this.props.communication.joinInstance(
       this.props.instanceName,
       username,

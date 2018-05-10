@@ -70,13 +70,13 @@ class KeyboardManager {
     if (updateSensorValues) {
       this.calcSensorChange();
     } else if (key === '1') {
-      this.onButtonPress(1);
+      this.onButtonPress(0);
     } else if (key === '2') {
-      this.onButtonPress(2);
+      this.onButtonPress(1);
     } else if (key === '3') {
-      this.onButtonPress(3);
+      this.onButtonPress(2);
     } else if (key === '4') {
-      this.onButtonPress(4);
+      this.onButtonPress(3);
     }
   }
 
