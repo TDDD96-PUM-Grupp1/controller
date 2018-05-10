@@ -144,7 +144,6 @@ const adjectives = [
   'Overpowered',
   'Petrifying',
   'Poisonous',
-  'Potent',
   'Powerful',
   'Raging',
   'Reasoning',
