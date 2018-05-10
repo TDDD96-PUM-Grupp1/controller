@@ -16,36 +16,17 @@ const STATE_OK = 0;
 const STATE_VALIDATING = 1;
 const STATE_ERROR = 2;
 /**
- * Method for setting a color on a SVG icon.
- */
-function setSVGColor(color) {
-  document
-    .querySelector('.svgClass')
-    .getSVGDocument()
-    .childNodes[0].childNodes[0].setAttribute('fill', color);
-}
-
-/**
  * The class responsible to handle the username input through a text field
  * and a button to send it to the server.
  */
 class CharacterSelection extends Component {
   constructor(props) {
     super(props);
-
-    const randomIconNumber = randomIntFromInterval(iconData.length);
-    const randomIconColor = randomIntFromInterval(Colors.length);
-    let randomBackgroundColor = randomIntFromInterval(Colors.length);
-
-    while (randomIconColor === randomBackgroundColor) {
-      randomBackgroundColor = randomIntFromInterval(Colors.length);
-    }
-
     this.state = {
-      username: getRandomName(),
-      currentIconID: iconData[randomIconNumber].id,
-      iconColor: Colors[randomIconColor].hex,
-      backgroundColor: Colors[randomBackgroundColor].hex,
+      username: this.props.username,
+      currentIconID: this.props.iconID,
+      iconColor: this.props.iconColor,
+      backgroundColor: this.props.backgroundColor,
       errorNameLength: false,
       errorHelpText: '',
       state: STATE_OK,
@@ -55,11 +36,18 @@ class CharacterSelection extends Component {
     this.handleInputChange = this.handleInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.goBack = this.goBack.bind(this);
-    this.randomizeName = this.randomizeName.bind(this);
+    this.randomize = this.randomize.bind(this);
     this.handleIconSelect = this.handleIconSelect.bind(this);
     this.handleIconColor = this.handleIconColor.bind(this);
     this.handleBackgroundColor = this.handleBackgroundColor.bind(this);
     this.onJoined = this.onJoined.bind(this);
+  }
+
+  componentWillMount() {
+    // Generate random name, icon and colors if they do not exist
+    if (this.props.iconID === -1) {
+      this.randomize();
+    }
   }
 
   onJoined(err) {
@@ -132,24 +120,48 @@ class CharacterSelection extends Component {
   }
 
   /**
-   * Leaves this window and saves the username
+   * Leave this window and store the current presets in App.js
    */
   goBack() {
-    this.props.goBack(this.state.username);
+    this.props.updatePlayerInfo(
+      this.state.username,
+      this.state.currentIconID,
+      this.state.backgroundColor,
+      this.state.iconColor
+    );
+
+    this.props.goBack();
   }
 
   /**
-   * Changes the current username to a random one
+   * Randomizes the username, icon, icon color and background color and send the new data to App.js
    */
-  randomizeName() {
-    this.setState({ username: getRandomName() });
+  randomize() {
+    const randomIconNumber = randomIntFromInterval(iconData.length);
+    const randomIconColor = randomIntFromInterval(Colors.length);
+    const username = getRandomName();
+    let randomBackgroundColor = randomIntFromInterval(Colors.length);
+
+    while (randomIconColor === randomBackgroundColor) {
+      randomBackgroundColor = randomIntFromInterval(Colors.length);
+    }
+
+    const iconColor = Colors[randomIconColor].hex;
+    const backgroundColor = Colors[randomBackgroundColor].hex;
+    const currentIconID = iconData[randomIconNumber].id;
+
+    this.setState({
+      username,
+      iconColor,
+      backgroundColor,
+      currentIconID,
+    });
   }
 
   handleIconColor(color) {
     this.setState({
       iconColor: color,
     });
-    setSVGColor(color);
   }
 
   handleBackgroundColor(color) {
@@ -181,7 +193,7 @@ class CharacterSelection extends Component {
             </Button>
           </Cell>
           <Cell size={4}>
-            <Button className="button" raised primary onClick={this.randomizeName}>
+            <Button className="button" raised primary onClick={this.randomize}>
               Random
             </Button>
           </Cell>
@@ -234,6 +246,11 @@ CharacterSelection.propTypes = {
   communication: PropTypes.object.isRequired,
   instanceName: PropTypes.string.isRequired,
   goBack: PropTypes.func.isRequired,
+  username: PropTypes.string.isRequired,
+  iconID: PropTypes.number.isRequired,
+  iconColor: PropTypes.string.isRequired,
+  backgroundColor: PropTypes.string.isRequired,
+  updatePlayerInfo: PropTypes.func.isRequired,
 };
 
 export default CharacterSelection;

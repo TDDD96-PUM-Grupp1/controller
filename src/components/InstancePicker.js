@@ -21,6 +21,8 @@ class InstancePicker extends Component {
     this.error = '';
     this.instances = [];
     this.filter = '';
+    this.loadedMinTime = true;
+    this.postLoadState = STATE_LOADING;
     this.state = { instances: {}, state: STATE_LOADING };
     this.onInstancesReceived = this.onInstancesReceived.bind(this);
     this.onPlayerAdded = this.onPlayerAdded.bind(this);
@@ -46,6 +48,14 @@ class InstancePicker extends Component {
   onRetry() {
     this.setState({ state: STATE_LOADING });
     this.props.communication.getInstances(this);
+    this.loadedMinTime = false;
+    this.postLoadState = STATE_LOADING;
+    setTimeout(() => {
+      this.loadedMinTime = true;
+      if (this.postLoadState !== STATE_LOADING) {
+        this.setState({ state: this.postLoadState });
+      }
+    }, 400);
   }
 
   /*
@@ -56,14 +66,20 @@ class InstancePicker extends Component {
       this.instances = result;
       this.setState({ instances: result });
       this.pingLoop = setInterval(this.pingAllInstances, 1000);
-      this.setState({ state: STATE_OK });
+      this.postLoadState = STATE_OK;
+      if (this.loadedMinTime) {
+        this.setState({ state: STATE_OK });
+      }
     } else {
       if (err === deepstream.CONSTANTS.EVENT.NO_RPC_PROVIDER) {
         this.error = 'Service is not responding';
       } else {
         this.error = err;
       }
-      this.setState({ state: STATE_ERROR });
+      this.postLoadState = STATE_ERROR;
+      if (this.loadedMinTime) {
+        this.setState({ state: STATE_ERROR });
+      }
     }
   }
 
@@ -140,6 +156,8 @@ class InstancePicker extends Component {
    * Update the list of active instances
    */
   initList() {
+    this.loadedMinTime = true;
+    this.postLoadState = STATE_OK;
     this.props.communication.requestInstances(this);
   }
 
@@ -177,7 +195,8 @@ class InstancePicker extends Component {
   renderError() {
     return (
       <div className="instancesError" onClick={this.onRetry} role="button" tabIndex={0}>
-        {this.error}. Press to retry.
+        {this.error}
+        <br /> Press here to refresh &#x21bb;
       </div>
     );
   }

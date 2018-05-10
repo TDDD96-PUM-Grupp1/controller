@@ -15,7 +15,7 @@ class App extends Component {
       gameButtons: [],
       username: '',
       instanceName: '',
-      iconID: 0,
+      iconID: -1,
       iconColor: '#FFFFFF',
       backgroundColor: '#000000',
     };
@@ -30,6 +30,17 @@ class App extends Component {
         const ip = document.location.href.split('://')[1].split(':')[0];
         const ipPort = `${ip}:60020`;
         settings.communication.host_ip = ipPort;
+      } else {
+        // Use backend deepstream server
+        // Remove https, potential backslash page and port after the domain
+        const subdomain = document.location.href
+          .split('://')[1]
+          .split('/')[0]
+          .split(':')[0];
+
+        // Remove first subdomain (controller)
+        const domain = subdomain.substring(subdomain.indexOf('.') + 1);
+        settings.communication.host_ip = `wss://ds.${domain}:443`;
       }
       this.com = new Communication(settings.communication);
     }
@@ -49,6 +60,7 @@ class App extends Component {
     this.renderInstancePicker = this.renderInstancePicker.bind(this);
     this.renderGame = this.renderGame.bind(this);
     this.leaveGame = this.leaveGame.bind(this);
+    this.updatePlayerInfo = this.updatePlayerInfo.bind(this);
   }
 
   /**
@@ -71,12 +83,33 @@ class App extends Component {
 
   /**
    * Used to switch to the game window where all instances
-   * are being displayed. Automatically tries to connect to the game instace.
+   * are being displayed. Automatically tries to connect to the gameinstance.
+   * The params are the users preset for how their character should look.
+   *
+   * Note: This function takes argument rather than using updatePlayerInfo since
+   * setState() only queues a change and is not fast enough for our needs here.
    */
   enterGame(username, iconID, backgroundColor, iconColor) {
+    /* eslint-disable-next-line */
+    this.setState({
+      windowState: 'game',
+      username,
+      iconID,
+      iconColor,
+      backgroundColor,
+    });
+  }
+
+  /** This function is called when leaving the CharacterSelection screen and stores the
+   * players chosen presets.
+   * @param username The players current username
+   * @param iconID The players current icon
+   * @param backgroundColor The players current background color
+   * @param iconColor The players current icon color
+   */
+  updatePlayerInfo(username, iconID, backgroundColor, iconColor) {
     this.setState({
       username,
-      windowState: 'game',
       iconID,
       backgroundColor,
       iconColor,
@@ -119,6 +152,11 @@ class App extends Component {
         communication={this.com}
         enterGame={this.enterGame}
         goBack={this.enterInstancePicker}
+        username={this.state.username}
+        updatePlayerInfo={this.updatePlayerInfo}
+        iconID={this.state.iconID}
+        iconColor={this.state.iconColor}
+        backgroundColor={this.state.backgroundColor}
       />
     );
   }
@@ -142,7 +180,6 @@ class App extends Component {
 
   render() {
     let stateRender;
-
     if (this.state.windowState === 'splashScreen') {
       stateRender = this.renderSplashScreen();
     } else if (this.state.windowState === 'instancePicker') {
