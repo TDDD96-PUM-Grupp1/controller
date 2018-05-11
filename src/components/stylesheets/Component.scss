@@ -76,6 +76,7 @@
 
 .cellCol--2-6 {
     text-overflow: ellipsis;
+    vertical-align: top;
     overflow: hidden;
     width: calc(100% / 6 * 2 - 8px);
     margin: 0 8px 0 0px;
@@ -84,6 +85,7 @@
 
 .cellCol--1-6 {
     text-overflow: ellipsis;
+    vertical-align: top;
     overflow: hidden;
     width: calc(100% / 6 * 1 - 8px);
     margin: 0 8px 0 0px;
