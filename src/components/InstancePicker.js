@@ -151,7 +151,7 @@ class InstancePicker extends Component {
         <Paper>
           <Grid className="md-grid instanceHeader">
             <Cell className="md-cell--2">Instance Name</Cell>
-            <Cell className="md-cell--1">Gamemode</Cell>
+            <Cell className="md-cell--2">Gamemode</Cell>
             <Cell className="md-cell--1">Players</Cell>
             <Cell className="md-cell--1">Latency</Cell>
           </Grid>

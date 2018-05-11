@@ -40,7 +40,7 @@ class InstanceItem extends React.Component {
     return (
       <Grid onClick={this.handleClick} className="md-grid instanceContainer">
         <Cell className="md-cell--2">{this.props.instanceName}</Cell>
-        <Cell className="md-cell--1">{this.props.instanceObj.gamemode}</Cell>
+        <Cell className="md-cell--2">{this.props.instanceObj.gamemode}</Cell>
         <Cell className="md-cell--1">{`${this.props.instanceObj.currentlyPlaying}/${
           this.props.instanceObj.maxPlayers
         }`}</Cell>
