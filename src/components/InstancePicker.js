@@ -150,10 +150,12 @@ class InstancePicker extends Component {
         <FilterInstances onInputChange={this.filterList} />
         <Paper>
           <Grid className="md-grid instanceHeader">
-            <Cell className="md-cell--2">Instance Name</Cell>
-            <Cell className="md-cell--1">Gamemode</Cell>
-            <Cell className="md-cell--1">Players</Cell>
-            <Cell className="md-cell--1">Latency</Cell>
+            <Cell className="md-cell--6">
+              <div className="cellCol--2-6">Instance Name</div>
+              <div className="cellCol--2-6">Gamemode</div>
+              <div className="cellCol--1-6">Players</div>
+              <div className="cellCol--1-6">Latency</div>
+            </Cell>
           </Grid>
         </Paper>
         <Paper>
