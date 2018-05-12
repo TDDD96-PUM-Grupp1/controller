@@ -59,12 +59,32 @@ class SensorManager {
     const flippedGamma = getFlippedGamma(gamma);
 
     // If the device doesn't support acceleration atleast try to fix the 90 deg problem
+    // This solution doesn't always work, especially when the user tabs out with the device
+    // flipped and tabs back in with the device not flipped.
     if (!window.DeviceMotionEvent) {
+      const angleMargin = 45;
+      // Angle between the vectors has to be more than angleMargin
+      // This is a fail safe since both vectors are very alike at low gammas
+      if (Math.abs(event.gamma) > angleMargin) {
+        const vector1 = AngleToVector(event.beta, event.gamma);
+        const vector2 = AngleToVector(flippedBeta, flippedGamma);
+        const angle1 = AngleBetweenVectors(vector1, this.lastVector);
+        const angle2 = AngleBetweenVectors(vector2, this.lastVector);
+
+        // If vector2 better represents the last vector use that.
+        if (Math.abs(angle1) > Math.abs(angle2)) {
+          this.flipped = true;
+        } else {
+          this.flipped = false;
+        }
+      }
     }
+
     if (this.flipped) {
       beta = flippedBeta;
       gamma = flippedGamma;
     }
+
     this.lastVector = AngleToVector(beta, gamma);
     beta -= this.betaBase;
     gamma -= this.gammaBase;

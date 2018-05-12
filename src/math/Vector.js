@@ -7,21 +7,6 @@ export function AngleToVector(alpha, beta) {
   return { x, y, z };
 }
 
-function VectorToAngle(vector) {
-  let beta = Math.asin(vector.z);
-  if (beta < 0) beta += 2 * Math.PI;
-  const alpha1 = Math.asin(vector.x / Math.cos(beta));
-  const alpha2 = Math.acos(vector.y / Math.cos(beta));
-  let alpha = 0;
-  if (alpha1 === alpha2) {
-    alpha = alpha1;
-  } else if (180 - alpha1 === -alpha2) {
-    alpha = 180 - alpha1;
-  }
-  if (alpha < 0) alpha += 2 * Math.PI;
-  return { alpha: alpha * 180 / Math.PI, beta: beta * 180 / Math.PI };
-}
-
 export function AngleBetweenVectors(vector1, vector2) {
   const dotProd = vector1.x * vector2.x + vector1.y * vector2.y + vector1.z * vector2.z;
   const lengthSQ1 = vector1.x * vector1.x + vector1.y * vector1.y + vector1.z * vector1.z;

@@ -6,7 +6,6 @@ import CharacterSelection from './components/CharacterSelection';
 import Communication from './networking/Communication';
 import settings from './config';
 import Game from './components/Game';
-import SensorOutput from './components/SensorOutput';
 
 class App extends Component {
   constructor(props) {
@@ -189,7 +188,6 @@ class App extends Component {
   }
 
   render() {
-    return <SensorOutput />;
     let stateRender;
     if (this.state.windowState === 'splashScreen') {
       stateRender = this.renderSplashScreen();
