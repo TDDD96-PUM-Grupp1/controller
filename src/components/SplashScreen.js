@@ -11,7 +11,9 @@ import './stylesheets/Component.css';
 function SplashScreen(props) {
   return (
     <Button className="mainScreen" onClick={props.buttonPressed} primary raised>
-      This should be a splashscreen!
+      <div>
+        Ballgame <br /> <br /> Click to continue
+      </div>
     </Button>
   );
 }
