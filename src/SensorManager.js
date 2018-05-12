@@ -47,11 +47,14 @@ class SensorManager {
   unbindEventListener() {
     // Make sure to unbind the event listener when component unmounts
     window.removeEventListener('deviceorientation', this.handleDeviceOrientation);
+    if (window.DeviceMotionEvent) {
+      window.removeEventListener('devicemotion', this.handleDeviceMotion);
+    }
   }
   /*
    * Calculate the orientation given that the device is flipped or not.
-   * @param {beta,gamma} event the current beta, gamma values
-   * @return {beta,gamma} calculated beta, gamma values with calibration taken into account.
+   * @param {beta,gamma} event - the raw beta, gamma values
+   * @return {beta,gamma} - calculated beta, gamma values with calibration taken into account.
    */
   calculateOrientation(event) {
     let { beta, gamma } = event;
@@ -107,6 +110,11 @@ class SensorManager {
     this.onSensorChange(this.beta, this.gamma);
   }
 
+  /*
+   * Determains if the device is flipped or not if the device supports
+   * acceleration.
+   * @param DeviceMotionEvent event - The event of the device motion
+   */
   handleDeviceMotion(event) {
     // Determain if the device is upside down or not.
     if (event.accelerationIncludingGravity.z > 0) {
