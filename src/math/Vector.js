@@ -1,17 +1,17 @@
 export function AngleToVector(alpha, beta) {
-  let alphaR = alpha * Math.PI / 180;
-  let betaR = beta * Math.PI / 180;
-  let x = Math.sin(alphaR) * Math.cos(betaR);
-  let y = Math.cos(alphaR) * Math.cos(betaR);
-  let z = Math.sin(betaR);
+  const alphaR = alpha * Math.PI / 180;
+  const betaR = beta * Math.PI / 180;
+  const x = Math.sin(alphaR) * Math.cos(betaR);
+  const y = Math.cos(alphaR) * Math.cos(betaR);
+  const z = Math.sin(betaR);
   return { x, y, z };
 }
 
 function VectorToAngle(vector) {
   let beta = Math.asin(vector.z);
   if (beta < 0) beta += 2 * Math.PI;
-  let alpha1 = Math.asin(vector.x / Math.cos(beta));
-  let alpha2 = Math.acos(vector.y / Math.cos(beta));
+  const alpha1 = Math.asin(vector.x / Math.cos(beta));
+  const alpha2 = Math.acos(vector.y / Math.cos(beta));
   let alpha = 0;
   if (alpha1 === alpha2) {
     alpha = alpha1;

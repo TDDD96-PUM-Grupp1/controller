@@ -1,12 +1,10 @@
 import { AngleToVector, AngleBetweenVectors } from './math/Vector';
 
-function getFlippedBeta(beta)
-{
+function getFlippedBeta(beta) {
   return -180 - beta;
 }
 
-function getFlippedGamma(gamma)
-{
+function getFlippedGamma(gamma) {
   return -180 + gamma;
 }
 
@@ -31,6 +29,7 @@ class SensorManager {
     this.getCalibratedValues = this.getCalibratedValues.bind(this);
     this.calibrate = this.calibrate.bind(this);
     this.handleDeviceOrientation = this.handleDeviceOrientation.bind(this);
+    this.handleDeviceMotion = this.handleDeviceMotion.bind(this);
 
     this.bindEventListener = this.bindEventListener.bind(this);
     this.unbindEventListener = this.unbindEventListener.bind(this);
@@ -40,6 +39,9 @@ class SensorManager {
   bindEventListener() {
     // Event listener for device orientation
     window.addEventListener('deviceorientation', this.handleDeviceOrientation);
+    if (window.DeviceMotionEvent) {
+      window.addEventListener('devicemotion', this.handleDeviceMotion);
+    }
   }
 
   unbindEventListener() {
@@ -53,33 +55,17 @@ class SensorManager {
    */
   calculateOrientation(event) {
     let { beta, gamma } = event;
-    let flippedBeta = getFlippedBeta(beta);
-    let flippedGamma = getFlippedGamma(gamma);
+    const flippedBeta = getFlippedBeta(beta);
+    const flippedGamma = getFlippedGamma(gamma);
 
-    const angleMargin = 45;
-    // Angle between the vectors has to be more than angleMargin
-    // This is a fail safe since both vectors are very alike at low gammas
-    if (Math.abs(event.gamma) > angleMargin) {
-
-      const vector1 = AngleToVector(event.beta, event.gamma);
-      const vector2 = AngleToVector(flippedBeta, flippedGamma);
-      const angle1 = AngleBetweenVectors(vector1, this.lastVector);
-      const angle2 = AngleBetweenVectors(vector2, this.lastVector);
-
-      // If angle2 better represents the last vector use that.
-      if (Math.abs(angle1) > Math.abs(angle2)) {
-        this.flipped = true;
-      } else {
-        this.flipped = false;
-      }
+    // If the device doesn't support acceleration atleast try to fix the 90 deg problem
+    if (!window.DeviceMotionEvent) {
     }
-
-    if(this.flipped)
-    {
+    if (this.flipped) {
       beta = flippedBeta;
       gamma = flippedGamma;
     }
-    this.lastVector = AngleToVector(beta, gamma)
+    this.lastVector = AngleToVector(beta, gamma);
     beta -= this.betaBase;
     gamma -= this.gammaBase;
     if (beta < -180) {
@@ -99,6 +85,15 @@ class SensorManager {
     const { beta, gamma } = this.calculateOrientation(event);
     this.setSensorValues(beta, gamma);
     this.onSensorChange(this.beta, this.gamma);
+  }
+
+  handleDeviceMotion(event) {
+    // Determain if the device is upside down or not.
+    if (event.accelerationIncludingGravity.z > 0) {
+      this.flipped = false;
+    } else {
+      this.flipped = true;
+    }
   }
 
   // Sets the correct sensor values base on the calibrated base and current
