@@ -1,3 +1,15 @@
+import { AngleToVector, AngleBetweenVectors } from './math/Vector';
+
+function getFlippedBeta(beta)
+{
+  return -180 - beta;
+}
+
+function getFlippedGamma(gamma)
+{
+  return -180 + gamma;
+}
+
 class SensorManager {
   constructor(onSensorChange) {
     this.onSensorChange = onSensorChange;
@@ -9,9 +21,8 @@ class SensorManager {
     this.betaBase = 0;
     this.gammaBase = 0;
 
-    this.flip = false;
-    this.lastBeta = 0;
-    this.lastGamma = 0;
+    this.flipped = false;
+    this.lastVector = AngleToVector(0, 0);
 
     // Functions will be used as callbacks from React components so we bind them
     // to use 'this'.
@@ -41,43 +52,46 @@ class SensorManager {
    * @return {beta,gamma} calculated beta, gamma values with calibration taken into account.
    */
   calculateOrientation(event) {
-    // Margin for when to detect the device flipped
-    const flipMargin = 45;
-    // See if the gamma value jumped suddenly (device flipped)
-    if (this.lastGamma < -flipMargin && event.gamma > flipMargin) {
-      this.flip = !this.flip;
-    }
-    if (this.lastGamma > flipMargin && event.gamma < -flipMargin) {
-      this.flip = !this.flip;
-    }
-
-    // Update old values
-    this.lastBeta = event.beta;
-    this.lastGamma = event.gamma;
     let { beta, gamma } = event;
+    let flippedBeta = getFlippedBeta(beta);
+    let flippedGamma = getFlippedGamma(gamma);
 
-    // If it is flipped recalculate beta, gamma
-    if (this.flip) {
-      beta = -180 - beta;
-      gamma = -180 + gamma;
+    const angleMargin = 45;
+    // Angle between the vectors has to be more than angleMargin
+    // This is a fail safe since both vectors are very alike at low gammas
+    if (Math.abs(event.gamma) > angleMargin) {
+
+      const vector1 = AngleToVector(event.beta, event.gamma);
+      const vector2 = AngleToVector(flippedBeta, flippedGamma);
+      const angle1 = AngleBetweenVectors(vector1, this.lastVector);
+      const angle2 = AngleBetweenVectors(vector2, this.lastVector);
+
+      // If angle2 better represents the last vector use that.
+      if (Math.abs(angle1) > Math.abs(angle2)) {
+        this.flipped = true;
+      } else {
+        this.flipped = false;
+      }
     }
-    // Set the values taking the calibration into account.
+
+    if(this.flipped)
+    {
+      beta = flippedBeta;
+      gamma = flippedGamma;
+    }
+    this.lastVector = AngleToVector(beta, gamma)
     beta -= this.betaBase;
     gamma -= this.gammaBase;
-
-    // Check if the degrees are over 180 to get symmetric values.
-    if (beta > 180) {
-      beta -= 360;
-    } else if (beta < -180) {
+    if (beta < -180) {
       beta += 360;
+    } else if (beta > 180) {
+      beta -= 360;
     }
-    if (gamma > 180) {
-      gamma -= 360;
-    } else if (gamma < -180) {
+    if (gamma < -180) {
       gamma += 360;
+    } else if (gamma > 180) {
+      gamma -= 360;
     }
-
-    // Return the values
     return { beta, gamma };
   }
 
