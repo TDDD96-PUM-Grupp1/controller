@@ -12,7 +12,7 @@ function SplashScreen(props) {
   return (
     <Button className="mainScreen" onClick={props.buttonPressed} primary raised>
       <div>
-        Ballgame <br /> <br /> Click to continue
+        Ballgame <br /> <br /> Press to continue
       </div>
     </Button>
   );
