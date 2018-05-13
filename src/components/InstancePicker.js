@@ -175,7 +175,7 @@ class InstancePicker extends Component {
   initList() {
     this.loadedMinTime = true;
     this.postLoadState = STATE_OK;
-    setTimeout(this.connectionTimedOut, TIME_TIMEOUT);
+    this.timeoutId = setTimeout(this.connectionTimedOut, TIME_TIMEOUT);
     this.props.communication.requestInstances(this);
   }
 
