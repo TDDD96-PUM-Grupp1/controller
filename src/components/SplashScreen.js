@@ -11,7 +11,9 @@ import './stylesheets/Component.css';
 function SplashScreen(props) {
   return (
     <Button className="mainScreen" onClick={props.buttonPressed} primary raised>
-      This should be a splashscreen!
+      <div style={{ textTransform: 'initial', fontSize: 35 }}>
+        IoT Party <br /> <br /> <div style={{ fontSize: 25 }}>PRESS TO CONTINUE</div>
+      </div>
     </Button>
   );
 }
