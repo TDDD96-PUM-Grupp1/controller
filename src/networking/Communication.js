@@ -124,13 +124,19 @@ class Communication {
     );
   }
 
-  requestCooldowns(cooldownListener) {
+  requestGameEvents(gameEventListener) {
     this.client.event.subscribe(`${this.serviceName}/resetCooldown/${this.id}`, data => {
-      cooldownListener.onCoolDownReset(data.button);
+      gameEventListener.onCoolDownReset(data.button);
+    });
+    this.client.event.subscribe(`${this.serviceName}/respawnSignal/${this.id}`, () => {
+      gameEventListener.onRespawn();
+    });
+    this.client.event.subscribe(`${this.serviceName}/deathSignal/${this.id}`, data => {
+      gameEventListener.onDeath(data.button);
     });
   }
 
-  stopRequestCooldowns() {
+  stopRequestGameEvents() {
     this.client.event.unsubscribe(`${this.serviceName}/resetCooldown/${this.id}`);
   }
 
