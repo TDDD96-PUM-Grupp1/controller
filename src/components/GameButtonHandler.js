@@ -8,7 +8,7 @@ function GameButtonHandler(props) {
   let renderHelper;
   const buttonAmount = props.buttons.length;
   if (buttonAmount === 0) {
-    renderHelper = <div />;
+    renderHelper = <div className="gameButtonContainer" />;
   } else if (buttonAmount === 1) {
     renderHelper = (
       <DrawOneButton
