@@ -33,8 +33,6 @@ class CharacterSelection extends PureComponent {
       state: STATE_OK,
       stateError: '',
       showDialog: false,
-      pageX: null,
-      pageY: null,
     };
     this.timeout = undefined;
 
@@ -184,13 +182,8 @@ class CharacterSelection extends PureComponent {
     });
   }
 
-  show(e) {
-    let { pageX, pageY } = e;
-    if (e.changedTouches) {
-      pageX = e.changedTouches[0].pageX;
-      pageY = e.changedTouches[0].pageY;
-    }
-    this.setState({ showDialog: true, pageX, pageY });
+  show() {
+    this.setState({ showDialog: true });
   }
 
   hide() {
