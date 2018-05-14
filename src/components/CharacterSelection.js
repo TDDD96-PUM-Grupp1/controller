@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import deepstream from 'deepstream.io-client-js';
 import PropTypes from 'prop-types';
-import { Button, TextField, Grid, Cell } from 'react-md';
+import { Button, TextField, Grid, Cell, DialogContainer } from 'react-md';
 import MDSpinner from 'react-md-spinner';
 import IconList from './IconList';
 import { getRandomName, randomIntFromInterval } from '../datamanagers/Randomizer';
@@ -20,7 +20,7 @@ const TIME_TIMEOUT = 5000;
  * The class responsible to handle the username input through a text field
  * and a button to send it to the server.
  */
-class CharacterSelection extends Component {
+class CharacterSelection extends PureComponent {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,6 +32,9 @@ class CharacterSelection extends Component {
       errorHelpText: '',
       state: STATE_OK,
       stateError: '',
+      showDialog: false,
+      pageX: null,
+      pageY: null,
     };
     this.timeout = undefined;
 
@@ -43,6 +46,8 @@ class CharacterSelection extends Component {
     this.handleIconColor = this.handleIconColor.bind(this);
     this.handleBackgroundColor = this.handleBackgroundColor.bind(this);
     this.onJoined = this.onJoined.bind(this);
+    this.show = this.show.bind(this);
+    this.hide = this.hide.bind(this);
   }
 
   componentWillMount() {
@@ -179,22 +184,49 @@ class CharacterSelection extends Component {
     });
   }
 
+  show(e) {
+    let { pageX, pageY } = e;
+    if (e.changedTouches) {
+      pageX = e.changedTouches[0].pageX;
+      pageY = e.changedTouches[0].pageY;
+    }
+    this.setState({ showDialog: true, pageX, pageY });
+  }
+
+  hide() {
+    this.setState({ showDialog: false });
+  }
+
   render() {
+    const actions = [];
+    actions.push({ children: 'Cancel', onClick: this.hide });
+
     return (
       <div>
-        <TextField
-          value={this.state.username}
-          onChange={this.handleInputChange}
-          placeholder="Enter a name..."
-          label="Enter playername"
-          fullWidth
-          error={this.state.errorNameLength}
-          errorText={`${this.state.username.length}/${MAX_NAME_LENGTH} Please enter a ${
-            this.state.errorHelpText
-          } name!`}
-          helpText={`${this.state.username.length}/${MAX_NAME_LENGTH}`}
-          id="2" // required by react-md
-        />
+        <div className="top-container">
+          <TextField
+            className="top-container-item"
+            value={this.state.username}
+            onChange={this.handleInputChange}
+            placeholder="Enter a name..."
+            label="Enter playername"
+            fullWidth
+            error={this.state.errorNameLength}
+            errorText={`${this.state.username.length}/${MAX_NAME_LENGTH} Please enter a ${
+              this.state.errorHelpText
+            } name!`}
+            helpText={`${this.state.username.length}/${MAX_NAME_LENGTH}`}
+            style={{
+              width: '70%',
+            }}
+            id="2" // required by react-md
+          />
+          <div className="top-container-item">
+            <Button raised onClick={this.show}>
+              Info
+            </Button>
+          </div>
+        </div>
         <Grid className="md-grid buttonContainer">
           <Cell size={4}>
             <Button className="button" raised primary onClick={this.goBack}>
@@ -244,6 +276,21 @@ class CharacterSelection extends Component {
               return <div className="characterError">Invalid state: {this.state.state}</div>;
           }
         })()}
+
+        <DialogContainer
+          id="simple-action-dialog"
+          visible={this.state.showDialog}
+          title="Game mode info"
+          onHide={this.hide}
+          aria-describedby="game-info-text"
+          actions={actions}
+          disableScrollLocking
+          style={{
+            zIndex: '2000',
+          }}
+        >
+          <p id="game-info-text">Stupid text</p>
+        </DialogContainer>
       </div>
     );
   }

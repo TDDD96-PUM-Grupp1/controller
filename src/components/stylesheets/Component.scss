@@ -33,15 +33,16 @@ $iconBorderSize: $iconSize + 10px;
 }
 
 .fluidGridList{
-    flex-wrap: 'nowrap';
     overflow: auto;
     white-space: nowrap;
+    flex-wrap: 'nowrap';
     // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
-    transform: 'translateZ(0)';
 }
 
 .fluidGridItem{
-    display: inline-block
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0px 0px 0px 2px;
 }
 
 .iconListItemSize{
@@ -311,4 +312,14 @@ $iconBorderSize: $iconSize + 10px;
     width: 100%;
     font-size: 26px;
     text-align: center;
+}
+
+.top-container{
+    flex-wrap: nowrap;
+}
+
+.top-container-item{
+    display: inline-block;
+    vertical-align: middle;
+    padding: 0px 0px 0px 10px;
 }
