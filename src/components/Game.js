@@ -77,7 +77,7 @@ class Game extends Component {
 
     this.keyboardManager = new KeyboardManager(props.onSensorChange, this.tryButtonPress);
 
-    this.props.com.requestCooldowns(this);
+    this.props.com.requestGameEvents(this);
 
     this.wakeLock = new NoSleep();
     this.goFullscreen = this.goFullscreen.bind(this);
@@ -109,13 +109,14 @@ class Game extends Component {
     this.sensorManager.unbindEventListener();
     this.keyboardManager.unbindEventListener();
 
+    this.props.com.stopRequestGameEvents();
+
     // Unbind fullscreen listener
     if (typeof document.webkitCancelFullScreen !== 'undefined') {
       document.removeEventListener('webkitfullscreenchange', this.onFullScreenChange);
     } else if (typeof document.mozCancelFullScreen !== 'undefined') {
       document.removeEventListener('mozfullscreenchange', this.onFullScreenChange);
     }
-    this.props.com.stopRequestCooldowns();
 
     clearInterval(this.intervalId);
   }
@@ -139,6 +140,23 @@ class Game extends Component {
     this.setState({
       activeButtons: newActive,
     });
+  }
+
+  onDeath() {
+    this.setAllButtons(false);
+  }
+
+  onRespawn() {
+    this.setAllButtons(true);
+  }
+
+  setAllButtons(state) {
+    const newActive = [];
+    this.props.buttons.forEach(() => {
+      newActive.push(state);
+    });
+
+    this.setState({ activeButtons: newActive });
   }
 
   goFullscreen() {
