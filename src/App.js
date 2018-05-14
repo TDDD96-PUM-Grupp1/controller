@@ -89,7 +89,7 @@ class App extends Component {
    * Note: This function takes argument rather than using updatePlayerInfo since
    * setState() only queues a change and is not fast enough for our needs here.
    */
-  enterGame(username, iconID, iconColor, backgroundColor) {
+  enterGame(username, iconID, backgroundColor, iconColor) {
     /* eslint-disable-next-line */
     this.setState({
       windowState: 'game',
@@ -98,15 +98,6 @@ class App extends Component {
       iconColor,
       backgroundColor,
     });
-
-    this.com.joinInstance(
-      this.state.instanceName,
-      username,
-      iconID,
-      backgroundColor,
-      iconColor,
-      () => {}
-    );
   }
 
   /** This function is called when leaving the CharacterSelection screen and stores the
@@ -137,7 +128,7 @@ class App extends Component {
    * Leaves the gamescreen and disconnects the player
    */
   leaveGame() {
-    this.com.stopTick();
+    this.com.leaveInstance();
     this.setState({ windowState: 'instancePicker' });
   }
 
@@ -158,8 +149,8 @@ class App extends Component {
     return (
       <CharacterSelection
         instanceName={this.state.instanceName}
+        communication={this.com}
         enterGame={this.enterGame}
-        onInputSubmit={this.com.joinInstance}
         goBack={this.enterInstancePicker}
         username={this.state.username}
         updatePlayerInfo={this.updatePlayerInfo}

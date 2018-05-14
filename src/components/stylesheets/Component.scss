@@ -1,4 +1,29 @@
 @import 'react-md/src/scss/react-md';
+
+$iconSize: 160px;
+
+$iconBorderSize: $iconSize + 10px;
+#landscape {display: block}
+@media only screen and (orientation:portrait){
+  #landscape {
+    height: 100vw;
+    width: 100vh;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    transform: rotate(90deg);
+    transform-origin: bottom left;
+    position: absolute;
+    top: -100vw;
+  }
+}
+@media only screen and (orientation:landscape){
+  #landscape{
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+}
+
 .mainScreen{
     width: 100%;
     font-size: 30px;
@@ -38,12 +63,13 @@
 }
 
 .iconPreviewWindow{
-    border-radius: 170px;
-    width: 160px;
-    height: 160px;
+  border-radius: $iconBorderSize;
+  width: $iconSize;
+    height: $iconSize;
     display: block;
     margin: 0px auto;
     text-align: center;
+    z-index: 100;
 }
 
 .center{
@@ -100,6 +126,35 @@
     color: white;
 }
 
+.instancesSpinner {
+  display: flex;
+  justify-content: center;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
+.instancesError{
+  font-size: 16px; 
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.characterSpinner{
+  display: flex;
+  justify-content: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+
+.characterError{  font-size: 16px; 
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  color: $md-red-500;
+}
+
+
 .GameScreen {
     position: fixed;
     top: 0;
@@ -109,34 +164,96 @@
     overflow: auto;
 }
 
-.gameButton2x2 {
-    text-align: center;
-    font-size: large;
-    display: block;
-    width: 49vw;
-    height: 30vh;
-    padding: 0 auto;
-    margin: 0 auto;
+@media only screen and (orientation:portrait){
+  .gameButtonWrapper {
+    height: 60vw;
+  }
+  .gameButtonContainer {
+    width: 100%;
+    height: 60vw; 
+    margin-top: 0px;
+  }
 }
 
-.gameButton2x1 {
-    text-align: center;
-    font-size: large;
-    display: block;
-    width: 49vw;
+@media only screen and (orientation:landscape){
+  .gameButtonWrapper {
     height: 60vh;
+  }
+  .gameButtonContainer {
+    width: 100%;
+    height: 60vh;
+    margin-top: 0px;
+  }
+}
+.gameButtonRightTop {
+    text-align: center;
+    font-size: large;
+    display: block;
+    width: calc(100% - 12px);
+    height: calc(50% - 4px);
     padding: 0 auto;
-    margin: 0 auto;
+    margin: 0px 8px 8px 4px;
 }
 
-.gameButton1x1 {
+.gameButtonRightBottom{
+    text-align: center;
+    font-size: large;
+    display: block;
+    width: calc(100% - 12px);
+    height: calc(50% - 4px);
+    padding: 0 auto;
+    margin: 4px 8px 0px 4px;
+}
+
+.gameButtonLeftTop {
+    text-align: center;
+    font-size: large;
+    display: block;
+    width: calc(100% - 12px);
+    height: calc(50% - 4px);
+    padding: 0 auto;
+    margin: 0px 4px 8px 8px;
+}
+
+.gameButtonLeftBottom{
+    text-align: center;
+    font-size: large;
+    display: block;
+    width: calc(100% - 12px);
+    height: calc(50% - 4px);
+    padding: 0 auto;
+    margin: 4px 4px 0px 8px;
+}
+
+.gameButtonLeft {
+    text-align: center;
+    font-size: large;
+    display: block;
+    width: calc(100% - 12px);
+    height: 100%;
+    padding: 0 auto;
+    margin: 0 4px 0 8px;
+}
+
+.gameButtonRight {
+    text-align: center;
+    font-size: large;
+    display: block;
+    width: calc(100% - 12px);
+    height: 100%;
+    padding: 0 auto;
+    margin: 0 8px 0 4px;
+}
+
+.gameButtonSingle {
     text-align: center;
     font-size: large;
     display: block;
     width: 50%;
-    height: 60vh;
-    padding: 0 auto; }
-
+    height: 100%;
+    padding: 0 auto; 
+    margin: 0 4px 0 8px;
+  }
 
 .gameButtonContainer {
     flex-wrap: nowrap;
@@ -160,12 +277,34 @@
     margin: 0 auto;
 }
 
-.gameIcon{
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    margin: -80px 0 0 -85px;
-    z-index: 100;
+@media only screen and (orientation:portrait){
+  .gameIcon{
+    position:relative;
+    width: calc(#{$iconBorderSize} + 16px);
+    bottom: calc(60vw / 2 + #{$iconSize} / 2 + 8px);
+    margin-bottom: -$iconSize;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+  }
+}
+
+@media only screen and (orientation:landscape){
+  .gameIcon{
+      position:relative;
+      width: calc(#{$iconBorderSize} + 16px);
+      bottom: calc(60vh / 2 + #{$iconSize} / 2 + 8px);
+      margin-bottom: -$iconSize;
+      margin-left: auto;
+      margin-right: auto;
+      left: 0;
+  }
+}
+
+.fullscreenButton{
+  width: calc(100% - 32px);
+  margin-left: 16px;
+  margin-right: 16px;
 }
 
 .namePreviewBox{
