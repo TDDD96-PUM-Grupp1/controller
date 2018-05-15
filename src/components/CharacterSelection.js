@@ -206,7 +206,7 @@ class CharacterSelection extends PureComponent {
 
   render() {
     const actions = [];
-    actions.push({ children: 'Cancel', onClick: this.hide });
+    actions.push({ children: 'Back', onClick: this.hide });
 
     return (
       <div>
