@@ -18,6 +18,7 @@ class App extends Component {
       iconID: -1,
       iconColor: '#FFFFFF',
       backgroundColor: '#000000',
+      selectedGameMode: '',
     };
 
     // Make sure to not create communication when we're running as a test.
@@ -69,8 +70,13 @@ class App extends Component {
    * @param buttons An array containing the names of the buttons used in
    * the session's gamemode
    */
-  enterCharacterSelection(instanceName, buttons) {
-    this.setState({ instanceName, windowState: 'characterSelection', gameButtons: buttons });
+  enterCharacterSelection(instanceName, buttons, gamemode) {
+    this.setState({
+      instanceName,
+      windowState: 'characterSelection',
+      gameButtons: buttons,
+      selectedGameMode: gamemode,
+    });
   }
 
   /**
@@ -157,6 +163,7 @@ class App extends Component {
         iconID={this.state.iconID}
         iconColor={this.state.iconColor}
         backgroundColor={this.state.backgroundColor}
+        gamemode={this.state.selectedGameMode}
       />
     );
   }

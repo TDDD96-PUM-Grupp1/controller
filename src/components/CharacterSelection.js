@@ -33,7 +33,7 @@ class CharacterSelection extends PureComponent {
       state: STATE_OK,
       stateError: '',
       showDialog: false,
-      gamemodeInfo: '',
+      gamemodeInfo: [],
     };
     this.timeout = undefined;
 
@@ -223,13 +223,13 @@ class CharacterSelection extends PureComponent {
             } name!`}
             helpText={`${this.state.username.length}/${MAX_NAME_LENGTH}`}
             style={{
-              width: '70%',
+              width: '75%',
             }}
             id="2" // required by react-md
           />
           <div className="top-container-item">
-            <Button raised onClick={this.show}>
-              Info
+            <Button floating onClick={this.show}>
+              info
             </Button>
           </div>
         </div>
@@ -286,7 +286,7 @@ class CharacterSelection extends PureComponent {
         <DialogContainer
           id="simple-action-dialog"
           visible={this.state.showDialog}
-          title="Game mode info"
+          title={this.props.gamemode}
           onHide={this.hide}
           aria-describedby="game-info-text"
           actions={actions}
@@ -294,8 +294,30 @@ class CharacterSelection extends PureComponent {
           style={{
             zIndex: '2000',
           }}
+          dialogStyle={{
+            width: '70%',
+            overflow: 'auto',
+          }}
         >
-          <p id="game-info-text">{this.state.gamemodeInfo}</p>
+          {this.state.gamemodeInfo.map((content, index) => {
+            if (index === 0) {
+              return (
+                <p className="game-info-text" key={content}>
+                  Tilt your device to steer your player!
+                  <br />
+                  {content}
+                  <br />
+                  <br />
+                </p>
+              );
+            }
+            return (
+              <p className="game-info-text" key={content}>
+                {content}
+                <br />
+              </p>
+            );
+          })}
         </DialogContainer>
       </div>
     );
@@ -313,6 +335,7 @@ CharacterSelection.propTypes = {
   iconColor: PropTypes.string.isRequired,
   backgroundColor: PropTypes.string.isRequired,
   updatePlayerInfo: PropTypes.func.isRequired,
+  gamemode: PropTypes.string.isRequired,
 };
 
 export default CharacterSelection;
