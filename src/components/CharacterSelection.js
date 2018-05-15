@@ -33,6 +33,7 @@ class CharacterSelection extends PureComponent {
       state: STATE_OK,
       stateError: '',
       showDialog: false,
+      gamemodeInfo: '',
     };
     this.timeout = undefined;
 
@@ -53,6 +54,19 @@ class CharacterSelection extends PureComponent {
     if (this.props.iconID === -1) {
       this.randomize();
     }
+    this.props.communication.getGamemodeInfo(this.props.instanceName, (err, data) => {
+      if (err) {
+        let error = err;
+        if (error === deepstream.CONSTANTS.EVENT.NO_RPC_PROVIDER) {
+          error = 'UI is no longer online.';
+        }
+        this.setState({ state: STATE_ERROR, stateError: error });
+      } else {
+        this.setState({
+          gamemodeInfo: data,
+        });
+      }
+    });
   }
 
   onJoined(err) {
@@ -203,7 +217,6 @@ class CharacterSelection extends PureComponent {
             onChange={this.handleInputChange}
             placeholder="Enter a name..."
             label="Enter playername"
-            fullWidth
             error={this.state.errorNameLength}
             errorText={`${this.state.username.length}/${MAX_NAME_LENGTH} Please enter a ${
               this.state.errorHelpText
@@ -282,7 +295,7 @@ class CharacterSelection extends PureComponent {
             zIndex: '2000',
           }}
         >
-          <p id="game-info-text">Stupid text</p>
+          <p id="game-info-text">{this.state.gamemodeInfo}</p>
         </DialogContainer>
       </div>
     );
