@@ -303,18 +303,15 @@ class CharacterSelection extends PureComponent {
             if (index === 0) {
               return (
                 <p className="game-info-text" key={content}>
-                  Tilt your device to steer your player!
-                  <br />
-                  {content}
-                  <br />
-                  <br />
+                  Tilt your device to steer your player! If you are playing from a computer, steer
+                  with the arrowkeys or W, A, S, D.<br />
+                  <br /> Gamemode description: {content}
                 </p>
               );
             }
             return (
               <p className="game-info-text" key={content}>
                 {content}
-                <br />
               </p>
             );
           })}
