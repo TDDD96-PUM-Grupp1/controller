@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import NoSleep from 'nosleep.js';
 import PropTypes from 'prop-types';
-
+import { Button } from 'react-md';
 import SensorManager from '../SensorManager';
 import KeyboardManager from '../KeyboardManager';
 import GameHeader from './GameHeader';
 import GameButtonHandler from './GameButtonHandler';
-import IconPreview from './IconPreview';
 import CharacterNamePreview from './CharacterNamePreview';
 
 /*
@@ -32,7 +31,7 @@ function lockScreen() {
     document.documentElement.mozRequestFullScreen();
   }
 
-  if (Document.fullscreenElement !== null) {
+  if (document.fullscreenElement !== null) {
     // Is in fullscreen mode
     // Screen orientation lock currently only works properly in chrome
     // https://developer.mozilla.org/en-US/docs/Web/API/Screen/lockOrientation
@@ -68,6 +67,7 @@ class Game extends Component {
     this.state = {
       ping: '-',
       activeButtons,
+      fullscreen: false,
     };
 
     this.sensorManager = new SensorManager(props.onSensorChange);
@@ -77,14 +77,21 @@ class Game extends Component {
 
     this.keyboardManager = new KeyboardManager(props.onSensorChange, this.tryButtonPress);
 
-    this.props.com.requestCooldowns(this);
+    this.props.com.requestGameEvents(this);
 
     this.wakeLock = new NoSleep();
+    this.goFullscreen = this.goFullscreen.bind(this);
+    this.onFullScreenChange = this.onFullScreenChange.bind(this);
   }
 
   componentWillMount() {
-    lockScreen();
-    this.wakeLock.enable();
+    this.props.com.startListeningForInstance(this);
+    // Bind fullscreen listener
+    if (typeof document.webkitCancelFullScreen !== 'undefined') {
+      document.addEventListener('webkitfullscreenchange', this.onFullScreenChange);
+    } else if (typeof document.mozCancelFullScreen !== 'undefined') {
+      document.addEventListener('mozfullscreenchange', this.onFullScreenChange);
+    }
   }
 
   componentDidMount() {
@@ -102,9 +109,29 @@ class Game extends Component {
     this.sensorManager.unbindEventListener();
     this.keyboardManager.unbindEventListener();
 
-    this.props.com.stopRequestCooldowns();
+    this.props.com.stopRequestGameEvents();
+
+    // Unbind fullscreen listener
+    if (typeof document.webkitCancelFullScreen !== 'undefined') {
+      document.removeEventListener('webkitfullscreenchange', this.onFullScreenChange);
+    } else if (typeof document.mozCancelFullScreen !== 'undefined') {
+      document.removeEventListener('mozfullscreenchange', this.onFullScreenChange);
+    }
 
     clearInterval(this.intervalId);
+  }
+
+  onFullScreenChange() {
+    const fullscreenElement =
+      document.fullscreenElement ||
+      document.mozFullScreenElement ||
+      document.webkitFullscreenElement ||
+      document.msFullscreenElement;
+    this.setState({ fullscreen: fullscreenElement !== undefined });
+  }
+
+  onInstancesClosed() {
+    this.props.goBack();
   }
 
   onCoolDownReset(btnIndex) {
@@ -113,6 +140,28 @@ class Game extends Component {
     this.setState({
       activeButtons: newActive,
     });
+  }
+
+  onDeath() {
+    this.setAllButtons(false);
+  }
+
+  onRespawn() {
+    this.setAllButtons(true);
+  }
+
+  setAllButtons(state) {
+    const newActive = [];
+    this.props.buttons.forEach(() => {
+      newActive.push(state);
+    });
+
+    this.setState({ activeButtons: newActive });
+  }
+
+  goFullscreen() {
+    lockScreen();
+    this.wakeLock.enable();
   }
 
   tryButtonPress(index) {
@@ -131,24 +180,31 @@ class Game extends Component {
 
   render() {
     return (
-      <div>
+      <div id="landscape">
         <GameHeader
           goBack={this.props.goBack}
           ping={this.state.ping.toString()}
           calibrate={this.sensorManager.calibrate}
         />
+        {(() => {
+          if (!this.state.fullscreen) {
+            return (
+              <Button className="fullscreenButton" raised primary onClick={this.goFullscreen}>
+                Go Fullscreen!
+              </Button>
+            );
+          }
+          return <div />;
+        })()}
         <GameButtonHandler
           buttons={this.props.buttons}
+          username={this.props.username}
+          iconID={this.props.iconID}
+          iconColor={this.props.iconColor}
+          backgroundColor={this.props.backgroundColor}
           activeButtons={this.state.activeButtons}
           gameButtonPressed={this.tryButtonPress}
         />
-        <div className="gameIcon">
-          <IconPreview
-            iconID={this.props.iconID}
-            iconColor={this.props.iconColor}
-            backgroundColor={this.props.backgroundColor}
-          />
-        </div>
         <CharacterNamePreview username={this.props.username} />
       </div>
     );

@@ -28,6 +28,7 @@ class Communication {
 
     // Bind functions.
     this.updateSensorData = this.updateSensorData.bind(this);
+    this.getInstances = this.getInstances.bind(this);
     this.requestInstances = this.requestInstances.bind(this);
     this.stopRequestInstances = this.stopRequestInstances.bind(this);
     this.joinInstance = this.joinInstance.bind(this);
@@ -57,17 +58,21 @@ class Communication {
   // eslint-disable-next-line
   onLoggedIn(success, data) {}
 
+  getInstances(instanceListener) {
+    this.client.rpc.make(
+      `${this.serviceName}/getInstances`,
+      {},
+      instanceListener.onInstancesReceived
+    );
+  }
+
   /*
    * Request the instances that are currently running.
    * Also start listening for the different instance changes.
    * @param instanceListener listener for the different instance changes.
    */
   requestInstances(instanceListener) {
-    this.client.rpc.make(
-      `${this.serviceName}/getInstances`,
-      {},
-      instanceListener.onInstancesReceived
-    );
+    this.getInstances(instanceListener);
     this.client.event.subscribe(`${this.serviceName}/playerAdded`, data => {
       instanceListener.onPlayerAdded(data.playerName, data.instanceName);
     });
@@ -99,24 +104,26 @@ class Communication {
    * @param callback will get called when the user has connected to the instance.
    */
   joinInstance(instanceName, name, iconID, backgroundColor, iconColor, callback) {
-    this.instance = instanceName;
-    this.name = name;
-    this.iconID = iconID;
-    this.iconColor = iconColor;
-    this.backgroundColor = backgroundColor;
-
     this.client.rpc.make(
-      `${this.serviceName}/addPlayer/${this.instance}`,
+      `${this.serviceName}/addPlayer/${instanceName}`,
       {
         id: this.id,
-        name: this.name,
-        iconID: this.iconID,
-        backgroundColor: this.backgroundColor,
-        iconColor: this.iconColor,
+        name,
+        iconID,
+        backgroundColor,
+        iconColor,
         sensor: { beta: 0, gamma: 0 },
       },
       (err, result) => {
         if (!err) {
+          // Set values
+          this.instance = instanceName;
+          this.name = name;
+          this.iconID = iconID;
+          this.iconColor = iconColor;
+          this.backgroundColor = backgroundColor;
+
+          // Start network loop
           this.onJoined(err, result);
         }
         callback(err, result);
@@ -124,20 +131,45 @@ class Communication {
     );
   }
 
-  requestCooldowns(cooldownListener) {
-    this.client.event.subscribe(`${this.serviceName}/resetCooldown/${this.id}`, data => {
-      cooldownListener.onCoolDownReset(data.button);
+  startListeningForInstance(listener) {
+    if (this.instance === undefined) {
+      // THIS CODE SHOULD NEVER RUN. UNLESS A DEV HAS DONE SOMETHING WRONG
+      // THIS FUNCTION CAN ONLY BE CALLED WHEN A USER HAS JOINED AN INSTANCE.
+      return;
+    }
+
+    const self = this;
+    this.client.event.subscribe(`${this.serviceName}/instanceRemoved`, data => {
+      if (data.name === self.instance) {
+        if (listener !== undefined) {
+          listener.onInstancesClosed(data.name);
+        }
+      }
     });
   }
 
-  stopRequestCooldowns() {
+  requestGameEvents(gameEventListener) {
+    this.client.event.subscribe(`${this.serviceName}/resetCooldown/${this.id}`, data => {
+      gameEventListener.onCoolDownReset(data.button);
+    });
+    this.client.event.subscribe(`${this.serviceName}/respawnSignal/${this.id}`, () => {
+      gameEventListener.onRespawn();
+    });
+    this.client.event.subscribe(`${this.serviceName}/deathSignal/${this.id}`, data => {
+      gameEventListener.onDeath(data.button);
+    });
+  }
+
+  stopRequestGameEvents() {
     this.client.event.unsubscribe(`${this.serviceName}/resetCooldown/${this.id}`);
   }
 
   /**
    * Stops the transmission of ticks to the UI
    */
-  stopTick() {
+  leaveInstance() {
+    this.instance = undefined;
+    this.client.event.unsubscribe(`${this.serviceName}/instanceRemoved`);
     clearInterval(this.intervalid);
   }
 
