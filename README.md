@@ -1,6 +1,5 @@
 # IoT Party Controller 
-This project was carried out by eight students at Linköping University as a part of our Bachelor project and is Licensed
-under MIT.
+This project was carried out by eight students at Linköping University as a part of our Bachelor project and is Licensed under MIT.
 
 The purpose of the controller is to move the users circle on the UI by tilting the phone (or using WASD on a computer). The current iteration supports multiple gamemodes including, **Knock Off**, **Hockey** and **Pass The Bomb**. The descriptions of these gamemodes can be read on the UI. In certain gamemodes the player also has access to certain abilities, in Knock Off the player can become super heavy for a short period of time to easier knock off opponents.
 
@@ -11,11 +10,11 @@ Most of the development was made using the Chrome web browser for android phones
 During the development we have also tried to support Mozilla Firefox as much as possible, but there are some things that are not supported.
 
 # Dependencies 
-In order to set up a server for this project the user need four different repositories which are listed below:
+In order to run the game for this project the user need four different repositories which are listed below:
 * [Server](https://github.com/TDDD96-PUM-Grupp1/server) - This runs the deepstream server that handles the network connections.
-* [UI](https://github.com/TDDD96-PUM-Grupp1/ui) - This hosts the JavaScript files for the UI.
-* [Controller](https://github.com/TDDD96-PUM-Grupp1/services) - This hosts the JavaScript files for the Controller.
-* [Service](https://github.com/TDDD96-PUM-Grupp1/services) - This hosts a service that handles all instances that are currently running, this makes it possible to run multiple instance of the UI.
+* [UI](https://github.com/TDDD96-PUM-Grupp1/ui) - This hosts the Javascript files for the UI.
+* [Controller](https://github.com/TDDD96-PUM-Grupp1/services) - This hosts the Javascript files for the Controller.
+* [Services](https://github.com/TDDD96-PUM-Grupp1/services) - This hosts services that handles all instances that are currently running, this makes it possible to run multiple instances of the UI.
 
 The corresponing setup is described in their respective GitHub repositories.
 
