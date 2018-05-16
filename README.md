@@ -8,7 +8,7 @@ Most of the gamemodes are made to be free for all and therefor anyone can join a
 
 # Browser/Phone Support
 Most of the development was made using the Chrome web browser for android phones. As such we currently encourage the user to use Chrome and android for the best experience. 
-During the development we have also tried to support Mozilla Firefox as much as possible, but some there are some things that are not supported.
+During the development we have also tried to support Mozilla Firefox as much as possible, but there are some things that are not supported.
 
 # Dependencies 
 In order to set up a server for this project the user need four different repositories which are listed below:
@@ -28,6 +28,13 @@ To download and install all the JavaScript packages run these commands in your p
 git clone git@github.com:TDDD96-PUM-Grupp1/controller.git
 yarn
 ```
+
+If you cannot use ssh to clone the repository you can use the https command instead:
+```
+git clone https://github.com/TDDD96-PUM-Grupp1/controller.git
+yarn
+```
+
 Now that you have the Controller and all the needed packages you can host the JavaScript files in a few ways depending on your use-case:
 
 ## Server using Windows
@@ -38,7 +45,8 @@ yarn start-pc
 
 ## Locally using Windows
 This will host the JavaScript files and connect to a deepstream server that is running locally within the network.
-**NOTE** This will only work if all the users are on the same network as the hosted files.
+
+**NOTE:** This will only work if all the users are on the same network as the hosted files.
 ```
 yarn start-pc-local
 ```
@@ -51,7 +59,8 @@ yarn start
 
 ## Locally using Linux
 This will host the JavaScript files and connect to a deepstream server that is running locally within the network.
-**NOTE** This will only work if all the users are on the same network as the hosted files.
+
+**NOTE:** This will only work if all the users are on the same network as the hosted files.
 ```
 yarn start-local
 ```
