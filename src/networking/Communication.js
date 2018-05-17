@@ -147,7 +147,9 @@ class Communication {
    * @param beta the beta value of the sensor.
    * @param gamma the gamma value of the sensor.
    */
-  updateSensorData(beta, gamma) {
+  updateSensorData(x,y,z) {
+    const beta = 180 / Math.PI * Math.atan2(this.state.x, this.state.z);
+    const gamma = 180 / Math.PI * Math.atan2(this.state.y, this.state.z);
     const oldBeta = this.dataBuffer.sensor.beta;
     const oldGamma = this.dataBuffer.sensor.gamma;
 

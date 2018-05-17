@@ -6,6 +6,7 @@ import CharacterSelection from './components/CharacterSelection';
 import Communication from './networking/Communication';
 import settings from './config';
 import Game from './components/Game';
+import SensorOutput from './components/SensorOutput';
 
 class App extends Component {
   constructor(props) {
@@ -175,7 +176,7 @@ class App extends Component {
       <Game
         buttons={this.state.gameButtons}
         gameButtonPressed={this.gameButtonPressed}
-        onSensorChange={this.com.updateSensorData}
+        onAccelerationChange={this.com.updateSensorData}
         username={this.state.username}
         instanceName={this.state.instanceName}
         goBack={this.leaveGame}

@@ -27,4 +27,29 @@ export function AngleBetweenVectors(vector1, vector2) {
   return 180 / Math.PI * Math.acos(dotProd / Math.sqrt(lengthSQ1 * lengthSQ2));
 }
 
+function normalize(vector) {
+  const length = Math.sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
+  if (length === 0) {
+    return { x: 0, y: 0, z: 0 };
+  }
+  const lengthInv = 1 / length;
+  return { x: vector.x * lengthInv, y: vector.y * lengthInv, z: vector.z * lengthInv };
+}
+
+export function rotateVector(vector, axis) {
+  let angle = Math.PI / 180 * AngleBetweenVectors({ x: 0, y: 0, z: 1 }, axis);
+  // Cross between axis and 0,0,1
+  const cross = normalize({ x: axis.y, y: -axis.x, z: 0 });
+  const s = Math.sin(angle);
+  const c = Math.cos(angle);
+  const dot = cross.x * vector.x + cross.y * vector.y + cross.z * vector.z;
+  const xPrime =
+    cross.x * dot * (1 - c) + vector.x * c + (-cross.z * vector.y + cross.y * vector.z) * s;
+  const yPrime =
+    cross.y * dot * (1 - c) + vector.y * c + (cross.z * vector.x - cross.x * vector.z) * s;
+  const zPrime =
+    cross.z * dot * (1 - c) + vector.z * c + (-cross.y * vector.x + cross.x * vector.y) * s;
+  return { x: xPrime, y: yPrime, z: zPrime };
+}
+
 export default AngleToVector;

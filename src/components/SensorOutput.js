@@ -6,14 +6,15 @@ class SensorOutput extends Component {
     super(props);
 
     this.state = {
-      beta: 0,
-      gamma: 0,
+      x: 0,
+      y: 0,
+      z: 0,
     };
 
     // Make event-based callbacks bind correctly
-    this.handleDeviceOrientation = this.handleDeviceOrientation.bind(this);
+    this.handleDeviceMotion = this.handleDeviceMotion.bind(this);
 
-    this.sensorManager = new SensorManager(this.handleDeviceOrientation);
+    this.sensorManager = new SensorManager(this.handleDeviceMotion);
   }
 
   componentDidMount() {
@@ -25,21 +26,33 @@ class SensorOutput extends Component {
   }
 
   // Sets state to device orientation
-  handleDeviceOrientation(beta, gamma) {
+  handleDeviceMotion(x, y, z) {
     this.setState({
-      beta,
-      gamma,
+      x,
+      y,
+      z,
     });
   }
 
   render() {
-    const { betaBase, gammaBase } = this.sensorManager.getCalibratedValues();
+    let beta = 180 / Math.PI * Math.atan2(this.state.y,this.state.z)
+    let gamma = 180 / Math.PI * Math.atan2(this.state.x, this.state.z)
     return (
       <div>
-        <div>Beta: {Math.round(this.state.beta)}</div>
-        <div>Gamma: {Math.round(this.state.gamma)}</div>
-        <div>BetaBase: {Math.round(betaBase)}</div>
-        <div>GammaBase: {Math.round(gammaBase)}</div>
+        <div>accelerationX: {Math.round(this.state.x * 100) / 100}</div>
+        <div>accelerationY: {Math.round(this.state.y * 100) / 100}</div>
+        <div>accelerationZ: {Math.round(this.state.z * 100) / 100}</div>
+        <div>beta: {Math.round(beta)}</div>
+        <div>gamma: {Math.round(gamma)}</div>
+        <div>
+          accelerationCalX: {Math.round(this.sensorManager.getCalibratedValues().x * 100) / 100}
+        </div>
+        <div>
+          accelerationCalY: {Math.round(this.sensorManager.getCalibratedValues().y * 100) / 100}
+        </div>
+        <div>
+          accelerationCalZ: {Math.round(this.sensorManager.getCalibratedValues().z * 100) / 100}
+        </div>
         <button onClick={this.sensorManager.calibrate}>Calibrate</button>
       </div>
     );

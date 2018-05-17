@@ -70,7 +70,7 @@ class Game extends Component {
       activeButtons,
     };
 
-    this.sensorManager = new SensorManager(props.onSensorChange);
+    this.sensorManager = new SensorManager(props.onAccelerationChange);
     this.sensorManager.calibrate = this.sensorManager.calibrate.bind(this);
     this.tryButtonPress = this.tryButtonPress.bind(this);
     this.onCoolDownReset = this.onCoolDownReset.bind(this);
@@ -159,7 +159,7 @@ class Game extends Component {
 Game.propTypes = {
   buttons: PropTypes.array.isRequired,
   gameButtonPressed: PropTypes.func.isRequired,
-  onSensorChange: PropTypes.func.isRequired,
+  onAccelerationChange: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
   // eslint-disable-next-line
   com: PropTypes.object.isRequired,
