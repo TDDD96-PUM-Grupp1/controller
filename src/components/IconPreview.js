@@ -4,20 +4,32 @@ import PropTypes from 'prop-types';
 import iconData from '../datamanagers/iconData';
 
 function IconPreview(props) {
+  let url;
+  let currentBackgroundColor;
+  let currentIconColor;
+  if (props.iconID === -1) {
+    url = '/icons/animal-skull.svg';
+    currentBackgroundColor = '#000000'; // black background color
+    currentIconColor = '#FFFFFF'; // white icon color
+  } else {
+    url = iconData[props.iconID].img;
+    currentBackgroundColor = props.backgroundColor;
+    currentIconColor = props.iconColor;
+  }
   return (
     <Grid>
       <Paper
         className="iconPreviewWindow"
         style={{
-          backgroundColor: props.backgroundColor,
+          backgroundColor: currentBackgroundColor,
         }}
       >
         <div
           className="svgClass center"
           style={{
-            backgroundColor: `${props.iconColor}`,
-            WebkitMask: `url(${iconData[props.iconID].img})`,
-            mask: `url(${iconData[props.iconID].img})`,
+            backgroundColor: `${currentIconColor}`,
+            WebkitMask: `url(${url})`,
+            mask: `url(${url})`,
             width: '128',
             height: '128',
           }}

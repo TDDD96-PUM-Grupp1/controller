@@ -68,6 +68,7 @@ class Game extends Component {
       ping: '-',
       activeButtons,
       fullscreen: false,
+      currentIconID: this.props.iconID,
     };
 
     this.sensorManager = new SensorManager(props.onSensorChange);
@@ -144,10 +145,16 @@ class Game extends Component {
 
   onDeath() {
     this.setAllButtons(false);
+    this.setState({
+      currentIconID: -1,
+    });
   }
 
   onRespawn() {
     this.setAllButtons(true);
+    this.setState({
+      currentIconID: this.props.iconID,
+    });
   }
 
   setAllButtons(state) {
@@ -199,7 +206,7 @@ class Game extends Component {
         <GameButtonHandler
           buttons={this.props.buttons}
           username={this.props.username}
-          iconID={this.props.iconID}
+          iconID={this.state.currentIconID}
           iconColor={this.props.iconColor}
           backgroundColor={this.props.backgroundColor}
           activeButtons={this.state.activeButtons}
