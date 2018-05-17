@@ -63,3 +63,5 @@ This will host the JavaScript files and connect to a deepstream server that is r
 ```
 yarn start-local
 ```
+
+Icons made by Lorc and Delapouite at http://game-icons.net.
