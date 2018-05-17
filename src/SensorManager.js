@@ -1,9 +1,4 @@
-import {rotateVector} from './math/Vector'
-
-function normalize(vector) {
-  const lengthInv = 1 / Math.sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
-  return { x: vector.x * lengthInv, y: vector.y * lengthInv, z: vector.z * lengthInv };
-}
+import { normalize, rotateVector } from './math/Vector';
 
 class SensorManager {
   constructor(onAccelerationChange) {

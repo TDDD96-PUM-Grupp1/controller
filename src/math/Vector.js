@@ -27,7 +27,7 @@ export function AngleBetweenVectors(vector1, vector2) {
   return 180 / Math.PI * Math.acos(dotProd / Math.sqrt(lengthSQ1 * lengthSQ2));
 }
 
-function normalize(vector) {
+export function normalize(vector) {
   const length = Math.sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
   if (length === 0) {
     return { x: 0, y: 0, z: 0 };
@@ -37,7 +37,7 @@ function normalize(vector) {
 }
 
 export function rotateVector(vector, axis) {
-  let angle = Math.PI / 180 * AngleBetweenVectors({ x: 0, y: 0, z: 1 }, axis);
+  const angle = Math.PI / 180 * AngleBetweenVectors({ x: 0, y: 0, z: 1 }, axis);
   // Cross between axis and 0,0,1
   const cross = normalize({ x: axis.y, y: -axis.x, z: 0 });
   const s = Math.sin(angle);

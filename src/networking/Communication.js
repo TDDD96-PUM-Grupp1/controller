@@ -177,12 +177,12 @@ class Communication {
   /*
    * Updates the sensor data, this data will be sent to the UI when
    * flushData is called.
-   * @param beta the beta value of the sensor.
-   * @param gamma the gamma value of the sensor.
+   * @param x the x acceleration value of the sensor.
+   * @param y the y acceleration value of the sensor.
    */
-  updateSensorData(x,y,z) {
-    let beta = Math.round(y*90);
-    let gamma = Math.round(-x*90);
+  updateSensorData(x, y) {
+    const beta = Math.round(y * 90);
+    const gamma = Math.round(-x * 90);
     const oldBeta = this.dataBuffer.sensor.beta;
     const oldGamma = this.dataBuffer.sensor.gamma;
 

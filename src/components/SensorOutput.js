@@ -35,16 +35,16 @@ class SensorOutput extends Component {
   }
 
   render() {
-    const {x,y,z} = this.state;
-    let beta = 180*y;
-    const gamma = -180*z;
+    const { x, y } = this.state;
+    const beta = Math.round(y * 90);
+    const gamma = Math.round(-x * 90);
     return (
       <div>
         <div>accelerationX: {Math.round(this.state.x * 100) / 100}</div>
         <div>accelerationY: {Math.round(this.state.y * 100) / 100}</div>
         <div>accelerationZ: {Math.round(this.state.z * 100) / 100}</div>
-        <div>beta: {Math.round(beta)}</div>
-        <div>gamma: {Math.round(gamma)}</div>
+        <div>beta: {beta}</div>
+        <div>gamma: {gamma}</div>
         <div>
           accelerationCalX: {Math.round(this.sensorManager.getCalibratedValues().x * 100) / 100}
         </div>

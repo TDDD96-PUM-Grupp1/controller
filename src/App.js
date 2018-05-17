@@ -6,7 +6,6 @@ import CharacterSelection from './components/CharacterSelection';
 import Communication from './networking/Communication';
 import settings from './config';
 import Game from './components/Game';
-import SensorOutput from './components/SensorOutput';
 
 class App extends Component {
   constructor(props) {

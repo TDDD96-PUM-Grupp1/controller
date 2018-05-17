@@ -1,5 +1,3 @@
-const MAX_ANGLE = 90;
-
 /*
 Manages keyboard input for playing the game when no sensor is present
 */
@@ -98,7 +96,7 @@ class KeyboardManager {
       y += -1;
     }
 
-    this.onSensorChange(x,y,0);
+    this.onSensorChange(x, y, 0);
   }
 }
 
