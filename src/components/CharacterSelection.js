@@ -259,6 +259,7 @@ class CharacterSelection extends Component {
           iconID={this.state.currentIconID}
           iconColor={this.state.iconColor}
           backgroundColor={this.state.backgroundColor}
+          respawnTime={0}
         />
         <IconList onIconSelect={this.handleIconSelect} />
         <ColorPicker
