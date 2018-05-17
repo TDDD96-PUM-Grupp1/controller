@@ -45,8 +45,8 @@ class CharacterSelection extends Component {
     this.handleIconColor = this.handleIconColor.bind(this);
     this.handleBackgroundColor = this.handleBackgroundColor.bind(this);
     this.onJoined = this.onJoined.bind(this);
-    this.show = this.show.bind(this);
-    this.hide = this.hide.bind(this);
+    this.shownInfoDialog = this.shownInfoDialog.bind(this);
+    this.hideInfoDialog = this.hideInfoDialog.bind(this);
   }
 
   componentWillMount() {
@@ -196,17 +196,16 @@ class CharacterSelection extends Component {
     });
   }
 
-  show() {
+  shownInfoDialog() {
     this.setState({ showDialog: true });
   }
 
-  hide() {
+  hideInfoDialog() {
     this.setState({ showDialog: false });
   }
 
   render() {
-    const actions = [];
-    actions.push({ children: 'Back', onClick: this.hide });
+    const actions = [{ children: 'Back', onClick: this.hideInfoDialog }];
 
     return (
       <div>
@@ -228,7 +227,7 @@ class CharacterSelection extends Component {
             id="2" // required by react-md
           />
           <div className="top-container-item">
-            <Button floating onClick={this.show}>
+            <Button floating onClick={this.shownInfoDialog}>
               info
             </Button>
           </div>
@@ -287,7 +286,7 @@ class CharacterSelection extends Component {
           id="simple-action-dialog"
           visible={this.state.showDialog}
           title={this.props.gamemode}
-          onHide={this.hide}
+          onHide={this.hideInfoDialog}
           aria-describedby="game-info-text"
           actions={actions}
           disableScrollLocking
