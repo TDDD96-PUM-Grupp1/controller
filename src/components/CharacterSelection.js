@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { Component } from 'react';
 import deepstream from 'deepstream.io-client-js';
 import PropTypes from 'prop-types';
 import { Button, TextField, Grid, Cell, DialogContainer } from 'react-md';
@@ -20,7 +20,7 @@ const TIME_TIMEOUT = 5000;
  * The class responsible to handle the username input through a text field
  * and a button to send it to the server.
  */
-class CharacterSelection extends PureComponent {
+class CharacterSelection extends Component {
   constructor(props) {
     super(props);
     this.state = {
