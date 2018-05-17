@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import deepstream from 'deepstream.io-client-js';
 import PropTypes from 'prop-types';
-import { Button, TextField, Grid, Cell } from 'react-md';
+import { Button, TextField, Grid, Cell, DialogContainer } from 'react-md';
 import MDSpinner from 'react-md-spinner';
 import IconList from './IconList';
 import { getRandomName, randomIntFromInterval } from '../datamanagers/Randomizer';
@@ -32,6 +32,8 @@ class CharacterSelection extends Component {
       errorHelpText: '',
       state: STATE_OK,
       stateError: '',
+      showDialog: false,
+      gamemodeInfo: [],
     };
     this.timeout = undefined;
 
@@ -43,6 +45,8 @@ class CharacterSelection extends Component {
     this.handleIconColor = this.handleIconColor.bind(this);
     this.handleBackgroundColor = this.handleBackgroundColor.bind(this);
     this.onJoined = this.onJoined.bind(this);
+    this.shownInfoDialog = this.shownInfoDialog.bind(this);
+    this.hideInfoDialog = this.hideInfoDialog.bind(this);
   }
 
   componentWillMount() {
@@ -50,6 +54,19 @@ class CharacterSelection extends Component {
     if (this.props.iconID === -1) {
       this.randomize();
     }
+    this.props.communication.getGamemodeInfo(this.props.instanceName, (err, data) => {
+      if (err) {
+        let error = err;
+        if (error === deepstream.CONSTANTS.EVENT.NO_RPC_PROVIDER) {
+          error = 'UI is no longer online.';
+        }
+        this.setState({ state: STATE_ERROR, stateError: error });
+      } else {
+        this.setState({
+          gamemodeInfo: data,
+        });
+      }
+    });
   }
 
   onJoined(err) {
@@ -179,22 +196,42 @@ class CharacterSelection extends Component {
     });
   }
 
+  shownInfoDialog() {
+    this.setState({ showDialog: true });
+  }
+
+  hideInfoDialog() {
+    this.setState({ showDialog: false });
+  }
+
   render() {
+    const actions = [{ children: 'Back', onClick: this.hideInfoDialog }];
+
     return (
       <div>
-        <TextField
-          value={this.state.username}
-          onChange={this.handleInputChange}
-          placeholder="Enter a name..."
-          label="Enter playername"
-          fullWidth
-          error={this.state.errorNameLength}
-          errorText={`${this.state.username.length}/${MAX_NAME_LENGTH} Please enter a ${
-            this.state.errorHelpText
-          } name!`}
-          helpText={`${this.state.username.length}/${MAX_NAME_LENGTH}`}
-          id="2" // required by react-md
-        />
+        <div className="top-container">
+          <TextField
+            className="top-container-item"
+            value={this.state.username}
+            onChange={this.handleInputChange}
+            placeholder="Enter a name..."
+            label="Enter playername"
+            error={this.state.errorNameLength}
+            errorText={`${this.state.username.length}/${MAX_NAME_LENGTH} Please enter a ${
+              this.state.errorHelpText
+            } name!`}
+            helpText={`${this.state.username.length}/${MAX_NAME_LENGTH}`}
+            style={{
+              width: '75%',
+            }}
+            id="2" // required by react-md
+          />
+          <div className="top-container-item">
+            <Button floating onClick={this.shownInfoDialog}>
+              info
+            </Button>
+          </div>
+        </div>
         <Grid className="md-grid buttonContainer">
           <Cell size={4}>
             <Button className="button" raised primary onClick={this.goBack}>
@@ -244,6 +281,40 @@ class CharacterSelection extends Component {
               return <div className="characterError">Invalid state: {this.state.state}</div>;
           }
         })()}
+
+        <DialogContainer
+          id="simple-action-dialog"
+          visible={this.state.showDialog}
+          title={this.props.gamemode}
+          onHide={this.hideInfoDialog}
+          aria-describedby="game-info-text"
+          actions={actions}
+          disableScrollLocking
+          style={{
+            zIndex: '2000',
+          }}
+          dialogStyle={{
+            width: '70%',
+            overflow: 'auto',
+          }}
+        >
+          {this.state.gamemodeInfo.map((content, index) => {
+            if (index === 0) {
+              return (
+                <p className="game-info-text" key={content}>
+                  Tilt your device to steer your player! If you are playing from a computer, steer
+                  with the arrowkeys or W, A, S, D.<br />
+                  <br /> Gamemode description: {content}
+                </p>
+              );
+            }
+            return (
+              <p className="game-info-text" key={content}>
+                {content}
+              </p>
+            );
+          })}
+        </DialogContainer>
       </div>
     );
   }
@@ -260,6 +331,7 @@ CharacterSelection.propTypes = {
   iconColor: PropTypes.string.isRequired,
   backgroundColor: PropTypes.string.isRequired,
   updatePlayerInfo: PropTypes.func.isRequired,
+  gamemode: PropTypes.string.isRequired,
 };
 
 export default CharacterSelection;

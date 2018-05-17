@@ -34,6 +34,7 @@ class Communication {
     this.joinInstance = this.joinInstance.bind(this);
     this.tick = this.tick.bind(this);
     this.pingInstance = this.pingInstance.bind(this);
+    this.getGamemodeInfo = this.getGamemodeInfo.bind(this);
   }
 
   /*
@@ -234,6 +235,10 @@ class Communication {
    */
   setPingTime() {
     this.pingTime = Date.now() + 1000 * (1 / this.pingrate);
+  }
+
+  getGamemodeInfo(instanceName, onReceived) {
+    this.client.rpc.make(`${this.serviceName}/getGamemodeInfo/${instanceName}`, {}, onReceived);
   }
 }
 export default Communication;

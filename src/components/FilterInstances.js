@@ -23,6 +23,7 @@ class FilterInstances extends Component {
     return (
       <div>
         <TextField
+          className="filter-text-field"
           onChange={this.handleInputChange}
           placeholder="Enter a name..."
           label="Search for a room"
