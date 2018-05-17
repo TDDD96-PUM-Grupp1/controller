@@ -32,19 +32,25 @@ class InstanceItem extends React.Component {
    * state of the variable keeping track of the amount of buttons each instance has.
    */
   handleClick() {
-    this.props.enterCharacterSelection(this.props.instanceName, this.props.instanceObj.buttons);
+    this.props.enterCharacterSelection(
+      this.props.instanceName,
+      this.props.instanceObj.buttons,
+      this.props.instanceObj.gamemode
+    );
     this.props.communication.stopRequestInstances();
   }
 
   render() {
     return (
       <Grid onClick={this.handleClick} className="md-grid instanceContainer">
-        <Cell className="md-cell--2">{this.props.instanceName}</Cell>
-        <Cell className="md-cell--1">{this.props.instanceObj.gamemode}</Cell>
-        <Cell className="md-cell--1">{`${this.props.instanceObj.currentlyPlaying}/${
-          this.props.instanceObj.maxPlayers
-        }`}</Cell>
-        <Cell className="md-cell--1">{`${this.props.instanceObj.pingTime} ms`}</Cell>
+        <Cell className="md-cell--6">
+          <div className="cellCol--2-6">{this.props.instanceName}</div>
+          <div className="cellCol--2-6">{this.props.instanceObj.gamemode}</div>
+          <div className="cellCol--1-6">{`${this.props.instanceObj.currentlyPlaying}/${
+            this.props.instanceObj.maxPlayers
+          }`}</div>
+          <div className="cellCol--1-6">{`${this.props.instanceObj.pingTime} ms`}</div>
+        </Cell>
       </Grid>
     );
   }

@@ -1,9 +1,17 @@
 import React, { Component } from 'react';
+import deepstream from 'deepstream.io-client-js';
 import PropTypes from 'prop-types';
 import { Grid, Cell, Divider, Paper } from 'react-md';
+import MDSpinner from 'react-md-spinner';
 import InstanceItem from './InstanceItem';
 import FilterInstances from './FilterInstances';
 import './stylesheets/Component.css';
+
+const STATE_LOADING = 0;
+const STATE_ERROR = 1;
+const STATE_OK = 2;
+const TIME_TIMEOUT = 5000; // ms
+const TIME_MINLOADING = 400; // ms
 
 /**
  * The list the instances live within, responsible for updating the list
@@ -12,9 +20,13 @@ import './stylesheets/Component.css';
 class InstancePicker extends Component {
   constructor(props) {
     super(props);
+    this.error = '';
     this.instances = [];
     this.filter = '';
-    this.state = { instances: {} };
+    this.loadedMinTime = true;
+    this.timeoutId = undefined;
+    this.postLoadState = STATE_LOADING;
+    this.state = { instances: {}, state: STATE_LOADING };
     this.onInstancesReceived = this.onInstancesReceived.bind(this);
     this.onPlayerAdded = this.onPlayerAdded.bind(this);
     this.onPlayerRemoved = this.onPlayerRemoved.bind(this);
@@ -23,11 +35,13 @@ class InstancePicker extends Component {
     this.filterList = this.filterList.bind(this);
     this.isFiltered = this.isFiltered.bind(this);
     this.pingAllInstances = this.pingAllInstances.bind(this);
+    this.initList = this.initList.bind(this);
+    this.onRetry = this.onRetry.bind(this);
+    this.connectionTimedOut = this.connectionTimedOut.bind(this);
   }
-  /*
-   * Initialize the list when this component gets mounted
-   */
-  componentDidMount() {
+
+  componentWillMount() {
+    this.setState({ state: STATE_LOADING });
     this.initList();
   }
 
@@ -35,16 +49,49 @@ class InstancePicker extends Component {
     clearInterval(this.pingLoop);
   }
 
+  onRetry() {
+    this.setState({ state: STATE_LOADING });
+    this.props.communication.getInstances(this);
+    this.loadedMinTime = false;
+    this.postLoadState = STATE_LOADING;
+    // Timeout for minimum amount of loading time.
+    setTimeout(() => {
+      this.loadedMinTime = true;
+      if (this.postLoadState !== STATE_LOADING) {
+        this.setState({ state: this.postLoadState });
+      }
+    }, TIME_MINLOADING);
+    // Timeout for maximum amount of loading time.
+    this.timeoutId = setTimeout(this.connectionTimedOut, TIME_TIMEOUT);
+  }
+
   /*
    * Callback for when the RPC call returns the instances.
    */
   onInstancesReceived(err, result) {
+    if (this.timeoutId !== undefined) {
+      clearTimeout(this.timeoutId);
+      this.timeoutId = undefined;
+    }
+
     if (!err) {
       this.instances = result;
       this.setState({ instances: result });
       this.pingLoop = setInterval(this.pingAllInstances, 1000);
+      this.postLoadState = STATE_OK;
+      if (this.loadedMinTime) {
+        this.setState({ state: STATE_OK });
+      }
     } else {
-      // TODO: handle error
+      if (err === deepstream.CONSTANTS.EVENT.NO_RPC_PROVIDER) {
+        this.error = 'Service is not responding';
+      } else {
+        this.error = err;
+      }
+      this.postLoadState = STATE_ERROR;
+      if (this.loadedMinTime) {
+        this.setState({ state: STATE_ERROR });
+      }
     }
   }
 
@@ -103,6 +150,11 @@ class InstancePicker extends Component {
     delete this.instances[instanceName];
   }
 
+  connectionTimedOut() {
+    this.error = 'Connection timed out';
+    this.setState({ state: STATE_ERROR });
+  }
+
   pingAllInstances() {
     const { instances } = this.state;
     const keys = Object.keys(instances);
@@ -121,6 +173,9 @@ class InstancePicker extends Component {
    * Update the list of active instances
    */
   initList() {
+    this.loadedMinTime = true;
+    this.postLoadState = STATE_OK;
+    this.timeoutId = setTimeout(this.connectionTimedOut, TIME_TIMEOUT);
     this.props.communication.requestInstances(this);
   }
 
@@ -144,30 +199,70 @@ class InstancePicker extends Component {
     this.setState({ instances: stateInstances });
   }
 
+  // Seems wrong to put this outside the class
+  // eslint-disable-next-line
+  renderLoading() {
+    // #2196F3 -> md-blue-500
+    return (
+      <div className="instancesSpinner">
+        <MDSpinner singleColor="#2196F3" />
+      </div>
+    );
+  }
+
+  renderError() {
+    return (
+      <div className="instancesError" onClick={this.onRetry} role="button" tabIndex={0}>
+        {this.error}
+        <br /> Press here to refresh &#x21bb;
+      </div>
+    );
+  }
+
+  renderInstances() {
+    if (Object.keys(this.state.instances).length === 0) {
+      return <div className="instancesError">There are no instances running</div>;
+    }
+    return Object.keys(this.state.instances).map(instanceKey => (
+      <div key={instanceKey}>
+        <InstanceItem
+          instanceObj={this.state.instances[instanceKey]}
+          instanceName={instanceKey}
+          enterCharacterSelection={this.props.enterCharacterSelection}
+          communication={this.props.communication}
+        />
+        <Divider />
+      </div>
+    ));
+  }
+
   render() {
     return (
       <div>
         <FilterInstances onInputChange={this.filterList} />
         <Paper>
           <Grid className="md-grid instanceHeader">
-            <Cell className="md-cell--2">Instance Name</Cell>
-            <Cell className="md-cell--1">Gamemode</Cell>
-            <Cell className="md-cell--1">Players</Cell>
-            <Cell className="md-cell--1">Latency</Cell>
+            <Cell className="md-cell--6">
+              <div className="cellCol--2-6">Instance Name</div>
+              <div className="cellCol--2-6">Gamemode</div>
+              <div className="cellCol--1-6">Players</div>
+              <div className="cellCol--1-6">Latency</div>
+            </Cell>
           </Grid>
         </Paper>
         <Paper>
-          {Object.keys(this.state.instances).map(instanceKey => (
-            <div key={instanceKey}>
-              <InstanceItem
-                instanceObj={this.state.instances[instanceKey]}
-                instanceName={instanceKey}
-                enterCharacterSelection={this.props.enterCharacterSelection}
-                communication={this.props.communication}
-              />
-              <Divider />
-            </div>
-          ))}
+          {(() => {
+            switch (this.state.state) {
+              case STATE_LOADING:
+                return this.renderLoading();
+              case STATE_ERROR:
+                return this.renderError();
+              case STATE_OK:
+                return this.renderInstances();
+              default:
+                return <div>Invalid state: {this.state.state}</div>;
+            }
+          })()}
         </Paper>
       </div>
     );
