@@ -35,8 +35,9 @@ class SensorOutput extends Component {
   }
 
   render() {
-    let beta = 180 / Math.PI * Math.atan2(this.state.y,this.state.z)
-    let gamma = 180 / Math.PI * Math.atan2(this.state.x, this.state.z)
+    const {x,y,z} = this.state;
+    let beta = 180*y;
+    const gamma = -180*z;
     return (
       <div>
         <div>accelerationX: {Math.round(this.state.x * 100) / 100}</div>

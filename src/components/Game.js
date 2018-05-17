@@ -76,7 +76,7 @@ class Game extends Component {
     this.tryButtonPress = this.tryButtonPress.bind(this);
     this.onCoolDownReset = this.onCoolDownReset.bind(this);
 
-    this.keyboardManager = new KeyboardManager(props.onSensorChange, this.tryButtonPress);
+    this.keyboardManager = new KeyboardManager(props.onAccelerationChange, this.tryButtonPress);
 
     this.props.com.requestGameEvents(this);
 

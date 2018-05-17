@@ -6,7 +6,7 @@ Manages keyboard input for playing the game when no sensor is present
 class KeyboardManager {
   constructor(onSensorChange, onButtonPress) {
     // Bind functions to be called
-    this.onSensorChange = onSensorChange.bind(this);
+    this.onSensorChange = onSensorChange;
     this.onButtonPress = onButtonPress;
 
     // Which directions are currently held
@@ -82,23 +82,23 @@ class KeyboardManager {
 
   // Translate keys pressed to an angle similair to if sensor-controls were used
   calcSensorChange() {
-    let beta = 0;
-    let gamma = 0;
+    let x = 0;
+    let y = 0;
 
     if (this.directions.up) {
-      gamma += MAX_ANGLE;
+      x += -1;
     }
     if (this.directions.down) {
-      gamma += -MAX_ANGLE;
+      x += 1;
     }
     if (this.directions.right) {
-      beta += MAX_ANGLE;
+      y += 1;
     }
     if (this.directions.left) {
-      beta += -MAX_ANGLE;
+      y += -1;
     }
 
-    this.onSensorChange(beta, gamma);
+    this.onSensorChange(x,y,0);
   }
 }
 
