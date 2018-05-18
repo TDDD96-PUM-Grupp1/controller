@@ -232,6 +232,22 @@ class CharacterSelection extends Component {
             </Button>
           </div>
         </div>
+        {(() => {
+          switch (this.state.state) {
+            case STATE_VALIDATING:
+              return (
+                <div className="characterSpinner">
+                  <MDSpinner singleColor="#2196F3" size="100px" />
+                </div>
+              );
+            case STATE_ERROR:
+              return <div className="characterError">{this.state.stateError}</div>;
+            case STATE_OK:
+              return <div />;
+            default:
+              return <div className="characterError">Invalid state: {this.state.state}</div>;
+          }
+        })()}
         <Grid className="md-grid buttonContainer">
           <Cell size={4}>
             <Button className="button" raised primary onClick={this.goBack}>
@@ -265,23 +281,6 @@ class CharacterSelection extends Component {
           onIconColorSelect={this.handleIconColor}
           onBackgroundColorSelect={this.handleBackgroundColor}
         />
-        {(() => {
-          switch (this.state.state) {
-            case STATE_VALIDATING:
-              return (
-                <div className="characterSpinner">
-                  <MDSpinner singleColor="#2196F3" size="100px" />
-                </div>
-              );
-            case STATE_ERROR:
-              return <div className="characterError">{this.state.stateError}</div>;
-            case STATE_OK:
-              return <div />;
-            default:
-              return <div className="characterError">Invalid state: {this.state.state}</div>;
-          }
-        })()}
-
         <DialogContainer
           id="simple-action-dialog"
           visible={this.state.showDialog}
