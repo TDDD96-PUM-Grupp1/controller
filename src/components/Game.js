@@ -148,10 +148,10 @@ class Game extends Component {
 
   onDeath(respawnTime) {
     this.setAllButtons(false);
-    const tickrate = 50;
+    const tickrate = 20;
+    const date = Date.now();
     this.deathTimer = setInterval(() => {
-      const delta = tickrate / (respawnTime * 1000) * 100;
-      let progress = Math.floor(this.state.respawnTime + delta);
+      let progress = Math.floor(((Date.now() - date)/10/respawnTime));
 
       // Component throws warning for values larger than 100
       if (progress > 100) {
