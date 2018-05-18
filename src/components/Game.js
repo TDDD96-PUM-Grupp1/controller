@@ -71,10 +71,7 @@ class Game extends Component {
       activeButtons,
       fullscreen: false,
       currentIconID: this.props.iconID,
-<<<<<<< HEAD
       respawnTime: 0,
-=======
->>>>>>> fdfdeaba8a5efe84d718da4ec2837655ffad4b14
     };
 
     this.sensorManager = new SensorManager(props.onSensorChange);
@@ -151,7 +148,6 @@ class Game extends Component {
 
   onDeath(data) {
     this.setAllButtons(false);
-<<<<<<< HEAD
     const tickrate = 50;
     this.deathTimer = setInterval(() => {
       const delta = tickrate / (data.respawnTime * 1000) * 100;
@@ -167,8 +163,6 @@ class Game extends Component {
       });
     }, tickrate);
 
-=======
->>>>>>> fdfdeaba8a5efe84d718da4ec2837655ffad4b14
     this.setState({
       currentIconID: -1,
     });
@@ -179,10 +173,7 @@ class Game extends Component {
     this.setAllButtons(true);
     this.setState({
       currentIconID: this.props.iconID,
-<<<<<<< HEAD
       respawnTime: 0,
-=======
->>>>>>> fdfdeaba8a5efe84d718da4ec2837655ffad4b14
     });
   }
 
