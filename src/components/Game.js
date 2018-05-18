@@ -151,7 +151,7 @@ class Game extends Component {
     const tickrate = 20;
     const date = Date.now();
     this.deathTimer = setInterval(() => {
-      let progress = Math.floor(((Date.now() - date)/10/respawnTime));
+      let progress = Math.floor((Date.now() - date) / 10 / respawnTime);
 
       // Component throws warning for values larger than 100
       if (progress > 100) {
