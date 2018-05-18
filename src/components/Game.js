@@ -148,14 +148,24 @@ class Game extends Component {
 
   onDeath(data) {
     this.setAllButtons(false);
+    const tickrate = 50;
+    this.deathTimer = setInterval(() => {
+      const delta = tickrate / (data.respawnTime * 1000) * 100;
+      let progress = Math.floor(this.state.respawnTime + delta);
+
+      // Component throws warning for values larger than 100
+      if (progress > 100) {
+        progress = 100;
+      }
+
+      this.setState({
+        respawnTime: progress,
+      });
+    }, tickrate);
+
     this.setState({
       currentIconID: -1,
-      respawnTime: 0,
     });
-    const tickrate = 250;
-    this.deathTimer = setInterval(() => {
-      this.state.respawnTime += tickrate / (data.respawnTime * 1000) * 100;
-    }, tickrate);
   }
 
   onRespawn() {

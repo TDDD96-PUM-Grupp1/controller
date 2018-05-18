@@ -6,15 +6,14 @@ import iconData from '../datamanagers/iconData';
 class IconPreview extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      respawnTime: props.respawnTime,
-    };
+    this.deathTimer = undefined;
   }
 
   render() {
     let url;
     let currentBackgroundColor;
     let currentIconColor;
+
     if (this.props.iconID === -1) {
       url = '/icons/animal-skull.svg';
       currentBackgroundColor = '#000000'; // black background color
@@ -34,7 +33,8 @@ class IconPreview extends Component {
         >
           <LinearProgress
             className="vertical-progress center"
-            value={this.state.respawnTime}
+            id="death-timer"
+            value={this.props.respawnTime}
             style={{
               backgroundColor: `${currentIconColor}`,
               WebkitMask: `url(${url})`,
@@ -42,7 +42,7 @@ class IconPreview extends Component {
               width: '128',
               height: '128',
             }}
-            progressStyle={value => ({ top: `${100 - value}%` })}
+            progressStyle={value => ({ top: `${100 - value}%`, width: '100%' })}
           />
         </Paper>
       </Grid>
