@@ -52,6 +52,7 @@ function GameButtonHandler(props) {
           iconID={props.iconID}
           iconColor={props.iconColor}
           backgroundColor={props.backgroundColor}
+          respawnTime={props.respawnTime}
         />
       </div>
     </div>
@@ -65,6 +66,7 @@ GameButtonHandler.propTypes = {
   iconColor: PropTypes.string.isRequired,
   backgroundColor: PropTypes.string.isRequired,
   activeButtons: PropTypes.array.isRequired,
+  respawnTime: PropTypes.number.isRequired,
 };
 /* eslint-enable react/forbid-prop-types */
 export default GameButtonHandler;

@@ -64,11 +64,14 @@ class Game extends Component {
       activeButtons.push(true);
     });
 
+    this.deathTimer = undefined;
+
     this.state = {
       ping: '-',
       activeButtons,
       fullscreen: false,
       currentIconID: this.props.iconID,
+      respawnTime: 0,
     };
 
     this.sensorManager = new SensorManager(props.onSensorChange);
@@ -143,17 +146,34 @@ class Game extends Component {
     });
   }
 
-  onDeath() {
+  onDeath(respawnTime) {
     this.setAllButtons(false);
+    const tickrate = 20;
+    const date = Date.now();
+    this.deathTimer = setInterval(() => {
+      let progress = Math.floor((Date.now() - date) / 10 / respawnTime);
+
+      // Component throws warning for values larger than 100
+      if (progress > 100) {
+        progress = 100;
+      }
+
+      this.setState({
+        respawnTime: progress,
+      });
+    }, tickrate);
+
     this.setState({
       currentIconID: -1,
     });
   }
 
   onRespawn() {
+    clearInterval(this.deathTimer);
     this.setAllButtons(true);
     this.setState({
       currentIconID: this.props.iconID,
+      respawnTime: 0,
     });
   }
 
@@ -175,7 +195,6 @@ class Game extends Component {
     if (!this.state.activeButtons[index]) {
       return;
     }
-
     const newState = this.state.activeButtons;
     newState[index] = false;
     this.setState({
@@ -211,6 +230,7 @@ class Game extends Component {
           backgroundColor={this.props.backgroundColor}
           activeButtons={this.state.activeButtons}
           gameButtonPressed={this.tryButtonPress}
+          respawnTime={this.state.respawnTime}
         />
         <CharacterNamePreview username={this.props.username} />
       </div>
