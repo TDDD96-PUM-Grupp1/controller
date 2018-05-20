@@ -158,10 +158,21 @@ class InstancePicker extends Component {
   pingAllInstances() {
     const { instances } = this.state;
     const keys = Object.keys(instances);
+    const self = this;
     for (let i = 0; i < keys.length; i += 1) {
       const current = Date.now();
-      this.props.communication.pingInstance(keys[i], () => {
+      this.props.communication.pingInstance(keys[i], err => {
         const ping = Date.now() - current;
+        if (err === deepstream.CONSTANTS.EVENT.NO_RPC_PROVIDER) {
+          // No RPC provide -> instance is no longer up.
+          self.onInstanceRemoved(keys[i]);
+          return;
+        }
+        // If the instance went down in between sending the ping and receiving it
+        // this would crash. This is a fail safe for that.
+        if (instances[keys[i]] === undefined) {
+          return;
+        }
         instances[keys[i]].pingTime = ping;
         this.setState({ instances });
         this.forceUpdate();
