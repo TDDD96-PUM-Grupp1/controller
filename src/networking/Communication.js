@@ -157,7 +157,7 @@ class Communication {
       gameEventListener.onRespawn();
     });
     this.client.event.subscribe(`${this.serviceName}/deathSignal/${this.id}`, data => {
-      gameEventListener.onDeath(data.button);
+      gameEventListener.onDeath(data.respawnTime);
     });
   }
 
