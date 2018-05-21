@@ -27,6 +27,11 @@ export function AngleBetweenVectors(vector1, vector2) {
   return 180 / Math.PI * Math.acos(dotProd / Math.sqrt(lengthSQ1 * lengthSQ2));
 }
 
+/*
+ * Normalizes the given vector.
+ * @param {x,y,z} vector - The vector that should be normalized.
+ * @returns {x,y,z} - The normalized vector.
+ */
 export function normalize(vector) {
   const length = Math.sqrt(vector.x * vector.x + vector.y * vector.y + vector.z * vector.z);
   if (length === 0) {
@@ -35,7 +40,13 @@ export function normalize(vector) {
   const lengthInv = 1 / length;
   return { x: vector.x * lengthInv, y: vector.y * lengthInv, z: vector.z * lengthInv };
 }
-
+/*
+ * This rotates a vector a certain amount of degrees depending on input.
+ * @param {x,y,z} vector - The vector that should be rotated.
+ * @param {x,y,z} axis - This defines how the vector should be rotated, a result of {0,0,1}
+ *  means that axis is in the same direction as the vector.
+ * @returns {x,y,z} - The rotated vector.
+ */
 export function rotateVector(vector, axis) {
   const angle = Math.PI / 180 * AngleBetweenVectors({ x: 0, y: 0, z: 1 }, axis);
   // Cross between axis and 0,0,1
@@ -52,4 +63,4 @@ export function rotateVector(vector, axis) {
   return { x: xPrime, y: yPrime, z: zPrime };
 }
 
-export default AngleToVector;
+export default rotateVector;
