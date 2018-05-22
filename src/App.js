@@ -173,7 +173,7 @@ class App extends Component {
       <Game
         buttons={this.state.gameButtons}
         gameButtonPressed={this.gameButtonPressed}
-        onSensorChange={this.com.updateSensorData}
+        onAccelerationChange={this.com.updateSensorData}
         username={this.state.username}
         instanceName={this.state.instanceName}
         goBack={this.leaveGame}

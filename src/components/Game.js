@@ -74,12 +74,12 @@ class Game extends Component {
       respawnTime: 0,
     };
 
-    this.sensorManager = new SensorManager(props.onSensorChange);
+    this.sensorManager = new SensorManager(props.onAccelerationChange);
     this.sensorManager.calibrate = this.sensorManager.calibrate.bind(this);
     this.tryButtonPress = this.tryButtonPress.bind(this);
     this.onCoolDownReset = this.onCoolDownReset.bind(this);
 
-    this.keyboardManager = new KeyboardManager(props.onSensorChange, this.tryButtonPress);
+    this.keyboardManager = new KeyboardManager(props.onAccelerationChange, this.tryButtonPress);
 
     this.props.com.requestGameEvents(this);
 
@@ -242,7 +242,7 @@ class Game extends Component {
 Game.propTypes = {
   buttons: PropTypes.array.isRequired,
   gameButtonPressed: PropTypes.func.isRequired,
-  onSensorChange: PropTypes.func.isRequired,
+  onAccelerationChange: PropTypes.func.isRequired,
   goBack: PropTypes.func.isRequired,
   // eslint-disable-next-line
   com: PropTypes.object.isRequired,

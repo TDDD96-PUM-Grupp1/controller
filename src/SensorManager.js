@@ -1,116 +1,63 @@
+import { normalize, rotateVector } from './math/Vector';
+
 class SensorManager {
-  constructor(onSensorChange) {
-    this.onSensorChange = onSensorChange;
+  constructor(onAccelerationChange) {
+    this.onAccelerationChange = onAccelerationChange;
 
-    this.beta = 0;
-    this.gamma = 0;
-
-    // Baseline for beta and gamma. Used for calibrating the sensor manually.
-    this.betaBase = 0;
-    this.gammaBase = 0;
-
-    this.flip = false;
-    this.lastBeta = 0;
-    this.lastGamma = 0;
+    this.acceleration = { x: 0, y: 0, z: 0 };
+    this.accelerationRaw = { x: 0, y: 0, z: 0 };
+    this.accelerationCal = { x: 0, y: 0, z: 1 };
 
     // Functions will be used as callbacks from React components so we bind them
     // to use 'this'.
-    this.setSensorValues = this.setSensorValues.bind(this);
-    this.getSensorValues = this.getSensorValues.bind(this);
     this.getCalibratedValues = this.getCalibratedValues.bind(this);
     this.calibrate = this.calibrate.bind(this);
-    this.handleDeviceOrientation = this.handleDeviceOrientation.bind(this);
+    this.handleDeviceMotion = this.handleDeviceMotion.bind(this);
 
     this.bindEventListener = this.bindEventListener.bind(this);
     this.unbindEventListener = this.unbindEventListener.bind(this);
-    this.calculateOrientation = this.calculateOrientation.bind(this);
   }
 
   bindEventListener() {
     // Event listener for device orientation
-    window.addEventListener('deviceorientation', this.handleDeviceOrientation);
+    window.addEventListener('devicemotion', this.handleDeviceMotion);
   }
 
   unbindEventListener() {
     // Make sure to unbind the event listener when component unmounts
-    window.removeEventListener('deviceorientation', this.handleDeviceOrientation);
+    window.removeEventListener('devicemotion', this.handleDeviceMotion);
   }
+
   /*
-   * Calculate the orientation given that the device is flipped or not.
-   * @param {beta,gamma} event the current beta, gamma values
-   * @return {beta,gamma} calculated beta, gamma values with calibration taken into account.
+   * Determains if the device is flipped or not if the device supports
+   * acceleration.
+   * @param DeviceMotionEvent event - The event of the device motion
    */
-  calculateOrientation(event) {
-    // Margin for when to detect the device flipped
-    const flipMargin = 45;
-    // See if the gamma value jumped suddenly (device flipped)
-    if (this.lastGamma < -flipMargin && event.gamma > flipMargin) {
-      this.flip = !this.flip;
-    }
-    if (this.lastGamma > flipMargin && event.gamma < -flipMargin) {
-      this.flip = !this.flip;
-    }
-
-    // Update old values
-    this.lastBeta = event.beta;
-    this.lastGamma = event.gamma;
-    let { beta, gamma } = event;
-
-    // If it is flipped recalculate beta, gamma
-    if (this.flip) {
-      beta = -180 - beta;
-      gamma = -180 + gamma;
-    }
-    // Set the values taking the calibration into account.
-    beta -= this.betaBase;
-    gamma -= this.gammaBase;
-
-    // Check if the degrees are over 180 to get symmetric values.
-    if (beta > 180) {
-      beta -= 360;
-    } else if (beta < -180) {
-      beta += 360;
-    }
-    if (gamma > 180) {
-      gamma -= 360;
-    } else if (gamma < -180) {
-      gamma += 360;
-    }
-
-    // Return the values
-    return { beta, gamma };
+  handleDeviceMotion(event) {
+    // Determain if the device is upside down or not.
+    this.accelerationRaw = normalize(event.accelerationIncludingGravity);
+    this.acceleration = rotateVector(this.accelerationRaw, this.accelerationCal);
+    this.onAccelerationChange(this.acceleration.x, this.acceleration.y, this.acceleration.z);
   }
 
-  handleDeviceOrientation(event) {
-    const { beta, gamma } = this.calculateOrientation(event);
-    this.setSensorValues(beta, gamma);
-    this.onSensorChange(this.beta, this.gamma);
-  }
-
-  // Sets the correct sensor values base on the calibrated base and current
-  // sensor values.
-  setSensorValues(beta, gamma) {
-    this.beta = Math.floor(beta);
-    this.gamma = Math.floor(gamma);
-  }
-
-  getSensorValues() {
+  getAccelerationValues() {
     return {
-      beta: this.beta,
-      gamma: this.gamma,
+      x: this.acceleration.x,
+      y: this.acceleration.y,
+      z: this.acceleration.z,
     };
   }
 
   getCalibratedValues() {
     return {
-      betaBase: this.betaBase,
-      gammaBase: this.gammaBase,
+      x: this.accelerationCal.x,
+      y: this.accelerationCal.y,
+      z: this.accelerationCal.z,
     };
   }
 
   calibrate() {
-    this.betaBase = this.beta + this.betaBase;
-    this.gammaBase = this.gamma + this.gammaBase;
+    this.accelerationCal = this.accelerationRaw;
   }
 }
 
