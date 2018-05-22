@@ -32,10 +32,6 @@ const Colors = [
     name: 'purple-600',
   },
   {
-    hex: '#4A148C',
-    name: 'purple-900',
-  },
-  {
     hex: '#7986CB',
     name: 'indigo-300',
   },
@@ -54,10 +50,6 @@ const Colors = [
   {
     hex: '#1E88E5',
     name: 'blue-600',
-  },
-  {
-    hex: '#0D47A1',
-    name: 'blue-900',
   },
   {
     hex: '#4FC3F7',
@@ -173,20 +165,12 @@ const Colors = [
     name: 'brown-600',
   },
   {
-    hex: '#3E2723',
-    name: 'brown-900',
-  },
-  {
     hex: '#E0E0E0',
     name: 'grey-300',
   },
   {
     hex: '#757575',
     name: 'grey-600',
-  },
-  {
-    hex: '#212121',
-    name: 'grey-900',
   },
   {
     hex: '#B0BEC5',
@@ -203,10 +187,6 @@ const Colors = [
   {
     hex: '#FFFFFF',
     name: 'white',
-  },
-  {
-    hex: '#000000',
-    name: 'black',
   },
 ];
 
