@@ -84,7 +84,6 @@ class Game extends Component {
     this.props.com.requestGameEvents(this);
 
     this.wakeLock = new NoSleep();
-    this.goFullscreen = this.goFullscreen.bind(this);
     this.onFullScreenChange = this.onFullScreenChange.bind(this);
   }
 
@@ -105,6 +104,8 @@ class Game extends Component {
     this.intervalId = setInterval(() => {
       this.setState({ ping: this.props.com.currentPing });
     }, 1000);
+
+    this.wakeLock.enable();
   }
 
   componentWillUnmount() {
@@ -186,11 +187,6 @@ class Game extends Component {
     this.setState({ activeButtons: newActive });
   }
 
-  goFullscreen() {
-    lockScreen();
-    this.wakeLock.enable();
-  }
-
   tryButtonPress(index) {
     if (!this.state.activeButtons[index]) {
       return;
@@ -215,7 +211,7 @@ class Game extends Component {
         {(() => {
           if (!this.state.fullscreen) {
             return (
-              <Button className="fullscreenButton" raised primary onClick={this.goFullscreen}>
+              <Button className="fullscreenButton" raised primary onClick={lockScreen}>
                 Go Fullscreen!
               </Button>
             );
